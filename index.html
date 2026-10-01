@@ -56,7 +56,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .online-count{font-size:38px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1}
 .online-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);margin-top:4px}
 
-/* HERO */
 .hero{background:var(--bg-2);border:1px solid var(--border);padding:44px 40px;margin-bottom:24px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
 .hero-grid{
   position:absolute;inset:0;pointer-events:none;z-index:0;
@@ -87,10 +86,26 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
 .card-body p{color:var(--text-dim);font-size:13px;line-height:1.6;margin-bottom:14px;flex:1}
 .card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mute);padding-top:12px;border-top:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;font-family:'Consolas',monospace}
-.card-stats{display:flex;gap:0;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-dim);flex-wrap:wrap;font-family:'Consolas',monospace}
-.card-stats span{padding-right:14px;margin-right:14px;border-right:1px solid var(--border)}
-.card-stats span:last-child{border-right:none;padding-right:0;margin-right:0}
-.card-stats b{color:var(--green);font-weight:700}
+
+/* Карточка страны со статистикой */
+.country-stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.country-stat{
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--r);
+  padding:10px 12px;
+  text-align:center;
+}
+.country-stat-icon{font-size:16px;line-height:1;margin-bottom:6px;display:block}
+.country-stat-value{font-size:20px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:4px}
+.country-stat-label{font-size:10px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px}
 
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .modal.active{display:flex}
@@ -100,11 +115,52 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .close:hover{color:var(--green);background:var(--bg-3)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-input,textarea,select{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--bg);border:1px solid var(--border-2);color:var(--text);font-size:13px;font-family:inherit;border-radius:var(--r)}
+input[type="text"],input[type="password"],input[type="number"],textarea,select{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--bg);border:1px solid var(--border-2);color:var(--text);font-size:13px;font-family:inherit;border-radius:var(--r)}
 input:focus,textarea:focus{outline:none;border-color:var(--green);background:var(--bg-3)}
 input::placeholder,textarea::placeholder{color:var(--text-mute)}
 textarea{min-height:110px;resize:vertical;font-family:inherit}
 label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+
+/* Красивая кнопка выбора файла */
+.file-input{position:relative;margin-bottom:14px}
+.file-input input[type="file"]{
+  position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;
+}
+.file-label{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:14px 18px;
+  background:var(--bg);
+  border:1px dashed var(--border-2);
+  border-radius:var(--r);
+  color:var(--text-dim);
+  font-size:13px;
+  font-weight:600;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  cursor:pointer;
+  transition:all .2s;
+  user-select:none;
+}
+.file-label:hover{
+  border-color:var(--green);
+  color:var(--green);
+  background:var(--bg-3);
+  box-shadow:0 0 0 3px rgba(0,255,136,.08);
+}
+.file-label::before{
+  content:'📷';
+  font-size:18px;
+}
+.file-label.has-file{
+  border-style:solid;
+  border-color:var(--green);
+  color:var(--green);
+}
+.file-label.has-file::before{
+  content:'✓';
+  color:var(--green);
+  font-weight:700;
+}
 
 .checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:var(--bg);border:1px solid var(--border-2);border-radius:var(--r);cursor:pointer;transition:all .15s}
 .checkbox-row:hover{border-color:var(--green)}
@@ -124,8 +180,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .avatar{width:110px;height:110px;object-fit:cover;border:2px solid var(--green);background:var(--bg);flex-shrink:0;border-radius:var(--r-lg)}
 .avatar-placeholder{width:110px;height:110px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:44px;border:2px solid var(--green);color:var(--green);flex-shrink:0;border-radius:var(--r-lg)}
 .profile-info{flex:1;min-width:200px}
-.profile-info h2{color:#fff;margin-bottom:6px;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.profile-info .email{color:var(--text-dim);font-family:'Consolas',monospace;font-size:12px;margin-bottom:10px}
+.profile-info h2{color:#fff;margin-bottom:8px;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .profile-info .bio{color:var(--text-dim);font-size:13px;line-height:1.6;margin-top:8px}
 
 .page{display:none}
@@ -190,7 +245,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   </nav>
   <div class="auth-buttons">
     <button id="loginBtn" class="btn btn-green" onclick="openAuthModal()">Войти</button>
-    <button id="logoutBtn" class="btn btn-danger" style="display:none" onclick="handleLogout()">Выйти</button>
     <span id="userEmail" class="user-email" style="display:none"></span>
   </div>
 </header>
@@ -264,7 +318,10 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <label>Описание</label>
       <textarea id="uDesc"></textarea>
       <label>Логотип</label>
-      <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
+      <div class="file-input">
+        <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
+        <label for="uLogo" class="file-label" id="uLogoLabel">Выбрать фото</label>
+      </div>
       <img id="uLogoPreview" class="preview">
       <button class="btn btn-green" onclick="saveUnion()">💾 Создать союз</button>
     </div>
@@ -278,12 +335,16 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     </div>
     <div class="form-box" id="newsForm" style="display:none">
       <h3>Новая публикация</h3>
+      <div class="hint" id="newsLimitHint">Лимит: 1 новость раз в 2 дня</div>
       <label>Заголовок</label>
       <input id="nTitle" placeholder="О чём новость?">
       <label>Текст новости</label>
       <textarea id="nContent" style="min-height:180px"></textarea>
       <label>Картинка (необязательно)</label>
-      <input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')">
+      <div class="file-input">
+        <input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')">
+        <label for="nImage" class="file-label" id="nImageLabel">Выбрать фото</label>
+      </div>
       <img id="nImagePreview" class="preview">
       <button class="btn btn-green" onclick="saveNews()">📤 Опубликовать</button>
     </div>
@@ -350,12 +411,10 @@ const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
 const EMAIL_DOMAIN = '@peta-gay.local';
+const NEWS_COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000; // 2 дня
 
-/* ============ ПОДКЛЮЧЕНИЕ ============ */
 let sb = null;
-const hasSupabase = typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
-
-if (hasSupabase) {
+if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20) {
   try {
     sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
@@ -366,18 +425,10 @@ if (hasSupabase) {
 
 /* ============ ТРАНСЛИТЕРАЦИЯ ============ */
 function translit(str){
-  const map = {
-    'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i',
-    'й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t',
-    'у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'',
-    'э':'e','ю':'yu','я':'ya',' ':'_'
-  };
+  const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'_'};
   return str.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('').replace(/[^a-z0-9_]/g,'');
 }
-
-function nickToEmail(nick){
-  return translit(nick) + EMAIL_DOMAIN;
-}
+function nickToEmail(nick){ return translit(nick) + EMAIL_DOMAIN; }
 
 /* ============ СОСТОЯНИЕ ============ */
 let currentUser = null;
@@ -416,11 +467,7 @@ function go(page){
 }
 
 /* ============ МОДАЛКА ============ */
-function openAuthModal(){
-  isLoginMode = true;
-  syncAuthModal();
-  document.getElementById('authModal').classList.add('active');
-}
+function openAuthModal(){ isLoginMode = true; syncAuthModal(); document.getElementById('authModal').classList.add('active'); }
 function closeModal(){ document.getElementById('authModal').classList.remove('active'); }
 function toggleAuthMode(){ isLoginMode = !isLoginMode; syncAuthModal(); }
 function syncAuthModal(){
@@ -521,16 +568,13 @@ async function doRegister(){
 
 function updateAuthUI(user){
   const loginBtn = document.getElementById('loginBtn');
-  const logoutBtn = document.getElementById('logoutBtn');
   const ue = document.getElementById('userEmail');
   if(user){
     loginBtn.style.display = 'none';
-    logoutBtn.style.display = 'inline-block';
     ue.style.display = 'inline-block';
     ue.textContent = (currentProfile?.username || 'Игрок');
   } else {
     loginBtn.style.display = 'inline-block';
-    logoutBtn.style.display = 'none';
     ue.style.display = 'none';
   }
 }
@@ -619,58 +663,49 @@ function fallbackCopy(){
   document.body.removeChild(ta);
 }
 
-/* ============ СЕТОЧКА — ПОДСВЕТКА ПОД МЫШКОЙ ============ */
+/* ============ СЕТОЧКА — ПОДСВЕТКА ============ */
 function initHeroGlow(){
   const hero = document.getElementById('heroBlock');
   if(!hero) return;
+  const gridLayer = hero.querySelector('.hero-grid');
+  if(!gridLayer) return;
 
-  // Яркая сетка (второй слой поверх тусклой)
+  // Маска на существующем слое сетки - она же и будет "яркой" зоной
+  const maskBase = 'radial-gradient(circle 170px at X Y, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%)';
+
+  // Яркая сетка поверх тусклой — с той же геометрией
   const bright = document.createElement('div');
   bright.style.cssText = [
-    'position:absolute',
-    'inset:0',
-    'pointer-events:none',
-    'z-index:0',
-    'opacity:0',
-    'transition:opacity .15s',
+    'position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .15s',
     'background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)',
     'background-size:40px 40px',
-    '-webkit-mask-image:radial-gradient(circle 170px at 50% 50%, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)',
-    'mask-image:radial-gradient(circle 170px at 50% 50%, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)'
+    'background-position:0 0, 0 0'
   ].join(';');
   hero.appendChild(bright);
 
-  // Мягкое зелёное свечение вокруг курсора
+  // Мягкое свечение
   const glow = document.createElement('div');
-  glow.style.cssText = [
-    'position:absolute',
-    'inset:0',
-    'pointer-events:none',
-    'z-index:0',
-    'opacity:0',
-    'transition:opacity .2s',
-    'background:radial-gradient(circle 200px at 50% 50%, rgba(0,255,136,.18) 0%, rgba(0,255,136,.06) 35%, transparent 70%)'
-  ].join(';');
+  glow.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .2s';
   hero.appendChild(glow);
 
-  let raf = null;
-  let lastX = 0, lastY = 0;
+  let raf = null, mx = 0, my = 0;
 
-  function update(){
+  function apply(){
     raf = null;
-    bright.style.webkitMaskImage = `radial-gradient(circle 170px at ${lastX}px ${lastY}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
-    bright.style.maskImage = `radial-gradient(circle 170px at ${lastX}px ${lastY}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
-    bright.style.backgroundPosition = `${-lastX + 50}px ${-lastY + 50}px, ${-lastX + 50}px ${-lastY + 50}px`;
-    glow.style.background = `radial-gradient(circle 200px at ${lastX}px ${lastY}px, rgba(0,255,136,.18) 0%, rgba(0,255,136,.06) 35%, transparent 70%)`;
+    const mask = `radial-gradient(circle 170px at ${mx}px ${my}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
+    bright.style.webkitMaskImage = mask;
+    bright.style.maskImage = mask;
+    // НЕ двигаем background-position: линии остаются на своём месте
+    glow.style.background = `radial-gradient(circle 200px at ${mx}px ${my}px, rgba(0,255,136,.16) 0%, rgba(0,255,136,.05) 35%, transparent 70%)`;
   }
 
   hero.addEventListener('mousemove', (e)=>{
-    const rect = hero.getBoundingClientRect();
-    lastX = e.clientX - rect.left;
-    lastY = e.clientY - rect.top;
+    const r = hero.getBoundingClientRect();
+    mx = e.clientX - r.left;
+    my = e.clientY - r.top;
     bright.style.opacity = '1';
     glow.style.opacity = '1';
-    if(!raf) raf = requestAnimationFrame(update);
+    if(!raf) raf = requestAnimationFrame(apply);
   });
 
   hero.addEventListener('mouseleave', ()=>{
@@ -729,13 +764,8 @@ function newsCard(n){
 async function viewNews(id){
   let n = null;
   if(sb){
-    try {
-      const res = await sb.from('news').select('*').eq('id',id).single();
-      n = res.data;
-    } catch(e){}
-  } else {
-    n = demoStore.news.find(x=>String(x.id)===String(id));
-  }
+    try { const res = await sb.from('news').select('*').eq('id',id).single(); n = res.data; } catch(e){}
+  } else { n = demoStore.news.find(x=>String(x.id)===String(id)); }
   if(!n) return;
   document.getElementById('viewContent').innerHTML = `
     ${n.image_url?`<img src="${n.image_url}">`:''}
@@ -746,19 +776,56 @@ async function viewNews(id){
   document.getElementById('viewModal').classList.add('active');
 }
 
-function toggleNewsForm(){
-  if(!currentUser) return toast('Войдите чтобы публиковать', true);
-  const f = document.getElementById('newsForm');
-  f.style.display = f.style.display==='none'?'block':'none';
+async function checkNewsCooldown(){
+  // Возвращает {can: true} или {can: false, nextDate: Date}
+  if(!currentUser) return {can:true};
+  const uid = currentUser.id;
+  let lastDate = null;
+
+  if(sb){
+    try {
+      const {data} = await sb.from('news').select('created_at').eq('author_id', uid).order('created_at',{ascending:false}).limit(1);
+      if(data && data.length) lastDate = new Date(data[0].created_at);
+    } catch(e){}
+  } else {
+    const mine = demoStore.news.filter(x=>x.author_name === currentNick())
+      .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+    if(mine.length) lastDate = new Date(mine[0].created_at);
+  }
+
+  if(!lastDate) return {can:true};
+  const diff = Date.now() - lastDate.getTime();
+  if(diff >= NEWS_COOLDOWN_MS) return {can:true};
+  const nextDate = new Date(lastDate.getTime() + NEWS_COOLDOWN_MS);
+  return {can:false, nextDate};
 }
 
-function currentNick(){
-  return currentProfile?.username || '';
+async function toggleNewsForm(){
+  if(!currentUser) return toast('Войдите чтобы публиковать', true);
+  const f = document.getElementById('newsForm');
+  if(f.style.display === 'none'){
+    const check = await checkNewsCooldown();
+    if(!check.can){
+      const dateStr = check.nextDate.toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
+      return toast('Лимит: 1 новость раз в 2 дня. Следующая — ' + dateStr, true);
+    }
+    f.style.display = 'block';
+  } else {
+    f.style.display = 'none';
+  }
 }
+
+function currentNick(){ return currentProfile?.username || ''; }
 function currentId(){ return currentUser?.id || ''; }
 
 async function saveNews(){
   if(!currentUser) return toast('Войдите чтобы публиковать', true);
+  const check = await checkNewsCooldown();
+  if(!check.can){
+    const dateStr = check.nextDate.toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
+    return toast('Лимит: 1 новость раз в 2 дня. Следующая — ' + dateStr, true);
+  }
+
   const title = document.getElementById('nTitle').value.trim();
   const content = document.getElementById('nContent').value.trim();
   if(!title||!content) return toast('Заполните заголовок и текст', true);
@@ -769,9 +836,7 @@ async function saveNews(){
     if(sb){
       try { image_url = await uploadImage('news', file); }
       catch(e){ toast('Ошибка загрузки картинки', true); }
-    } else {
-      image_url = await fileToDataURL(file);
-    }
+    } else { image_url = await fileToDataURL(file); }
   }
 
   if(sb){
@@ -794,10 +859,9 @@ async function saveNews(){
   }
 
   toast('Новость опубликована');
+  resetFileInput('nImage','nImageLabel','nImagePreview');
   document.getElementById('nTitle').value='';
   document.getElementById('nContent').value='';
-  document.getElementById('nImage').value='';
-  document.getElementById('nImagePreview').style.display='none';
   document.getElementById('newsForm').style.display='none';
   loadNews();
 }
@@ -849,11 +913,19 @@ async function loadCountries(){
       <div class="card-body">
         <h3>${esc(x.name)}</h3>
         <p>${esc((x.description||'').substring(0,140))}</p>
-        <div class="card-stats">
-          <span>👥 <b>${x.population||0}</b> жителей</span>
-          <span>🏭 <b>${x.factories||0}</b> заводов</span>
+        <div class="country-stats">
+          <div class="country-stat">
+            <span class="country-stat-icon">👥</span>
+            <div class="country-stat-value">${x.population||0}</div>
+            <div class="country-stat-label">Жителей</div>
+          </div>
+          <div class="country-stat">
+            <span class="country-stat-icon">🏭</span>
+            <div class="country-stat-value">${x.factories||0}</div>
+            <div class="country-stat-label">Заводов</div>
+          </div>
         </div>
-        <div class="card-meta"><span>Правитель: ${esc(x.owner_name||'—')}</span></div>
+        <div class="card-meta" style="margin-top:14px"><span>Правитель: ${esc(x.owner_name||'—')}</span></div>
       </div>
     </div>
   `).join('');
@@ -901,9 +973,7 @@ async function saveUnion(){
     if(sb){
       try { logo_url = await uploadImage('unions', file); }
       catch(e){ toast('Ошибка загрузки логотипа', true); }
-    } else {
-      logo_url = await fileToDataURL(file);
-    }
+    } else { logo_url = await fileToDataURL(file); }
   }
 
   if(sb){
@@ -919,11 +989,9 @@ async function saveUnion(){
     } catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
     demoStore.unions.push({
-      id: 'demo_' + Date.now(),
-      name,
+      id: 'demo_' + Date.now(), name,
       description: document.getElementById('uDesc').value.trim(),
-      logo_url,
-      owner_name: currentNick(),
+      logo_url, owner_name: currentNick(),
       created_at: new Date().toISOString()
     });
     demoStore.save();
@@ -931,8 +999,7 @@ async function saveUnion(){
   toast('Союз создан');
   document.getElementById('uName').value='';
   document.getElementById('uDesc').value='';
-  document.getElementById('uLogo').value='';
-  document.getElementById('uLogoPreview').style.display='none';
+  resetFileInput('uLogo','uLogoLabel','uLogoPreview');
   document.getElementById('unionForm').style.display='none';
   loadUnions();
 }
@@ -975,11 +1042,19 @@ async function loadProfile(){
       ${country.flag_url?`<img src="${country.flag_url}" class="avatar">`:'<div class="avatar-placeholder">🏛️</div>'}
       <div class="profile-info">
         <h2>${esc(country.name)}</h2>
-        <div class="email">Правитель: ${esc(nick)}</div>
+        <div class="bio">Правитель: ${esc(nick)}</div>
         <div class="bio">${esc(country.description) || 'Описание не указано'}</div>
-        <div class="card-stats" style="border:none;padding-top:14px">
-          <span>👥 Жителей: <b>${country.population||0}</b></span>
-          <span>🏭 Заводов: <b>${country.factories||0}</b></span>
+        <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
+          <div class="country-stat">
+            <span class="country-stat-icon">👥</span>
+            <div class="country-stat-value">${country.population||0}</div>
+            <div class="country-stat-label">Жителей</div>
+          </div>
+          <div class="country-stat">
+            <span class="country-stat-icon">🏭</span>
+            <div class="country-stat-value">${country.factories||0}</div>
+            <div class="country-stat-label">Заводов</div>
+          </div>
         </div>
       </div>
     </div>
@@ -993,8 +1068,12 @@ async function loadProfile(){
       <input id="pCountryPop" type="number" value="${country.population||0}" min="0">
       <label>Количество заводов</label>
       <input id="pCountryFact" type="number" value="${country.factories||0}" min="0">
-      <label>Флаг (изображение)</label>
-      <input id="pCountryFlag" type="file" accept="image/*">
+      <label>Флаг</label>
+      <div class="file-input">
+        <input id="pCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'pCountryFlagPreview')">
+        <label for="pCountryFlag" class="file-label" id="pCountryFlagLabel">Выбрать фото</label>
+      </div>
+      <img id="pCountryFlagPreview" class="preview">
       <button class="btn btn-green" onclick="saveCountry()">💾 Сохранить страну</button>
     </div>
   ` : `
@@ -1006,7 +1085,11 @@ async function loadProfile(){
       <label>Описание</label>
       <textarea id="newCountryDesc"></textarea>
       <label>Флаг (необязательно)</label>
-      <input id="newCountryFlag" type="file" accept="image/*">
+      <div class="file-input">
+        <input id="newCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'newCountryFlagPreview')">
+        <label for="newCountryFlag" class="file-label" id="newCountryFlagLabel">Выбрать фото</label>
+      </div>
+      <img id="newCountryFlagPreview" class="preview">
       <button class="btn btn-green" onclick="createMyCountry()">🏛️ Основать страну</button>
     </div>
   `;
@@ -1016,19 +1099,27 @@ async function loadProfile(){
       ${avatar?`<img src="${avatar}" class="avatar">`:'<div class="avatar-placeholder">👤</div>'}
       <div class="profile-info">
         <h2>${esc(nick)}</h2>
-        <div class="email">${esc(currentUser.email)}</div>
         <div class="bio">${esc(bio) || 'Без описания'}</div>
-        <div class="card-stats" style="border:none;padding-top:14px">
-          <span>📰 Новостей: <b>${news.length}</b></span>
+        <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
+          <div class="country-stat">
+            <span class="country-stat-icon">📰</span>
+            <div class="country-stat-value">${news.length}</div>
+            <div class="country-stat-label">Новостей</div>
+          </div>
         </div>
       </div>
+      <button class="btn btn-danger" onclick="handleLogout()">Выйти</button>
     </div>
     <div class="form-box">
       <h3>Профиль</h3>
       <label>О себе</label>
       <textarea id="pBio">${esc(bio)}</textarea>
       <label>Аватар</label>
-      <input id="pAvatar" type="file" accept="image/*">
+      <div class="file-input">
+        <input id="pAvatar" type="file" accept="image/*" onchange="previewImage(this,'pAvatarPreview')">
+        <label for="pAvatar" class="file-label" id="pAvatarLabel">Выбрать фото</label>
+      </div>
+      <img id="pAvatarPreview" class="preview">
       <button class="btn btn-green" onclick="saveProfile()">💾 Сохранить профиль</button>
     </div>
     ${countryBlock}
@@ -1051,9 +1142,7 @@ async function createMyCountry(){
     if(sb){
       try { flag_url = await uploadImage('countries', file); }
       catch(e){ toast('Ошибка загрузки флага', true); }
-    } else {
-      flag_url = await fileToDataURL(file);
-    }
+    } else { flag_url = await fileToDataURL(file); }
   }
 
   if(sb){
@@ -1069,8 +1158,7 @@ async function createMyCountry(){
     demoStore.countries.push({
       id: 'demo_' + Date.now(),
       name, description, population: 1, factories: 0, flag_url,
-      owner_name: currentNick(),
-      owner_id: currentUser.id,
+      owner_name: currentNick(), owner_id: currentUser.id,
       created_at: new Date().toISOString()
     });
     demoStore.save();
@@ -1093,9 +1181,7 @@ async function saveCountry(){
     if(sb){
       try { flag_url = await uploadImage('countries', file); }
       catch(e){ return toast('Ошибка загрузки флага', true); }
-    } else {
-      flag_url = await fileToDataURL(file);
-    }
+    } else { flag_url = await fileToDataURL(file); }
   }
 
   if(sb){
@@ -1129,9 +1215,7 @@ async function saveProfile(){
     if(sb){
       try { avatar_url = await uploadImage('avatars', file); }
       catch(e){ return toast('Ошибка загрузки аватара', true); }
-    } else {
-      avatar_url = await fileToDataURL(file);
-    }
+    } else { avatar_url = await fileToDataURL(file); }
   }
 
   if(sb){
@@ -1153,14 +1237,25 @@ async function saveProfile(){
   loadProfile();
 }
 
-/* ============ ПРЕВЬЮ ============ */
+/* ============ ПРЕВЬЮ И ФАЙЛЫ ============ */
 function previewImage(input, previewId){
   const prev = document.getElementById(previewId);
+  const label = document.querySelector(`label[for="${input.id}"]`);
   if(input.files && input.files[0]){
     const reader = new FileReader();
     reader.onload = e=>{ prev.src = e.target.result; prev.style.display='block'; };
     reader.readAsDataURL(input.files[0]);
+    if(label){ label.classList.add('has-file'); label.textContent = 'Фото выбрано'; }
   }
+}
+
+function resetFileInput(inputId, labelId, previewId){
+  const inp = document.getElementById(inputId);
+  const lbl = document.getElementById(labelId);
+  const prv = document.getElementById(previewId);
+  if(inp) inp.value = '';
+  if(lbl){ lbl.classList.remove('has-file'); lbl.textContent = 'Выбрать фото'; }
+  if(prv){ prv.style.display='none'; prv.src=''; }
 }
 
 /* ============ УТИЛИТЫ ============ */
