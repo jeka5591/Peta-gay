@@ -56,9 +56,16 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .online-count{font-size:38px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1}
 .online-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);margin-top:4px}
 
+/* HERO */
 .hero{background:var(--bg-2);border:1px solid var(--border);padding:44px 40px;margin-bottom:24px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
-.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(0,255,136,.06) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.06) 1px, transparent 1px);background-size:40px 40px;pointer-events:none}
-.hero::after{content:'';position:absolute;right:-100px;top:-100px;width:300px;height:300px;border:1px solid var(--border);transform:rotate(45deg);opacity:.4;pointer-events:none;border-radius:30px}
+.hero-grid{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(0,255,136,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,136,.07) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.hero::after{content:'';position:absolute;right:-100px;top:-100px;width:300px;height:300px;border:1px solid var(--border);transform:rotate(45deg);opacity:.4;pointer-events:none;border-radius:30px;z-index:0}
 .hero h1{font-size:32px;color:#fff;margin-bottom:12px;letter-spacing:-.5px;font-weight:700;position:relative;z-index:1}
 .hero h1 .accent{color:var(--green)}
 .hero p{color:var(--text-dim);font-size:15px;margin-bottom:24px;max-width:600px;line-height:1.6;position:relative;z-index:1}
@@ -125,7 +132,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .page.active{display:block}
 
 .empty{text-align:center;padding:60px 20px;color:var(--text-mute);background:var(--bg-2);border:1px dashed var(--border-2);font-size:13px;text-transform:uppercase;letter-spacing:1px;grid-column:1/-1;border-radius:var(--r-lg)}
-.empty .btn{margin-top:16px}
 .loading{text-align:center;padding:60px 20px;color:var(--green);font-family:'Consolas',monospace;font-size:13px;letter-spacing:2px;background:var(--bg-2);grid-column:1/-1;border-radius:var(--r-lg)}
 
 .flex-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
@@ -154,6 +160,8 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 #viewContent p{color:var(--text);line-height:1.8;white-space:pre-wrap;font-size:14px}
 
 .badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
+
+.hint{font-size:11px;color:var(--text-mute);margin-top:-8px;margin-bottom:14px}
 
 @media(max-width:768px){
   .header{padding:12px 16px;height:auto}
@@ -207,7 +215,8 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       </div>
     </div>
 
-    <section class="hero">
+    <section class="hero" id="heroBlock">
+      <div class="hero-grid"></div>
       <h1>Добро пожаловать в <span class="accent">PETA-GAY</span></h1>
       <p>Создайте свою страну, объединяйтесь в союзы, публикуйте новости и исследуйте карту мира.</p>
       <a href="http://peta-gay.minerent.io:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">🗺️ Открыть карту →</a>
@@ -304,8 +313,9 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     <div id="registerFields" style="display:none">
       <label>Ник</label>
       <input type="text" id="regNick" placeholder="Ваш игровой ник">
+      <div class="hint">Можно писать по-русски, латиницей, цифрами и _</div>
       <label>Пароль</label>
-      <input type="password" id="regPassword" placeholder="Пароль (мин. 6 символов)">
+      <input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)">
       <label>Название страны</label>
       <input type="text" id="regCountry" placeholder="Например: Свободная Республика">
       <label class="checkbox-row">
@@ -335,13 +345,13 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ НАСТРОЙКИ — ЗАМЕНИ НА СВОИ ============ */
+/* ============ НАСТРОЙКИ ============ */
 const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
 const EMAIL_DOMAIN = '@peta-gay.local';
 
-/* ============ ПОДКЛЮЧЕНИЕ SUPABASE ============ */
+/* ============ ПОДКЛЮЧЕНИЕ ============ */
 let sb = null;
 const hasSupabase = typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
 
@@ -349,12 +359,24 @@ if (hasSupabase) {
   try {
     sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
-  } catch(e) {
-    console.error('Ошибка Supabase:', e);
-    sb = null;
-  }
+  } catch(e) { console.error(e); sb = null; }
 } else {
-  console.log('%c⚠ Демо-режим (Supabase не настроен)', 'color:#ffaa00;font-weight:bold');
+  console.log('%c⚠ Демо-режим', 'color:#ffaa00;font-weight:bold');
+}
+
+/* ============ ТРАНСЛИТЕРАЦИЯ ============ */
+function translit(str){
+  const map = {
+    'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i',
+    'й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t',
+    'у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'',
+    'э':'e','ю':'yu','я':'ya',' ':'_'
+  };
+  return str.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('').replace(/[^a-z0-9_]/g,'');
+}
+
+function nickToEmail(nick){
+  return translit(nick) + EMAIL_DOMAIN;
 }
 
 /* ============ СОСТОЯНИЕ ============ */
@@ -399,13 +421,8 @@ function openAuthModal(){
   syncAuthModal();
   document.getElementById('authModal').classList.add('active');
 }
-function closeModal(){
-  document.getElementById('authModal').classList.remove('active');
-}
-function toggleAuthMode(){
-  isLoginMode = !isLoginMode;
-  syncAuthModal();
-}
+function closeModal(){ document.getElementById('authModal').classList.remove('active'); }
+function toggleAuthMode(){ isLoginMode = !isLoginMode; syncAuthModal(); }
 function syncAuthModal(){
   document.getElementById('modalTitle').textContent = isLoginMode?'Вход':'Основать страну';
   document.getElementById('loginFields').style.display = isLoginMode?'block':'none';
@@ -416,16 +433,15 @@ function syncAuthModal(){
 
 /* ============ АВТОРИЗАЦИЯ ============ */
 async function doLogin(){
-  const nick = document.getElementById('loginNick').value.trim().toLowerCase();
+  const nick = document.getElementById('loginNick').value.trim();
   const password = document.getElementById('loginPassword').value;
   if(!nick || !password) return toast('Заполните ник и пароль', true);
 
   if(!sb){
-    // Демо-режим: проверяем локально
     const prof = demoStore.profiles[nick];
     if(!prof) return toast('Игрок с таким ником не найден', true);
     if(prof.password !== password) return toast('Неверный пароль', true);
-    currentUser = { id: prof.id, email: nick + EMAIL_DOMAIN };
+    currentUser = { id: prof.id, email: nickToEmail(nick) };
     currentProfile = { id: prof.id, username: nick, bio: prof.bio || '' };
     localStorage.setItem('peta_session', nick);
     updateAuthUI(currentUser);
@@ -438,7 +454,7 @@ async function doLogin(){
   try {
     const {data: profile} = await sb.from('profiles').select('id').eq('username', nick).maybeSingle();
     if(!profile) return toast('Игрок с таким ником не найден', true);
-    const email = nick + EMAIL_DOMAIN;
+    const email = nickToEmail(nick);
     const res = await sb.auth.signInWithPassword({ email, password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
     currentUser = res.data.user;
@@ -450,18 +466,18 @@ async function doLogin(){
 }
 
 async function doRegister(){
-  const nick = document.getElementById('regNick').value.trim().toLowerCase();
+  const nick = document.getElementById('regNick').value.trim();
   const password = document.getElementById('regPassword').value;
   const countryName = document.getElementById('regCountry').value.trim();
   const agreed = document.getElementById('regAgree').checked;
 
   if(!nick || !password || !countryName) return toast('Заполните все поля', true);
-  if(password.length < 6) return toast('Пароль минимум 6 символов', true);
-  if(!/^[a-z0-9_]{3,20}$/.test(nick)) return toast('Ник: 3-20 символов, a-z, 0-9, _', true);
+  if(nick.length < 2) return toast('Ник минимум 2 символа', true);
+  if(nick.length > 20) return toast('Ник максимум 20 символов', true);
+  if(password.length < 4) return toast('Пароль минимум 4 символа', true);
   if(!agreed) return toast('Подтвердите согласие с условиями', true);
 
   if(!sb){
-    // Демо-режим
     if(demoStore.profiles[nick]) return toast('Ник занят', true);
     const userId = 'demo_' + Date.now();
     demoStore.profiles[nick] = { id: userId, password, bio: '' };
@@ -474,7 +490,7 @@ async function doRegister(){
       created_at: new Date().toISOString()
     });
     demoStore.save();
-    currentUser = { id: userId, email: nick + EMAIL_DOMAIN };
+    currentUser = { id: userId, email: nickToEmail(nick) };
     currentProfile = { id: userId, username: nick, bio: '' };
     localStorage.setItem('peta_session', nick);
     updateAuthUI(currentUser);
@@ -485,7 +501,7 @@ async function doRegister(){
   }
 
   try {
-    const email = nick + EMAIL_DOMAIN;
+    const email = nickToEmail(nick);
     const res = await sb.auth.signUp({ email, password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
     if(!res.data.user) return toast('Не удалось создать аккаунт', true);
@@ -511,7 +527,7 @@ function updateAuthUI(user){
     loginBtn.style.display = 'none';
     logoutBtn.style.display = 'inline-block';
     ue.style.display = 'inline-block';
-    ue.textContent = (currentProfile?.username || user.email.replace(EMAIL_DOMAIN,''));
+    ue.textContent = (currentProfile?.username || 'Игрок');
   } else {
     loginBtn.style.display = 'inline-block';
     logoutBtn.style.display = 'none';
@@ -541,11 +557,10 @@ async function restoreSession(){
       return;
     }
   }
-  // Пробуем восстановить из localStorage
   const savedNick = localStorage.getItem('peta_session');
   if(savedNick && !sb && demoStore.profiles[savedNick]){
     const prof = demoStore.profiles[savedNick];
-    currentUser = { id: prof.id, email: savedNick + EMAIL_DOMAIN };
+    currentUser = { id: prof.id, email: nickToEmail(savedNick) };
     currentProfile = { id: prof.id, username: savedNick, bio: prof.bio || '' };
     updateAuthUI(currentUser);
   }
@@ -602,6 +617,66 @@ function fallbackCopy(){
   document.body.appendChild(ta); ta.select();
   try{ document.execCommand('copy'); }catch(e){}
   document.body.removeChild(ta);
+}
+
+/* ============ СЕТОЧКА — ПОДСВЕТКА ПОД МЫШКОЙ ============ */
+function initHeroGlow(){
+  const hero = document.getElementById('heroBlock');
+  if(!hero) return;
+
+  // Яркая сетка (второй слой поверх тусклой)
+  const bright = document.createElement('div');
+  bright.style.cssText = [
+    'position:absolute',
+    'inset:0',
+    'pointer-events:none',
+    'z-index:0',
+    'opacity:0',
+    'transition:opacity .15s',
+    'background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)',
+    'background-size:40px 40px',
+    '-webkit-mask-image:radial-gradient(circle 170px at 50% 50%, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)',
+    'mask-image:radial-gradient(circle 170px at 50% 50%, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)'
+  ].join(';');
+  hero.appendChild(bright);
+
+  // Мягкое зелёное свечение вокруг курсора
+  const glow = document.createElement('div');
+  glow.style.cssText = [
+    'position:absolute',
+    'inset:0',
+    'pointer-events:none',
+    'z-index:0',
+    'opacity:0',
+    'transition:opacity .2s',
+    'background:radial-gradient(circle 200px at 50% 50%, rgba(0,255,136,.18) 0%, rgba(0,255,136,.06) 35%, transparent 70%)'
+  ].join(';');
+  hero.appendChild(glow);
+
+  let raf = null;
+  let lastX = 0, lastY = 0;
+
+  function update(){
+    raf = null;
+    bright.style.webkitMaskImage = `radial-gradient(circle 170px at ${lastX}px ${lastY}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
+    bright.style.maskImage = `radial-gradient(circle 170px at ${lastX}px ${lastY}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
+    bright.style.backgroundPosition = `${-lastX + 50}px ${-lastY + 50}px, ${-lastX + 50}px ${-lastY + 50}px`;
+    glow.style.background = `radial-gradient(circle 200px at ${lastX}px ${lastY}px, rgba(0,255,136,.18) 0%, rgba(0,255,136,.06) 35%, transparent 70%)`;
+  }
+
+  hero.addEventListener('mousemove', (e)=>{
+    const rect = hero.getBoundingClientRect();
+    lastX = e.clientX - rect.left;
+    lastY = e.clientY - rect.top;
+    bright.style.opacity = '1';
+    glow.style.opacity = '1';
+    if(!raf) raf = requestAnimationFrame(update);
+  });
+
+  hero.addEventListener('mouseleave', ()=>{
+    bright.style.opacity = '0';
+    glow.style.opacity = '0';
+  });
 }
 
 /* ============ НОВОСТИ ============ */
@@ -678,7 +753,7 @@ function toggleNewsForm(){
 }
 
 function currentNick(){
-  return currentProfile?.username || (currentUser?.email||'').replace(EMAIL_DOMAIN,'') || '';
+  return currentProfile?.username || '';
 }
 function currentId(){ return currentUser?.id || ''; }
 
@@ -735,7 +810,6 @@ function fileToDataURL(file){
   });
 }
 
-/* ============ КАРТИНКИ ============ */
 async function uploadImage(bucket, file){
   const ext = file.name.split('.').pop();
   const path = `${currentId()}-${Date.now()}.${ext}`;
@@ -863,7 +937,7 @@ async function saveUnion(){
   loadUnions();
 }
 
-/* ============ ПРОФИЛЬ = СТРАНА ============ */
+/* ============ ПРОФИЛЬ ============ */
 async function loadProfile(){
   const c = document.getElementById('profileContent');
   if(!currentUser){
@@ -1111,6 +1185,7 @@ document.getElementById('authModal').addEventListener('click', e => {
 /* ============ СТАРТ ============ */
 (async () => {
   await restoreSession();
+  initHeroGlow();
   loadStats();
   console.log('%cСайт Peta-Gay запущен', 'color:#00ff88;font-weight:bold;font-size:14px');
 })();
