@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peta-Gay | Игровое сообщество</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif;-webkit-appearance:none;-moz-appearance:none;appearance:none}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif}
 :root{
   --bg:#0a0e0a;--bg-2:#111711;--bg-3:#161d16;
   --green:#00ff88;--green-2:#00c46a;
@@ -31,7 +31,7 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .auth-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .user-email{color:var(--green);font-size:12px;font-family:'Consolas',monospace;padding:6px 12px;border:1px solid rgba(0,255,136,.3);border-radius:var(--r-sm);background:rgba(0,255,136,.05)}
 
-.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r);-webkit-appearance:none;appearance:none}
+.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r);appearance:none;-webkit-appearance:none}
 .btn:hover{border-color:var(--green);color:var(--green)}
 .btn-green{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 0 0 1px var(--green), 0 0 18px rgba(0,255,136,.45);font-weight:700;letter-spacing:1px}
 .btn-green:hover{background:var(--green-2);border-color:var(--green-2);box-shadow:0 0 0 1px var(--green-2), 0 0 28px rgba(0,255,136,.7);transform:translateY(-1px)}
@@ -42,7 +42,7 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 
 .container{max-width:1300px;margin:0 auto;padding:32px 24px}
 
-.server-panel{background:var(--bg-2);border:1px solid var(--border);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;border-radius:var(--r-lg)}
+.server-panel{background:var(--bg-2);border:1px solid var(--border);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-radius:var(--r-lg)}
 .server-info{display:flex;flex-direction:column;gap:8px;min-width:200px}
 .server-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600}
 .server-ip{font-family:'Consolas','Monaco',monospace;font-size:20px;color:var(--text);font-weight:600;letter-spacing:.5px;cursor:pointer;transition:color .15s;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -106,33 +106,31 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 
-/* Карточка страны — фото НЕ обрезано, а вписано целиком */
+/* КАРТОЧКИ */
 .card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg);transition:all .2s}
 .card:hover{border-color:var(--green-2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,136,.1)}
 
-/* Контейнер под картинку — фиксированные пропорции */
+/* Фото: cover + центрирование — никаких чёрных полос */
 .card-img-wrap{
   width:100%;
-  aspect-ratio:16/9;
-  background:#000;
-  display:flex;align-items:center;justify-content:center;
+  height:190px;
+  background:#1a231a;
   overflow:hidden;
   border-bottom:1px solid var(--border);
+  position:relative;
 }
-/* Картинка вписывается ЦЕЛИКОМ (без обрезки) */
 .card-img{
-  max-width:100%;
-  max-height:100%;
-  width:auto;
-  height:auto;
-  object-fit:contain;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
   display:block;
 }
 .card-img-placeholder{
   width:100%;height:100%;
   display:flex;align-items:center;justify-content:center;
   font-size:52px;color:var(--border-2);
-  background:var(--bg);
+  background:var(--bg-3);
 }
 .card-body{padding:20px;flex:1;display:flex;flex-direction:column}
 .card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
@@ -145,42 +143,48 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .country-stat-value{font-size:20px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:4px}
 .country-stat-label{font-size:10px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px}
 
-/* ============ МОДАЛКИ ============ */
+/* МОДАЛКИ */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .modal.active{display:flex;animation:fadeIn .2s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-content{background:linear-gradient(180deg, #131b13 0%, #0d120d 100%);border:1px solid var(--green-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg);box-shadow:0 0 40px rgba(0,255,136,.15), 0 20px 60px rgba(0,0,0,.5);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
+.modal-content{background:#0f150f;border:1px solid var(--green-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg);box-shadow:0 0 40px rgba(0,255,136,.15), 0 20px 60px rgba(0,0,0,.5);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
 @keyframes slideUp{from{transform:translateY(20px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
 .modal-content::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:linear-gradient(90deg, transparent, var(--green), transparent);border-radius:0 0 2px 2px}
 .close{position:absolute;top:14px;right:18px;font-size:22px;cursor:pointer;color:var(--text-mute);background:none;border:none;font-family:inherit;border-radius:var(--r-sm);width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-/* ============ ПОЛЯ ВВОДА — принудительно тёмные ============ */
+/* ========== ПОЛЯ ВВОДА — ЖЁСТКОЕ ПЕРЕОПРЕДЕЛЕНИЕ ========== */
+/* Убираем ВСЕ браузерные стили разом */
+input, textarea, select, button{
+  appearance:none !important;
+  -webkit-appearance:none !important;
+  -moz-appearance:none !important;
+  outline:none !important;
+  font-family:inherit;
+}
 input[type="text"],
 input[type="password"],
 input[type="number"],
 input[type="email"],
+input[type="search"],
 textarea,
 select{
-  -webkit-appearance:none !important;
-  -moz-appearance:none !important;
-  appearance:none !important;
   display:block;
   width:100%;
   padding:13px 16px;
   margin-bottom:14px;
-  background:#0d120d !important;
-  background-color:#0d120d !important;
-  border:1px solid #2a3a2a !important;
-  color:#ffffff !important;
   font-size:14px;
-  font-family:inherit;
-  border-radius:var(--r);
-  transition:all .2s;
-  outline:none;
-  box-shadow:none;
-  background-image:none;
+  color:#ffffff !important;
+  background-color:#0d120d !important;
+  background-image:none !important;
+  border:1px solid #2a3a2a !important;
+  border-radius:var(--r) !important;
+  /* Box-shadow inset перебивает любой системный фон */
+  box-shadow:0 0 0 100px #0d120d inset !important;
+  -webkit-box-shadow:0 0 0 100px #0d120d inset !important;
+  caret-color:var(--green);
+  transition:border-color .2s;
 }
 input[type="text"]:hover,
 input[type="password"]:hover,
@@ -189,8 +193,6 @@ input[type="email"]:hover,
 textarea:hover,
 select:hover{
   border-color:#00c46a !important;
-  background:#111811 !important;
-  background-color:#111811 !important;
 }
 input[type="text"]:focus,
 input[type="password"]:focus,
@@ -199,40 +201,38 @@ input[type="email"]:focus,
 textarea:focus,
 select:focus{
   border-color:#00ff88 !important;
-  background:#111811 !important;
-  background-color:#111811 !important;
-  box-shadow:0 0 0 4px rgba(0,255,136,.12);
 }
-input::placeholder,textarea::placeholder{color:#4a5a4a !important}
+input::placeholder,textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
 
 /* Убираем стрелочки у number */
 input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-input[type="number"]{-moz-appearance:textfield}
+input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
+input[type="number"]{-moz-appearance:textfield !important}
 
-/* Автозаполнение браузера — тоже тёмное */
+/* Автозаполнение — принудительно тёмный фон */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
 textarea:-webkit-autofill,
 select:-webkit-autofill{
   -webkit-text-fill-color:#ffffff !important;
-  -webkit-box-shadow:0 0 0px 1000px #0d120d inset !important;
-  box-shadow:0 0 0px 1000px #0d120d inset !important;
-  transition:background-color 5000s ease-in-out 0s;
-  caret-color:#00ff88;
+  -webkit-box-shadow:0 0 0 100px #0d120d inset !important;
+  box-shadow:0 0 0 100px #0d120d inset !important;
+  caret-color:var(--green);
+  transition:background-color 9999s ease-in-out 0s !important;
 }
 
 label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
-/* ============ КРАСИВАЯ КНОПКА ЗАГРУЗКИ ФОТО ============ */
+/* ФАЙЛЫ */
 .file-input{position:relative;margin-bottom:14px}
 .file-input input[type="file"]{
   position:absolute !important;
-  width:1px !important;height:1px !important;
-  padding:0 !important;margin:-1px !important;
-  overflow:hidden;clip:rect(0,0,0,0);
-  border:0;opacity:0;
+  width:0 !important;height:0 !important;
+  padding:0 !important;margin:0 !important;
+  border:0 !important;
+  opacity:0 !important;
   pointer-events:none;
 }
 .file-label{
@@ -249,32 +249,25 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   user-select:none;
 }
 .file-label::before{content:'📷';font-size:18px}
-.file-label:hover{
-  border-color:#00ff88;
-  color:#00ff88;
-  background:#111811;
-  box-shadow:0 0 0 3px rgba(0,255,136,.08);
-}
-.file-label.has-file{
-  border-style:solid;
-  border-color:#00ff88;
-  color:#00ff88;
-  background:rgba(0,255,136,.05);
-}
+.file-label:hover{border-color:#00ff88;color:#00ff88;background:#111811}
+.file-label.has-file{border-style:solid;border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,.05)}
 .file-label.has-file::before{content:'✓';font-weight:700}
 
 .checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);cursor:pointer;transition:all .15s}
-.checkbox-row:hover{border-color:#00ff88;background:#111811}
+.checkbox-row:hover{border-color:#00ff88}
 .checkbox-row input[type="checkbox"]{
-  -webkit-appearance:checkbox !important;
   appearance:checkbox !important;
+  -webkit-appearance:checkbox !important;
   width:18px;height:18px;margin:0;cursor:pointer;
   accent-color:#00ff88;flex-shrink:0;
-  background:transparent !important;border:none !important;padding:0 !important;
+  box-shadow:none !important;
+  background:transparent !important;
+  border:1px solid #2a3a2a !important;
+  padding:0 !important;
 }
 .checkbox-row span{font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:500;line-height:1.4}
 
-.form-box{background:linear-gradient(180deg, #111711 0%, #0d120d 100%);padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.form-box{background:#111711;padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
 .form-box::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg, var(--green), transparent)}
 .form-box h3{color:#fff;margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1.5px}
 
@@ -311,7 +304,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .copy-popup .msg{color:#fff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
 .copy-popup .ip{color:var(--green);font-family:'Consolas',monospace;font-size:13px}
 
-.preview{width:100%;max-height:200px;object-fit:contain;margin-bottom:12px;display:none;border:1px solid var(--border-2);border-radius:var(--r);background:#000}
+.preview{width:100%;max-height:200px;object-fit:cover;margin-bottom:12px;display:none;border:1px solid var(--border-2);border-radius:var(--r)}
 
 .news-view{max-width:720px !important}
 .news-view .back-btn{background:none;border:none;color:var(--text-dim);cursor:pointer;font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:0;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
@@ -321,7 +314,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .news-view .news-author{color:var(--text-dim);font-size:13px;font-family:'Consolas',monospace}
 .news-view .news-author b{color:var(--green)}
 .news-view .news-date{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace}
-.news-view .news-img{width:100%;max-height:400px;object-fit:contain;background:#000;border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
+.news-view .news-img{width:100%;max-height:420px;object-fit:cover;object-position:center;background:#1a231a;border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
 .news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
 .news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
@@ -435,7 +428,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <label>Название союза</label>
       <input id="uName" placeholder="Например: Северный Альянс">
       <label>Описание</label>
-      <textarea id="uDesc"></textarea>
+      <textarea id="uDesc" placeholder="Цели, участники, правила..."></textarea>
       <label>Логотип</label>
       <div class="file-input">
         <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
@@ -484,20 +477,20 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 
     <div id="loginFields">
       <label>Ник</label>
-      <input type="text" id="loginNick" placeholder="Ваш ник">
+      <input type="text" id="loginNick" placeholder="Ваш ник" autocomplete="off" name="peta_login_nick_x">
       <label>Пароль</label>
-      <input type="password" id="loginPassword" placeholder="Пароль">
+      <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="new-password" name="peta_login_pass_x">
       <button type="button" class="btn btn-green" style="width:100%" onclick="doLogin()">Войти</button>
     </div>
 
     <div id="registerFields" style="display:none">
       <label>Ник</label>
-      <input type="text" id="regNick" placeholder="Ваш игровой ник">
+      <input type="text" id="regNick" placeholder="Ваш игровой ник" autocomplete="off" name="peta_reg_nick_x">
       <div class="hint">Можно писать по-русски, латиницей, цифрами и _</div>
       <label>Пароль</label>
-      <input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)">
+      <input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)" autocomplete="new-password" name="peta_reg_pass_x">
       <label>Название страны</label>
-      <input type="text" id="regCountry" placeholder="Например: Свободная Республика">
+      <input type="text" id="regCountry" placeholder="Например: Свободная Республика" autocomplete="off" name="peta_reg_country_x">
       <label class="checkbox-row">
         <input type="checkbox" id="regAgree">
         <span>Я согласен что Петя гей</span>
@@ -525,7 +518,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ НАСТРОЙКИ ============ */
 const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
@@ -534,12 +526,8 @@ const NEWS_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000;
 
 let sb = null;
 if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20) {
-  try {
-    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
-  } catch(e) { console.error(e); sb = null; }
-} else {
-  console.log('%c⚠ Демо-режим', 'color:#ffaa00;font-weight:bold');
+  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); console.log('%c✓ Supabase', 'color:#00ff88;font-weight:bold'); }
+  catch(e) { console.error(e); sb = null; }
 }
 
 function translit(str){
@@ -586,7 +574,6 @@ function go(page){
   const link = document.getElementById('nav-'+page);
   if(link) link.classList.add('active');
   window.scrollTo(0,0);
-
   if(page==='countries') loadCountries();
   if(page==='unions') loadUnions();
   if(page==='news') loadNews();
@@ -612,7 +599,7 @@ async function doLogin(){
 
   if(!sb){
     const prof = demoStore.profiles[nick];
-    if(!prof) return toast('Игрок с таким ником не найден', true);
+    if(!prof) return toast('Игрок не найден', true);
     if(prof.password !== password) return toast('Неверный пароль', true);
     currentUser = { id: prof.id, email: nickToEmail(nick) };
     currentProfile = { id: prof.id, username: nick, bio: prof.bio || '' };
@@ -626,9 +613,8 @@ async function doLogin(){
 
   try {
     const {data: profile} = await sb.from('profiles').select('id').eq('username', nick).maybeSingle();
-    if(!profile) return toast('Игрок с таким ником не найден', true);
-    const email = nickToEmail(nick);
-    const res = await sb.auth.signInWithPassword({ email, password });
+    if(!profile) return toast('Игрок не найден', true);
+    const res = await sb.auth.signInWithPassword({ email: nickToEmail(nick), password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
     currentUser = res.data.user;
     localStorage.setItem('peta_session', nick);
@@ -655,11 +641,9 @@ async function doRegister(){
     const userId = 'demo_' + Date.now();
     demoStore.profiles[nick] = { id: userId, password, bio: '' };
     demoStore.countries.push({
-      id: 'demo_c_' + Date.now(),
-      name: countryName, description: 'Молодое государство.',
-      population: 1, factories: 0,
-      owner_id: userId, owner_name: nick,
-      created_at: new Date().toISOString()
+      id: 'demo_c_' + Date.now(), name: countryName,
+      description: 'Молодое государство.', population: 1, factories: 0,
+      owner_id: userId, owner_name: nick, created_at: new Date().toISOString()
     });
     demoStore.save();
     currentUser = { id: userId, email: nickToEmail(nick) };
@@ -673,8 +657,7 @@ async function doRegister(){
   }
 
   try {
-    const email = nickToEmail(nick);
-    const res = await sb.auth.signUp({ email, password });
+    const res = await sb.auth.signUp({ email: nickToEmail(nick), password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
     if(!res.data.user) return toast('Не удалось создать аккаунт', true);
     const userId = res.data.user.id;
@@ -694,21 +677,14 @@ async function doRegister(){
 function updateAuthUI(user){
   const loginBtn = document.getElementById('loginBtn');
   const ue = document.getElementById('userEmail');
-  if(user){
-    loginBtn.style.display = 'none';
-    ue.style.display = 'inline-block';
-    ue.textContent = (currentProfile?.username || 'Игрок');
-  } else {
-    loginBtn.style.display = 'inline-block';
-    ue.style.display = 'none';
-  }
+  if(user){ loginBtn.style.display = 'none'; ue.style.display = 'inline-block'; ue.textContent = (currentProfile?.username || 'Игрок'); }
+  else { loginBtn.style.display = 'inline-block'; ue.style.display = 'none'; }
 }
 
 async function handleLogout(){
   if(sb) await sb.auth.signOut();
   localStorage.removeItem('peta_session');
-  currentUser = null;
-  currentProfile = null;
+  currentUser = null; currentProfile = null;
   updateAuthUI(null);
   go('home');
   toast('Вы вышли');
@@ -746,9 +722,7 @@ async function loadStats(){
       ]);
       c = rc.count||0; u = ru.count||0; n = rn.count||0;
     } catch(e){}
-  } else {
-    c = demoStore.countries.length; u = demoStore.unions.length; n = demoStore.news.length;
-  }
+  } else { c = demoStore.countries.length; u = demoStore.unions.length; n = demoStore.news.length; }
   document.getElementById('countriesCount').textContent = c;
   document.getElementById('unionsCount').textContent = u;
   document.getElementById('newsCount').textContent = n;
@@ -769,11 +743,7 @@ async function fetchOnline(){
 setInterval(fetchOnline, 60000);
 
 function copyIP(){
-  const show = ()=>{
-    const p = document.getElementById('copyPopup');
-    p.classList.add('show');
-    setTimeout(()=>p.classList.remove('show'), 1800);
-  };
+  const show = ()=>{ const p = document.getElementById('copyPopup'); p.classList.add('show'); setTimeout(()=>p.classList.remove('show'), 1800); };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(SERVER_IP).then(show).catch(()=>{ fallbackCopy(); show(); });
   } else { fallbackCopy(); show(); }
@@ -789,39 +759,26 @@ function fallbackCopy(){
 function initHeroGlow(){
   const hero = document.getElementById('heroBlock');
   if(!hero) return;
-
   const bright = document.createElement('div');
-  bright.style.cssText = [
-    'position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .15s',
-    'background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)',
-    'background-size:40px 40px'
-  ].join(';');
+  bright.style.cssText = ['position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .15s','background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)','background-size:40px 40px'].join(';');
   hero.appendChild(bright);
-
   const glow = document.createElement('div');
   glow.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .2s';
   hero.appendChild(glow);
-
   let raf = null, mx = 0, my = 0;
   function apply(){
     raf = null;
     const mask = `radial-gradient(circle 170px at ${mx}px ${my}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
-    bright.style.webkitMaskImage = mask;
-    bright.style.maskImage = mask;
+    bright.style.webkitMaskImage = mask; bright.style.maskImage = mask;
     glow.style.background = `radial-gradient(circle 200px at ${mx}px ${my}px, rgba(0,255,136,.16) 0%, rgba(0,255,136,.05) 35%, transparent 70%)`;
   }
   hero.addEventListener('mousemove', (e)=>{
     const r = hero.getBoundingClientRect();
-    mx = e.clientX - r.left;
-    my = e.clientY - r.top;
-    bright.style.opacity = '1';
-    glow.style.opacity = '1';
+    mx = e.clientX - r.left; my = e.clientY - r.top;
+    bright.style.opacity = '1'; glow.style.opacity = '1';
     if(!raf) raf = requestAnimationFrame(apply);
   });
-  hero.addEventListener('mouseleave', ()=>{
-    bright.style.opacity = '0';
-    glow.style.opacity = '0';
-  });
+  hero.addEventListener('mouseleave', ()=>{ bright.style.opacity = '0'; glow.style.opacity = '0'; });
 }
 
 async function loadLatestNews(){
@@ -829,14 +786,8 @@ async function loadLatestNews(){
   if(!c) return;
   await cleanupOldNews();
   let data = [];
-  if(sb){
-    try {
-      const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6);
-      data = res.data || [];
-    } catch(e){}
-  } else {
-    data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6);
-  }
+  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6); data = res.data || []; } catch(e){} }
+  else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6); }
   if(!data.length){ c.innerHTML='<div class="empty">Пока нет новостей</div>'; return; }
   c.innerHTML = data.map(newsCard).join('');
 }
@@ -846,21 +797,15 @@ async function loadNews(){
   c.innerHTML = '<div class="loading">Загрузка</div>';
   await cleanupOldNews();
   let data = [];
-  if(sb){
-    try {
-      const res = await sb.from('news').select('*').order('created_at',{ascending:false});
-      data = res.data || [];
-    } catch(e){}
-  } else {
-    data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  }
+  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
   if(!data.length){ c.innerHTML='<div class="empty">Новостей нет</div>'; return; }
   c.innerHTML = data.map(newsCard).join('');
 }
 
 function newsCard(n){
   return `<div class="card" onclick="viewNews('${n.id}')">
-    ${n.image_url?`<div class="card-img-wrap"><img class="card-img" src="${n.image_url}" alt=""></div>`:'<div class="card-img-wrap"><div class="card-img-placeholder">📰</div></div>'}
+    <div class="card-img-wrap">${n.image_url?`<img class="card-img" src="${n.image_url}" alt="">`:'<div class="card-img-placeholder">📰</div>'}</div>
     <div class="card-body">
       <h3>${esc(n.title)}</h3>
       <p>${esc((n.content||'').substring(0,120))}...</p>
@@ -874,13 +819,10 @@ function newsCard(n){
 
 async function viewNews(id){
   let n = null;
-  if(sb){
-    try { const res = await sb.from('news').select('*').eq('id',id).single(); n = res.data; } catch(e){}
-  } else { n = demoStore.news.find(x=>String(x.id)===String(id)); }
+  if(sb){ try { const res = await sb.from('news').select('*').eq('id',id).single(); n = res.data; } catch(e){} }
+  else { n = demoStore.news.find(x=>String(x.id)===String(id)); }
   if(!n) return;
-
   const canDelete = currentUser && (n.author_id === currentUser.id || n.author_name === currentNick());
-
   document.getElementById('viewContent').innerHTML = `
     <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
     <h1>${esc(n.title)}</h1>
@@ -890,11 +832,7 @@ async function viewNews(id){
     </div>
     ${n.image_url?`<img class="news-img" src="${n.image_url}">`:''}
     <div class="news-body">${esc(n.content)}</div>
-    ${canDelete?`
-      <div class="news-actions">
-        <button class="btn btn-danger" onclick="deleteNews('${n.id}')">🗑 Удалить новость</button>
-      </div>
-    `:''}
+    ${canDelete?`<div class="news-actions"><button class="btn btn-danger" onclick="deleteNews('${n.id}')">🗑 Удалить новость</button></div>`:''}
   `;
   document.getElementById('viewModal').classList.add('active');
 }
@@ -902,10 +840,8 @@ async function viewNews(id){
 async function deleteNews(id){
   if(!confirm('Удалить эту новость?')) return;
   if(sb){
-    try {
-      const {error} = await sb.from('news').delete().eq('id', id);
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('news').delete().eq('id', id); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
     demoStore.news = demoStore.news.filter(n=>String(n.id)!==String(id));
     demoStore.save();
@@ -930,36 +866,19 @@ async function saveNews(){
   const title = document.getElementById('nTitle').value.trim();
   const content = document.getElementById('nContent').value.trim();
   if(!title||!content) return toast('Заполните заголовок и текст', true);
-
   const file = document.getElementById('nImage').files[0];
   let image_url = null;
   if(file){
-    if(sb){
-      try { image_url = await uploadImage('news', file); }
-      catch(e){ toast('Ошибка загрузки картинки', true); }
-    } else { image_url = await fileToDataURL(file); }
+    if(sb){ try { image_url = await uploadImage('news', file); } catch(e){ toast('Ошибка загрузки картинки', true); } }
+    else { image_url = await fileToDataURL(file); }
   }
-
   if(sb){
-    try {
-      const {error} = await sb.from('news').insert({
-        title, content, image_url,
-        author_id: currentUser.id,
-        author_name: currentNick()
-      });
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('news').insert({ title, content, image_url, author_id: currentUser.id, author_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
-    demoStore.news.push({
-      id: 'demo_' + Date.now(),
-      title, content, image_url,
-      author_id: currentUser.id,
-      author_name: currentNick(),
-      created_at: new Date().toISOString()
-    });
+    demoStore.news.push({ id: 'demo_' + Date.now(), title, content, image_url, author_id: currentUser.id, author_name: currentNick(), created_at: new Date().toISOString() });
     demoStore.save();
   }
-
   toast('Новость опубликована (удалится через 2 дня)');
   resetFileInput('nImage','nImageLabel','nImagePreview');
   document.getElementById('nTitle').value='';
@@ -970,11 +889,7 @@ async function saveNews(){
 }
 
 function fileToDataURL(file){
-  return new Promise(resolve=>{
-    const r = new FileReader();
-    r.onload = e => resolve(e.target.result);
-    r.readAsDataURL(file);
-  });
+  return new Promise(resolve=>{ const r = new FileReader(); r.onload = e => resolve(e.target.result); r.readAsDataURL(file); });
 }
 
 async function uploadImage(bucket, file){
@@ -991,41 +906,20 @@ async function loadCountries(){
   const badge = document.getElementById('myCountryBadge');
   c.innerHTML = '<div class="loading">Загрузка</div>';
   let data = [];
-  if(sb){
-    try {
-      const res = await sb.from('countries').select('*').order('created_at',{ascending:false});
-      data = res.data || [];
-    } catch(e){}
-  } else {
-    data = [...demoStore.countries].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  }
-  if(!data.length){
-    c.innerHTML='<div class="empty">Стран нет</div>';
-    if(badge) badge.textContent='';
-    return;
-  }
-  if(badge && currentUser){
-    const my = data.find(x=>x.owner_id === currentUser.id);
-    badge.textContent = my ? '🏛️ ' + my.name : '';
-  } else if(badge) badge.textContent = '';
-
+  if(sb){ try { const res = await sb.from('countries').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  else { data = [...demoStore.countries].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
+  if(!data.length){ c.innerHTML='<div class="empty">Стран нет</div>'; if(badge) badge.textContent=''; return; }
+  if(badge && currentUser){ const my = data.find(x=>x.owner_id === currentUser.id); badge.textContent = my ? '🏛️ ' + my.name : ''; }
+  else if(badge) badge.textContent = '';
   c.innerHTML = data.map(x=>`
     <div class="card" onclick="viewCountry('${x.id}')">
-      ${x.flag_url?`<div class="card-img-wrap"><img class="card-img" src="${x.flag_url}" alt=""></div>`:'<div class="card-img-wrap"><div class="card-img-placeholder">🏛️</div></div>'}
+      <div class="card-img-wrap">${x.flag_url?`<img class="card-img" src="${x.flag_url}" alt="">`:'<div class="card-img-placeholder">🏛️</div>'}</div>
       <div class="card-body">
         <h3>${esc(x.name)}</h3>
         <p>${esc((x.description||'').substring(0,140))}</p>
         <div class="country-stats">
-          <div class="country-stat">
-            <span class="country-stat-icon">👥</span>
-            <div class="country-stat-value">${x.population||0}</div>
-            <div class="country-stat-label">Жителей</div>
-          </div>
-          <div class="country-stat">
-            <span class="country-stat-icon">🏭</span>
-            <div class="country-stat-value">${x.factories||0}</div>
-            <div class="country-stat-label">Заводов</div>
-          </div>
+          <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${x.population||0}</div><div class="country-stat-label">Жителей</div></div>
+          <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${x.factories||0}</div><div class="country-stat-label">Заводов</div></div>
         </div>
         <div class="card-meta" style="margin-top:14px"><span>Правитель: ${esc(x.owner_name||'—')}</span></div>
       </div>
@@ -1035,13 +929,9 @@ async function loadCountries(){
 
 async function viewCountry(id){
   let x = null;
-  if(sb){
-    try { const res = await sb.from('countries').select('*').eq('id',id).single(); x = res.data; } catch(e){}
-  } else {
-    x = demoStore.countries.find(c=>String(c.id)===String(id));
-  }
+  if(sb){ try { const res = await sb.from('countries').select('*').eq('id',id).single(); x = res.data; } catch(e){} }
+  else { x = demoStore.countries.find(c=>String(c.id)===String(id)); }
   if(!x) return;
-
   document.getElementById('viewContent').innerHTML = `
     <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
     ${x.flag_url?`<img class="news-img" src="${x.flag_url}">`:''}
@@ -1051,16 +941,8 @@ async function viewCountry(id){
       <span class="news-date">Основано ${new Date(x.created_at).toLocaleDateString('ru-RU')}</span>
     </div>
     <div class="country-stats" style="margin-bottom:24px;border:none;padding:0">
-      <div class="country-stat">
-        <span class="country-stat-icon">👥</span>
-        <div class="country-stat-value">${x.population||0}</div>
-        <div class="country-stat-label">Жителей</div>
-      </div>
-      <div class="country-stat">
-        <span class="country-stat-icon">🏭</span>
-        <div class="country-stat-value">${x.factories||0}</div>
-        <div class="country-stat-label">Заводов</div>
-      </div>
+      <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${x.population||0}</div><div class="country-stat-label">Жителей</div></div>
+      <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${x.factories||0}</div><div class="country-stat-label">Заводов</div></div>
     </div>
     <div class="news-body">${esc(x.description||'Описание отсутствует')}</div>
   `;
@@ -1077,18 +959,12 @@ async function loadUnions(){
   const c = document.getElementById('unionsList');
   c.innerHTML = '<div class="loading">Загрузка</div>';
   let data = [];
-  if(sb){
-    try {
-      const res = await sb.from('unions').select('*').order('created_at',{ascending:false});
-      data = res.data || [];
-    } catch(e){}
-  } else {
-    data = [...demoStore.unions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-  }
+  if(sb){ try { const res = await sb.from('unions').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  else { data = [...demoStore.unions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
   if(!data.length){ c.innerHTML='<div class="empty">Союзов нет</div>'; return; }
   c.innerHTML = data.map(x=>`
     <div class="card" onclick="viewUnion('${x.id}')">
-      ${x.logo_url?`<div class="card-img-wrap"><img class="card-img" src="${x.logo_url}" alt=""></div>`:'<div class="card-img-wrap"><div class="card-img-placeholder">🤝</div></div>'}
+      <div class="card-img-wrap">${x.logo_url?`<img class="card-img" src="${x.logo_url}" alt="">`:'<div class="card-img-placeholder">🤝</div>'}</div>
       <div class="card-body">
         <h3>${esc(x.name)}</h3>
         <p>${esc((x.description||'').substring(0,160))}</p>
@@ -1105,31 +981,14 @@ async function saveUnion(){
   const file = document.getElementById('uLogo').files[0];
   let logo_url = null;
   if(file){
-    if(sb){
-      try { logo_url = await uploadImage('unions', file); }
-      catch(e){ toast('Ошибка загрузки логотипа', true); }
-    } else { logo_url = await fileToDataURL(file); }
+    if(sb){ try { logo_url = await uploadImage('unions', file); } catch(e){ toast('Ошибка загрузки логотипа', true); } }
+    else { logo_url = await fileToDataURL(file); }
   }
-
   if(sb){
-    try {
-      const {error} = await sb.from('unions').insert({
-        name,
-        description: document.getElementById('uDesc').value.trim(),
-        logo_url,
-        owner_id: currentUser.id,
-        owner_name: currentNick()
-      });
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('unions').insert({ name, description: document.getElementById('uDesc').value.trim(), logo_url, owner_id: currentUser.id, owner_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
-    demoStore.unions.push({
-      id: 'demo_' + Date.now(), name,
-      description: document.getElementById('uDesc').value.trim(),
-      logo_url, owner_name: currentNick(),
-      owner_id: currentUser.id,
-      created_at: new Date().toISOString()
-    });
+    demoStore.unions.push({ id: 'demo_' + Date.now(), name, description: document.getElementById('uDesc').value.trim(), logo_url, owner_name: currentNick(), owner_id: currentUser.id, created_at: new Date().toISOString() });
     demoStore.save();
   }
   toast('Союз создан');
@@ -1142,13 +1001,9 @@ async function saveUnion(){
 
 async function viewUnion(id){
   let u = null;
-  if(sb){
-    try { const res = await sb.from('unions').select('*').eq('id',id).single(); u = res.data; } catch(e){}
-  } else {
-    u = demoStore.unions.find(x=>String(x.id)===String(id));
-  }
+  if(sb){ try { const res = await sb.from('unions').select('*').eq('id',id).single(); u = res.data; } catch(e){} }
+  else { u = demoStore.unions.find(x=>String(x.id)===String(id)); }
   if(!u) return;
-
   const isOwner = currentUser && (u.owner_id === currentUser.id || u.owner_name === currentNick());
   const invites = demoStore.invites[u.id] || [];
 
@@ -1161,7 +1016,7 @@ async function viewUnion(id){
           <input id="inviteNick" placeholder="Ник игрока" style="margin:0">
           <button class="btn btn-green" onclick="sendInvite('${u.id}')">Пригласить</button>
         </div>
-        <div class="invite-list" id="inviteList">
+        <div class="invite-list">
           ${invites.length ? invites.map(nick=>`
             <div class="invite-item">
               <span class="invite-name">${esc(nick)}</span>
@@ -1170,14 +1025,15 @@ async function viewUnion(id){
           `).join('') : '<div style="color:var(--text-mute);font-size:12px">Пока никого не пригласили</div>'}
         </div>
       </div>
+      <div class="news-actions" style="margin-top:20px">
+        <button class="btn btn-danger" onclick="deleteUnion('${u.id}')">🗑 Удалить союз</button>
+      </div>
     `;
   } else if(invites.length){
     invitesBlock = `
       <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
         <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашённые игроки</h3>
-        <div class="invite-list">
-          ${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}
-        </div>
+        <div class="invite-list">${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}</div>
       </div>
     `;
   }
@@ -1196,6 +1052,22 @@ async function viewUnion(id){
   document.getElementById('viewModal').classList.add('active');
 }
 
+async function deleteUnion(id){
+  if(!confirm('Удалить этот союз? Действие необратимо.')) return;
+  if(sb){
+    try { const {error} = await sb.from('unions').delete().eq('id', id); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
+  } else {
+    demoStore.unions = demoStore.unions.filter(u=>String(u.id)!==String(id));
+    delete demoStore.invites[id];
+    demoStore.save();
+  }
+  toast('Союз удалён');
+  document.getElementById('viewModal').classList.remove('active');
+  loadUnions();
+  loadStats();
+}
+
 function sendInvite(unionId){
   const inp = document.getElementById('inviteNick');
   const nick = inp.value.trim();
@@ -1204,7 +1076,7 @@ function sendInvite(unionId){
   if(demoStore.invites[unionId].includes(nick)) return toast('Уже приглашён', true);
   demoStore.invites[unionId].push(nick);
   demoStore.save();
-  toast('Приглашение отправлено для ' + nick);
+  toast('Приглашение для ' + nick);
   inp.value = '';
   viewUnion(unionId);
 }
@@ -1218,15 +1090,10 @@ function removeInvite(unionId, nick){
 
 async function loadProfile(){
   const c = document.getElementById('profileContent');
-  if(!currentUser){
-    c.innerHTML = '<div class="empty">Войдите чтобы увидеть свою страну</div>';
-    return;
-  }
+  if(!currentUser){ c.innerHTML = '<div class="empty">Войдите чтобы увидеть свою страну</div>'; return; }
   const nick = currentNick();
   const uid = currentUser.id;
-
   let profile = null, country = null, news = [];
-
   if(sb){
     try {
       const [p, cRes, nRes] = await Promise.all([
@@ -1234,17 +1101,13 @@ async function loadProfile(){
         sb.from('countries').select('*').eq('owner_id',uid).maybeSingle(),
         sb.from('news').select('*').eq('author_id',uid)
       ]);
-      profile = p.data;
-      country = cRes.data;
-      news = nRes.data || [];
-      currentProfile = profile;
+      profile = p.data; country = cRes.data; news = nRes.data || []; currentProfile = profile;
     } catch(e){}
   } else {
     profile = { id: uid, username: nick, bio: demoStore.profiles[nick]?.bio || '' };
     country = demoStore.countries.find(x=>x.owner_id === uid);
     news = demoStore.news.filter(x=>x.author_id === uid || x.author_name === nick);
   }
-
   const avatar = profile?.avatar_url;
   const bio = profile?.bio || '';
 
@@ -1256,16 +1119,8 @@ async function loadProfile(){
         <div class="bio">Правитель: ${esc(nick)}</div>
         <div class="bio">${esc(country.description) || 'Описание не указано'}</div>
         <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
-          <div class="country-stat">
-            <span class="country-stat-icon">👥</span>
-            <div class="country-stat-value">${country.population||0}</div>
-            <div class="country-stat-label">Жителей</div>
-          </div>
-          <div class="country-stat">
-            <span class="country-stat-icon">🏭</span>
-            <div class="country-stat-value">${country.factories||0}</div>
-            <div class="country-stat-label">Заводов</div>
-          </div>
+          <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${country.population||0}</div><div class="country-stat-label">Жителей</div></div>
+          <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${country.factories||0}</div><div class="country-stat-label">Заводов</div></div>
         </div>
       </div>
     </div>
@@ -1312,11 +1167,7 @@ async function loadProfile(){
         <h2>${esc(nick)}</h2>
         <div class="bio">${esc(bio) || 'Без описания'}</div>
         <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
-          <div class="country-stat">
-            <span class="country-stat-icon">📰</span>
-            <div class="country-stat-value">${news.length}</div>
-            <div class="country-stat-label">Новостей</div>
-          </div>
+          <div class="country-stat"><span class="country-stat-icon">📰</span><div class="country-stat-value">${news.length}</div><div class="country-stat-label">Новостей</div></div>
         </div>
       </div>
       <button class="btn btn-danger" onclick="handleLogout()">Выйти</button>
@@ -1346,32 +1197,17 @@ async function createMyCountry(){
   const name = document.getElementById('newCountryName').value.trim();
   const description = document.getElementById('newCountryDesc').value.trim();
   if(!name) return toast('Введите название страны', true);
-
   const file = document.getElementById('newCountryFlag').files[0];
   let flag_url = null;
   if(file){
-    if(sb){
-      try { flag_url = await uploadImage('countries', file); }
-      catch(e){ toast('Ошибка загрузки флага', true); }
-    } else { flag_url = await fileToDataURL(file); }
+    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ toast('Ошибка загрузки флага', true); } }
+    else { flag_url = await fileToDataURL(file); }
   }
-
   if(sb){
-    try {
-      const {error} = await sb.from('countries').insert({
-        name, description, population: 1, factories: 0, flag_url,
-        owner_id: currentUser.id,
-        owner_name: currentNick()
-      });
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('countries').insert({ name, description, population: 1, factories: 0, flag_url, owner_id: currentUser.id, owner_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
-    demoStore.countries.push({
-      id: 'demo_' + Date.now(),
-      name, description, population: 1, factories: 0, flag_url,
-      owner_name: currentNick(), owner_id: currentUser.id,
-      created_at: new Date().toISOString()
-    });
+    demoStore.countries.push({ id: 'demo_' + Date.now(), name, description, population: 1, factories: 0, flag_url, owner_name: currentNick(), owner_id: currentUser.id, created_at: new Date().toISOString() });
     demoStore.save();
   }
   toast('Страна основана!');
@@ -1386,32 +1222,19 @@ async function saveCountry(){
   const factories = parseInt(document.getElementById('pCountryFact').value)||0;
   const file = document.getElementById('pCountryFlag').files[0];
   if(!name) return toast('Введите название страны', true);
-
   let flag_url;
   if(file){
-    if(sb){
-      try { flag_url = await uploadImage('countries', file); }
-      catch(e){ return toast('Ошибка загрузки флага', true); }
-    } else { flag_url = await fileToDataURL(file); }
+    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ return toast('Ошибка загрузки флага', true); } }
+    else { flag_url = await fileToDataURL(file); }
   }
-
   if(sb){
     const payload = { name, description, population, factories };
     if(flag_url) payload.flag_url = flag_url;
-    try {
-      const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id);
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
     const country = demoStore.countries.find(x=>x.owner_id === currentUser.id);
-    if(country){
-      country.name = name;
-      country.description = description;
-      country.population = population;
-      country.factories = factories;
-      if(flag_url) country.flag_url = flag_url;
-      demoStore.save();
-    }
+    if(country){ country.name = name; country.description = description; country.population = population; country.factories = factories; if(flag_url) country.flag_url = flag_url; demoStore.save(); }
   }
   toast('Страна обновлена');
   loadProfile();
@@ -1423,26 +1246,17 @@ async function saveProfile(){
   const file = document.getElementById('pAvatar').files[0];
   let avatar_url;
   if(file){
-    if(sb){
-      try { avatar_url = await uploadImage('avatars', file); }
-      catch(e){ return toast('Ошибка загрузки аватара', true); }
-    } else { avatar_url = await fileToDataURL(file); }
+    if(sb){ try { avatar_url = await uploadImage('avatars', file); } catch(e){ return toast('Ошибка загрузки аватара', true); } }
+    else { avatar_url = await fileToDataURL(file); }
   }
-
   if(sb){
     const payload = { id: currentUser.id, bio };
     if(avatar_url) payload.avatar_url = avatar_url;
-    try {
-      const {error} = await sb.from('profiles').upsert(payload);
-      if(error) return toast('Ошибка: '+error.message, true);
-    } catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('profiles').upsert(payload); if(error) return toast('Ошибка: '+error.message, true); }
+    catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
     const nick = currentNick();
-    if(demoStore.profiles[nick]){
-      demoStore.profiles[nick].bio = bio;
-      if(avatar_url) demoStore.profiles[nick].avatar_url = avatar_url;
-      demoStore.save();
-    }
+    if(demoStore.profiles[nick]){ demoStore.profiles[nick].bio = bio; if(avatar_url) demoStore.profiles[nick].avatar_url = avatar_url; demoStore.save(); }
   }
   toast('Профиль сохранён');
   loadProfile();
@@ -1468,12 +1282,7 @@ function resetFileInput(inputId, labelId, previewId){
   if(prv){ prv.style.display='none'; prv.src=''; }
 }
 
-function esc(t){
-  if(!t) return '';
-  const d = document.createElement('div');
-  d.textContent = t;
-  return d.innerHTML;
-}
+function esc(t){ if(!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
 function toast(msg, isErr){
   const t = document.getElementById('toast');
   t.textContent = '» ' + msg;
@@ -1482,12 +1291,8 @@ function toast(msg, isErr){
   setTimeout(()=>t.classList.remove('show'), 2800);
 }
 
-document.getElementById('authModal').addEventListener('click', e => {
-  if(e.target.id === 'authModal') closeModal();
-});
-document.getElementById('viewModal').addEventListener('click', e => {
-  if(e.target.id === 'viewModal') e.target.classList.remove('active');
-});
+document.getElementById('authModal').addEventListener('click', e => { if(e.target.id === 'authModal') closeModal(); });
+document.getElementById('viewModal').addEventListener('click', e => { if(e.target.id === 'viewModal') e.target.classList.remove('active'); });
 
 (async () => {
   await restoreSession();
