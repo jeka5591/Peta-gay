@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Peta-Gay | Игровое сообщество</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif}
 html{color-scheme:dark}
@@ -361,21 +362,30 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ НАСТРОЙКИ — LEGACY ANON KEY ============ */
+/* ============ НАСТРОЙКИ SUPABASE ============ */
 const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dWJ1YWJvb3ltamhmc2twZW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NjQwNjksImV4cCI6MjEwNjQ0MDA2OX0.yznTjgMbtmTl_oUW89Xx37vDDUDN24thzh4Xj5ChR90';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
 const EMAIL_DOMAIN = '@peta-gay.local';
 const NEWS_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000;
 
+/* ============ ПОДКЛЮЧЕНИЕ SUPABASE ============ */
 let sb = null;
-if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20) {
-  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold'); }
-  catch(e) { console.error(e); sb = null; }
-} else {
-  console.log('%c⚠ Демо-режим', 'color:#ffaa00;font-weight:bold');
+try {
+  if (typeof supabase === 'undefined') {
+    console.error('%c✗ Библиотека Supabase не загружена', 'color:#ff4444;font-weight:bold');
+  } else if (!SUPABASE_URL.startsWith('http') || SUPABASE_ANON_KEY.length < 20) {
+    console.error('%c✗ Неверный URL или ключ', 'color:#ff4444;font-weight:bold');
+  } else {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
+  }
+} catch(e) {
+  console.error('Ошибка подключения Supabase:', e);
+  sb = null;
 }
 
+/* ============ ТРАНСЛИТЕРАЦИЯ ============ */
 function translit(str){
   const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'_'};
   return str.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('').replace(/[^a-z0-9_]/g,'');
@@ -386,6 +396,7 @@ let currentUser = null;
 let currentProfile = null;
 let isLoginMode = true;
 
+/* ============ ДЕМО-ХРАНИЛИЩЕ ============ */
 const demoStore = {
   countries: JSON.parse(localStorage.getItem('demo_countries') || '[]'),
   unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
