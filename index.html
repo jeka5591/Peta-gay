@@ -40,6 +40,7 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .btn-outline:hover{background:var(--green);color:#000}
 .btn-danger{background:transparent;color:#ff4444;border-color:#ff4444}
 .btn-danger:hover{background:#ff4444;color:#000}
+.btn-sm{padding:6px 12px;font-size:11px}
 
 .container{max-width:1300px;margin:0 auto;padding:32px 24px}
 
@@ -107,78 +108,18 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-/* ============================================================
-   ПОЛЕ ВВОДА — обёртка с тёмным фоном, сам input прозрачный
-   Это убивает серый прямоугольник на 100%
-   ============================================================ */
+/* Поля ввода — обёртка с тёмным фоном */
 .field{margin-bottom:14px}
-.field-input{
-  display:flex;
-  align-items:center;
-  background:#0d120d;
-  border:1px solid #2a3a2a;
-  border-radius:var(--r);
-  padding:0 16px;
-  transition:border-color .2s, box-shadow .2s;
-  overflow:hidden;
-}
+.field-input{display:flex;align-items:center;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);padding:0 16px;transition:border-color .2s, box-shadow .2s;overflow:hidden}
 .field-input:hover{border-color:#00c46a}
-.field-input:focus-within{
-  border-color:#00ff88;
-  box-shadow:0 0 0 4px rgba(0,255,136,.12);
-}
-/* Сам input — прозрачный, без рамок и фона */
-.field-input input,
-.field-input textarea{
-  flex:1;
-  width:100%;
-  background:transparent !important;
-  background-color:transparent !important;
-  background-image:none !important;
-  border:0 !important;
-  outline:0 !important;
-  box-shadow:none !important;
-  -webkit-appearance:none !important;
-  appearance:none !important;
-  padding:13px 0 !important;
-  margin:0 !important;
-  color:#ffffff !important;
-  -webkit-text-fill-color:#ffffff !important;
-  caret-color:#00ff88;
-  font-size:14px;
-  font-family:inherit;
-  resize:none;
-  min-height:auto;
-}
-.field-input input::placeholder,
-.field-input textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
-
-/* Для textarea — рост вверх */
-.field-textarea{
-  align-items:stretch;
-  padding:12px 16px;
-}
-.field-textarea textarea{
-  min-height:100px;
-  padding:2px 0 !important;
-}
-
-/* Убираем стрелочки у number */
-.field-input input[type="number"]::-webkit-outer-spin-button,
-.field-input input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
+.field-input:focus-within{border-color:#00ff88;box-shadow:0 0 0 4px rgba(0,255,136,.12)}
+.field-input input,.field-input textarea{flex:1;width:100%;background:transparent !important;background-color:transparent !important;background-image:none !important;border:0 !important;outline:0 !important;box-shadow:none !important;-webkit-appearance:none !important;appearance:none !important;padding:13px 0 !important;margin:0 !important;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;caret-color:#00ff88;font-size:14px;font-family:inherit;resize:none;min-height:auto}
+.field-input input::placeholder,.field-input textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
+.field-textarea{align-items:stretch;padding:12px 16px}
+.field-textarea textarea{min-height:100px;padding:2px 0 !important}
+.field-input input[type="number"]::-webkit-outer-spin-button,.field-input input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
 .field-input input[type="number"]{-moz-appearance:textfield !important}
-
-/* Autofill — принудительно тёмный */
-.field-input input:-webkit-autofill,
-.field-input input:-webkit-autofill:hover,
-.field-input input:-webkit-autofill:focus,
-.field-input textarea:-webkit-autofill{
-  -webkit-text-fill-color:#ffffff !important;
-  -webkit-box-shadow:0 0 0 1000px #0d120d inset !important;
-  box-shadow:0 0 0 1000px #0d120d inset !important;
-  transition:background-color 9999s ease-in-out 0s !important;
-  caret-color:#00ff88;
-}
+.field-input input:-webkit-autofill,.field-input input:-webkit-autofill:hover,.field-input input:-webkit-autofill:focus,.field-input textarea:-webkit-autofill{-webkit-text-fill-color:#ffffff !important;-webkit-box-shadow:0 0 0 1000px #0d120d inset !important;box-shadow:0 0 0 1000px #0d120d inset !important;transition:background-color 9999s ease-in-out 0s !important;caret-color:#00ff88}
 
 label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
@@ -246,13 +187,30 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
 .news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-.invite-row{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
-.invite-row .field{flex:1;margin-bottom:0}
+/* Секция союза */
+.union-section{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.union-section h3{color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
 .invite-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
 .invite-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);font-size:13px}
 .invite-item .invite-name{color:var(--green);font-weight:600}
 .invite-item .invite-remove{background:none;border:none;color:#ff6666;cursor:pointer;font-family:inherit;font-size:16px;padding:4px 8px;transition:all .15s}
 .invite-item .invite-remove:hover{transform:scale(1.2)}
+
+.player-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:10px;max-height:240px;overflow-y:auto;padding:4px}
+.player-pick-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);font-size:12px;transition:all .15s}
+.player-pick-item:hover{border-color:var(--green-2)}
+.player-pick-item .pick-nick{color:#fff;font-weight:600}
+.player-pick-item button{background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:var(--r-sm);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.player-pick-item button:hover{background:var(--green-2);transform:translateY(-1px)}
+.player-pick-item button:disabled{background:var(--bg-3);color:var(--text-mute);cursor:not-allowed;transform:none}
+
+.union-news-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.union-news-item{background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);padding:14px 16px;position:relative}
+.union-news-item .un-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);font-family:'Consolas',monospace}
+.union-news-item .un-author{color:var(--green);font-weight:700}
+.union-news-item .un-text{color:var(--text);font-size:14px;line-height:1.6;white-space:pre-wrap}
+.union-news-item .un-del{position:absolute;top:8px;right:8px;background:none;border:none;color:#ff6666;cursor:pointer;font-size:16px;font-family:inherit;opacity:.6;transition:opacity .15s;padding:4px 8px}
+.union-news-item .un-del:hover{opacity:1}
 
 .badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
 .hint{font-size:11px;color:var(--text-mute);margin-top:2px;margin-bottom:14px}
@@ -272,10 +230,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 <body>
 
 <header class="header">
-  <div class="logo">
-    <div class="logo-mark">P</div>
-    <div>PETA<span>-GAY</span></div>
-  </div>
+  <div class="logo"><div class="logo-mark">P</div><div>PETA<span>-GAY</span></div></div>
   <nav class="nav">
     <a onclick="go('home')" id="nav-home" class="active">Главная</a>
     <a onclick="go('countries')" id="nav-countries">Страны</a>
@@ -295,10 +250,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     <div class="server-panel">
       <div class="server-info">
         <div class="server-label">Игровой сервер</div>
-        <div class="server-ip" onclick="copyIP()">
-          peta-gay.minerent.io:31272
-          <span class="copy-hint">Копировать</span>
-        </div>
+        <div class="server-ip" onclick="copyIP()">peta-gay.minerent.io:31272<span class="copy-hint">Копировать</span></div>
       </div>
       <div class="server-online">
         <div class="online-dot"></div>
@@ -317,21 +269,9 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     </section>
 
     <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">🏛️ Государства</div>
-        <div class="stat-value" id="countriesCount">0</div>
-        <div class="stat-label">Стран создано</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🤝 Альянсы</div>
-        <div class="stat-value" id="unionsCount">0</div>
-        <div class="stat-label">Союзов</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">📰 Публикации</div>
-        <div class="stat-value" id="newsCount">0</div>
-        <div class="stat-label">Новостей</div>
-      </div>
+      <div class="stat-card"><div class="stat-icon">🏛️ Государства</div><div class="stat-value" id="countriesCount">0</div><div class="stat-label">Стран создано</div></div>
+      <div class="stat-card"><div class="stat-icon">🤝 Альянсы</div><div class="stat-value" id="unionsCount">0</div><div class="stat-label">Союзов</div></div>
+      <div class="stat-card"><div class="stat-icon">📰 Публикации</div><div class="stat-value" id="newsCount">0</div><div class="stat-label">Новостей</div></div>
     </div>
 
     <h2 class="section-title">Последние новости</h2>
@@ -339,18 +279,12 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   </div>
 
   <div class="page" id="page-countries">
-    <div class="flex-between">
-      <h2 class="section-title">🏛️ Страны</h2>
-      <span class="badge" id="myCountryBadge"></span>
-    </div>
+    <div class="flex-between"><h2 class="section-title">🏛️ Страны</h2><span class="badge" id="myCountryBadge"></span></div>
     <div class="grid" id="countriesList"><div class="loading">Загрузка</div></div>
   </div>
 
   <div class="page" id="page-unions">
-    <div class="flex-between">
-      <h2 class="section-title">🤝 Союзы</h2>
-      <button class="btn btn-green" onclick="toggleUnionForm()">+ Создать союз</button>
-    </div>
+    <div class="flex-between"><h2 class="section-title">🤝 Союзы</h2><button class="btn btn-green" onclick="toggleUnionForm()">+ Создать союз</button></div>
     <div class="form-box" id="unionForm" style="display:none">
       <h3>Новый союз</h3>
       <label>Название союза</label>
@@ -358,10 +292,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <label>Описание</label>
       <div class="field"><div class="field-input field-textarea"><textarea id="uDesc" placeholder="Цели, участники, правила..."></textarea></div></div>
       <label>Логотип</label>
-      <div class="file-input">
-        <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
-        <label for="uLogo" class="file-label" id="uLogoLabel">Выбрать фото</label>
-      </div>
+      <div class="file-input"><input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')"><label for="uLogo" class="file-label" id="uLogoLabel">Выбрать фото</label></div>
       <img id="uLogoPreview" class="preview">
       <button class="btn btn-green" onclick="saveUnion()">💾 Создать союз</button>
     </div>
@@ -369,10 +300,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   </div>
 
   <div class="page" id="page-news">
-    <div class="flex-between">
-      <h2 class="section-title">📰 Новости</h2>
-      <button class="btn btn-green" onclick="toggleNewsForm()">+ Написать</button>
-    </div>
+    <div class="flex-between"><h2 class="section-title">📰 Новости</h2><button class="btn btn-green" onclick="toggleNewsForm()">+ Написать</button></div>
     <div class="form-box" id="newsForm" style="display:none">
       <h3>Новая публикация</h3>
       <div class="hint">Новость хранится 2 дня, потом удаляется автоматически</div>
@@ -381,10 +309,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <label>Текст новости</label>
       <div class="field"><div class="field-input field-textarea"><textarea id="nContent" style="min-height:180px" placeholder="Расскажите подробности..."></textarea></div></div>
       <label>Картинка (необязательно)</label>
-      <div class="file-input">
-        <input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')">
-        <label for="nImage" class="file-label" id="nImageLabel">Выбрать фото</label>
-      </div>
+      <div class="file-input"><input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')"><label for="nImage" class="file-label" id="nImageLabel">Выбрать фото</label></div>
       <img id="nImagePreview" class="preview">
       <button class="btn btn-green" onclick="saveNews()">📤 Опубликовать</button>
     </div>
@@ -402,7 +327,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   <div class="modal-content">
     <button class="close" onclick="closeModal()">×</button>
     <h2 id="modalTitle">Вход</h2>
-
     <div id="loginFields">
       <label>Ник</label>
       <div class="field"><div class="field-input"><input type="text" id="loginNick" placeholder="Ваш ник"></div></div>
@@ -410,7 +334,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <div class="field"><div class="field-input"><input type="password" id="loginPassword" placeholder="Пароль"></div></div>
       <button type="button" class="btn btn-green" style="width:100%" onclick="doLogin()">Войти</button>
     </div>
-
     <div id="registerFields" style="display:none">
       <label>Ник</label>
       <div class="field"><div class="field-input"><input type="text" id="regNick" placeholder="Ваш игровой ник"></div></div>
@@ -419,13 +342,9 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <div class="field"><div class="field-input"><input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)"></div></div>
       <label>Название страны</label>
       <div class="field"><div class="field-input"><input type="text" id="regCountry" placeholder="Например: Свободная Республика"></div></div>
-      <label class="checkbox-row">
-        <input type="checkbox" id="regAgree">
-        <span>Я согласен что Петя гей</span>
-      </label>
+      <label class="checkbox-row"><input type="checkbox" id="regAgree"><span>Я согласен что Петя гей</span></label>
       <button type="button" class="btn btn-green" style="width:100%" onclick="doRegister()">Основать страну</button>
     </div>
-
     <p class="toggle-auth" id="toggleBlock">Нет страны? <a onclick="toggleAuthMode()" id="toggleAuth">Основать страну</a></p>
   </div>
 </div>
@@ -468,21 +387,90 @@ let currentUser = null;
 let currentProfile = null;
 let isLoginMode = true;
 
+/* ========== ХРАНИЛИЩА ========== */
 const demoStore = {
   countries: JSON.parse(localStorage.getItem('demo_countries') || '[]'),
   unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
   news: JSON.parse(localStorage.getItem('demo_news') || '[]'),
   profiles: JSON.parse(localStorage.getItem('demo_profiles') || '{}'),
   invites: JSON.parse(localStorage.getItem('demo_invites') || '{}'),
+  unionNews: JSON.parse(localStorage.getItem('demo_union_news') || '{}'),
   save() {
     localStorage.setItem('demo_countries', JSON.stringify(this.countries));
     localStorage.setItem('demo_unions', JSON.stringify(this.unions));
     localStorage.setItem('demo_news', JSON.stringify(this.news));
     localStorage.setItem('demo_profiles', JSON.stringify(this.profiles));
     localStorage.setItem('demo_invites', JSON.stringify(this.invites));
+    localStorage.setItem('demo_union_news', JSON.stringify(this.unionNews));
   }
 };
 
+/* ========== СПИСОК ВСЕХ ИГРОКОВ ========== */
+async function loadAllPlayers(){
+  if(sb){
+    try {
+      const {data} = await sb.from('profiles').select('id, username');
+      return (data || []).map(p => ({ id: p.id, username: p.username }));
+    } catch(e){ return []; }
+  } else {
+    return Object.keys(demoStore.profiles).map(nick => ({
+      id: demoStore.profiles[nick].id,
+      username: nick
+    }));
+  }
+}
+
+/* ========== НОВОСТИ СОЮЗА ========== */
+async function loadUnionNews(unionId){
+  if(sb){
+    try {
+      const {data} = await sb.from('union_news')
+        .select('*').eq('union_id', unionId)
+        .order('created_at', {ascending:false});
+      return data || [];
+    } catch(e){ return []; }
+  } else {
+    return demoStore.unionNews[unionId] || [];
+  }
+}
+
+async function saveUnionNewsItem(unionId, content){
+  if(sb){
+    try {
+      const {error} = await sb.from('union_news').insert({
+        union_id: unionId,
+        author_id: currentUser.id,
+        author_name: currentNick(),
+        content
+      });
+      if(error) throw error;
+    } catch(e){ toast('Ошибка: '+e.message, true); }
+  } else {
+    if(!demoStore.unionNews[unionId]) demoStore.unionNews[unionId] = [];
+    demoStore.unionNews[unionId].unshift({
+      id: 'un_' + Date.now(),
+      author_name: currentNick(),
+      content,
+      created_at: new Date().toISOString()
+    });
+    demoStore.save();
+  }
+}
+
+async function deleteUnionNewsItem(unionId, newsId){
+  if(sb){
+    try { await sb.from('union_news').delete().eq('id', newsId); } catch(e){}
+  } else {
+    if(demoStore.unionNews[unionId]){
+      demoStore.unionNews[unionId] = demoStore.unionNews[unionId].filter(n => String(n.id) !== String(newsId));
+      demoStore.save();
+    }
+  }
+  toast('Обращение удалено');
+  viewUnion(unionId);
+}
+
+/* ========== ОСТАЛЬНЫЕ ФУНКЦИИ ========== */
 async function cleanupOldNews(){
   const cutoff = new Date(Date.now() - NEWS_LIFETIME_MS).toISOString();
   if(sb){ try { await sb.from('news').delete().lt('created_at', cutoff); } catch(e){} }
@@ -523,7 +511,6 @@ async function doLogin(){
   const nick = document.getElementById('loginNick').value.trim();
   const password = document.getElementById('loginPassword').value;
   if(!nick || !password) return toast('Заполните ник и пароль', true);
-
   if(!sb){
     const prof = demoStore.profiles[nick];
     if(!prof) return toast('Игрок не найден', true);
@@ -531,10 +518,7 @@ async function doLogin(){
     currentUser = { id: prof.id, email: nickToEmail(nick) };
     currentProfile = { id: prof.id, username: nick, bio: prof.bio || '' };
     localStorage.setItem('peta_session', nick);
-    updateAuthUI(currentUser);
-    closeModal();
-    toast('Добро пожаловать, ' + nick);
-    go('profile');
+    updateAuthUI(currentUser); closeModal(); toast('Добро пожаловать, ' + nick); go('profile');
     return;
   }
   try {
@@ -544,9 +528,7 @@ async function doLogin(){
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
     currentUser = res.data.user;
     localStorage.setItem('peta_session', nick);
-    closeModal();
-    toast('Добро пожаловать, ' + nick);
-    go('profile');
+    closeModal(); toast('Добро пожаловать, ' + nick); go('profile');
   } catch(e){ toast('Ошибка: ' + e.message, true); }
 }
 
@@ -555,48 +537,33 @@ async function doRegister(){
   const password = document.getElementById('regPassword').value;
   const countryName = document.getElementById('regCountry').value.trim();
   const agreed = document.getElementById('regAgree').checked;
-
   if(!nick || !password || !countryName) return toast('Заполните все поля', true);
   if(nick.length < 2) return toast('Ник минимум 2 символа', true);
   if(nick.length > 20) return toast('Ник максимум 20 символов', true);
   if(password.length < 4) return toast('Пароль минимум 4 символа', true);
-  if(!agreed) return toast('Подтвердите согласие с условиями', true);
-
+  if(!agreed) return toast('Подтвердите согласие', true);
   if(!sb){
     if(demoStore.profiles[nick]) return toast('Ник занят', true);
     const userId = 'demo_' + Date.now();
     demoStore.profiles[nick] = { id: userId, password, bio: '' };
-    demoStore.countries.push({
-      id: 'demo_c_' + Date.now(), name: countryName,
-      description: 'Молодое государство.', population: 1, factories: 0,
-      owner_id: userId, owner_name: nick, created_at: new Date().toISOString()
-    });
+    demoStore.countries.push({ id: 'demo_c_' + Date.now(), name: countryName, description: 'Молодое государство.', population: 1, factories: 0, owner_id: userId, owner_name: nick, created_at: new Date().toISOString() });
     demoStore.save();
     currentUser = { id: userId, email: nickToEmail(nick) };
     currentProfile = { id: userId, username: nick, bio: '' };
     localStorage.setItem('peta_session', nick);
-    updateAuthUI(currentUser);
-    closeModal();
-    toast('Страна основана!');
-    go('profile');
+    updateAuthUI(currentUser); closeModal(); toast('Страна основана!'); go('profile');
     return;
   }
-
   try {
     const res = await sb.auth.signUp({ email: nickToEmail(nick), password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
-    if(!res.data.user) return toast('Не удалось создать аккаунт', true);
+    if(!res.data.user) return toast('Не удалось создать', true);
     const userId = res.data.user.id;
     await sb.from('profiles').insert({ id: userId, username: nick, bio: '' });
-    await sb.from('countries').insert({
-      name: countryName, description: 'Молодое государство.',
-      population: 1, factories: 0, owner_id: userId, owner_name: nick
-    });
+    await sb.from('countries').insert({ name: countryName, description: 'Молодое государство.', population: 1, factories: 0, owner_id: userId, owner_name: nick });
     currentUser = res.data.user;
     localStorage.setItem('peta_session', nick);
-    closeModal();
-    toast('Страна основана!');
-    go('profile');
+    closeModal(); toast('Страна основана!'); go('profile');
   } catch(e){ toast('Ошибка: ' + e.message, true); }
 }
 
@@ -611,9 +578,7 @@ async function handleLogout(){
   if(sb) await sb.auth.signOut();
   localStorage.removeItem('peta_session');
   currentUser = null; currentProfile = null;
-  updateAuthUI(null);
-  go('home');
-  toast('Вы вышли');
+  updateAuthUI(null); go('home'); toast('Вы вышли');
 }
 
 async function restoreSession(){
@@ -622,8 +587,7 @@ async function restoreSession(){
     if(data.session?.user){
       currentUser = data.session.user;
       const {data: p} = await sb.from('profiles').select('*').eq('id', data.session.user.id).maybeSingle();
-      currentProfile = p;
-      updateAuthUI(currentUser);
+      currentProfile = p; updateAuthUI(currentUser);
       return;
     }
   }
@@ -652,21 +616,29 @@ async function loadStats(){
   document.getElementById('countriesCount').textContent = c;
   document.getElementById('unionsCount').textContent = u;
   document.getElementById('newsCount').textContent = n;
-  fetchOnline();
-  loadLatestNews();
+  fetchOnline(); loadLatestNews();
 }
 
 async function fetchOnline(){
   const el = document.getElementById('onlineCount');
   if(!el) return;
   el.textContent = '...';
-  try{
-    const r = await fetch('https://api.mcsrvstat.us/3/' + SERVER_IP);
+  const host = SERVER_IP.split(':')[0];
+  const port = SERVER_IP.split(':')[1] || '25565';
+  const cacheBust = '?t=' + Date.now();
+  try {
+    const r = await fetch(`https://api.mcstatus.io/v2/status/java/${host}:${port}${cacheBust}`);
     const d = await r.json();
-    el.textContent = d.online ? (d.players?.online ?? 0) : 0;
-  }catch(e){ el.textContent = '—'; }
+    if(d && d.online && typeof d.players?.online === 'number'){ el.textContent = d.players.online; return; }
+  } catch(e){}
+  try {
+    const r = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}${cacheBust}`);
+    const d = await r.json();
+    if(d && d.online){ el.textContent = d.players?.online ?? 0; return; }
+  } catch(e){}
+  el.textContent = '—';
 }
-setInterval(fetchOnline, 60000);
+setInterval(fetchOnline, 20000);
 
 function copyIP(){
   const show = ()=>{ const p = document.getElementById('copyPopup'); p.classList.add('show'); setTimeout(()=>p.classList.remove('show'), 1800); };
@@ -735,10 +707,7 @@ function newsCard(n){
     <div class="card-body">
       <h3>${esc(n.title)}</h3>
       <p>${esc((n.content||'').substring(0,120))}...</p>
-      <div class="card-meta">
-        <span>👤 ${esc(n.author_name||'Аноним')}</span>
-        <span>${new Date(n.created_at).toLocaleDateString('ru-RU')}</span>
-      </div>
+      <div class="card-meta"><span>👤 ${esc(n.author_name||'Аноним')}</span><span>${new Date(n.created_at).toLocaleDateString('ru-RU')}</span></div>
     </div>
   </div>`;
 }
@@ -754,7 +723,7 @@ async function viewNews(id){
     <h1>${esc(n.title)}</h1>
     <div class="news-meta">
       <span class="news-author">Автор: <b>${esc(n.author_name||'Аноним')}</b></span>
-      <span class="news-date">${new Date(n.created_at).toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+      <span class="news-date">${new Date(n.created_at).toLocaleString('ru-RU')}</span>
     </div>
     ${n.image_url?`<img class="news-img" src="${n.image_url}">`:''}
     <div class="news-body">${esc(n.content)}</div>
@@ -765,17 +734,11 @@ async function viewNews(id){
 
 async function deleteNews(id){
   if(!confirm('Удалить эту новость?')) return;
-  if(sb){
-    try { const {error} = await sb.from('news').delete().eq('id', id); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
-  } else {
-    demoStore.news = demoStore.news.filter(n=>String(n.id)!==String(id));
-    demoStore.save();
-  }
+  if(sb){ try { await sb.from('news').delete().eq('id', id); } catch(e){} }
+  else { demoStore.news = demoStore.news.filter(n=>String(n.id)!==String(id)); demoStore.save(); }
   toast('Новость удалена');
   document.getElementById('viewModal').classList.remove('active');
-  loadNews();
-  loadStats();
+  loadNews(); loadStats();
 }
 
 async function toggleNewsForm(){
@@ -795,7 +758,7 @@ async function saveNews(){
   const file = document.getElementById('nImage').files[0];
   let image_url = null;
   if(file){
-    if(sb){ try { image_url = await uploadImage('news', file); } catch(e){ toast('Ошибка загрузки картинки', true); } }
+    if(sb){ try { image_url = await uploadImage('news', file); } catch(e){ toast('Ошибка загрузки', true); } }
     else { image_url = await fileToDataURL(file); }
   }
   if(sb){
@@ -805,13 +768,11 @@ async function saveNews(){
     demoStore.news.push({ id: 'demo_' + Date.now(), title, content, image_url, author_id: currentUser.id, author_name: currentNick(), created_at: new Date().toISOString() });
     demoStore.save();
   }
-  toast('Новость опубликована (удалится через 2 дня)');
+  toast('Новость опубликована');
   resetFileInput('nImage','nImageLabel','nImagePreview');
-  document.getElementById('nTitle').value='';
-  document.getElementById('nContent').value='';
+  document.getElementById('nTitle').value=''; document.getElementById('nContent').value='';
   document.getElementById('newsForm').style.display='none';
-  loadNews();
-  loadStats();
+  loadNews(); loadStats();
 }
 
 function fileToDataURL(file){
@@ -876,7 +837,7 @@ async function viewCountry(id){
 }
 
 function toggleUnionForm(){
-  if(!currentUser) return toast('Войдите чтобы создавать союзы', true);
+  if(!currentUser) return toast('Войдите', true);
   const f = document.getElementById('unionForm');
   f.style.display = f.style.display==='none'?'block':'none';
 }
@@ -901,13 +862,13 @@ async function loadUnions(){
 }
 
 async function saveUnion(){
-  if(!currentUser) return toast('Войдите чтобы создавать союзы', true);
+  if(!currentUser) return toast('Войдите', true);
   const name = document.getElementById('uName').value.trim();
-  if(!name) return toast('Введите название союза', true);
+  if(!name) return toast('Введите название', true);
   const file = document.getElementById('uLogo').files[0];
   let logo_url = null;
   if(file){
-    if(sb){ try { logo_url = await uploadImage('unions', file); } catch(e){ toast('Ошибка загрузки логотипа', true); } }
+    if(sb){ try { logo_url = await uploadImage('unions', file); } catch(e){ toast('Ошибка загрузки', true); } }
     else { logo_url = await fileToDataURL(file); }
   }
   if(sb){
@@ -918,8 +879,7 @@ async function saveUnion(){
     demoStore.save();
   }
   toast('Союз создан');
-  document.getElementById('uName').value='';
-  document.getElementById('uDesc').value='';
+  document.getElementById('uName').value=''; document.getElementById('uDesc').value='';
   resetFileInput('uLogo','uLogoLabel','uLogoPreview');
   document.getElementById('unionForm').style.display='none';
   loadUnions();
@@ -930,18 +890,81 @@ async function viewUnion(id){
   if(sb){ try { const res = await sb.from('unions').select('*').eq('id',id).single(); u = res.data; } catch(e){} }
   else { u = demoStore.unions.find(x=>String(x.id)===String(id)); }
   if(!u) return;
+
   const isOwner = currentUser && (u.owner_id === currentUser.id || u.owner_name === currentNick());
   const invites = demoStore.invites[u.id] || [];
+  const allPlayers = await loadAllPlayers();
+  const unionNews = await loadUnionNews(u.id);
 
+  // Игроки, которых ещё не пригласили (и это не сам владелец)
+  const invitedNicks = invites.map(n => n.toLowerCase());
+  const availablePlayers = allPlayers.filter(p =>
+    p.username.toLowerCase() !== (u.owner_name || '').toLowerCase() &&
+    !invitedNicks.includes(p.username.toLowerCase())
+  );
+
+  /* === БЛОК ОБРАЩЕНИЙ ОСНОВАТЕЛЯ === */
+  let unionNewsBlock = '';
+  if(isOwner){
+    unionNewsBlock = `
+      <div class="union-section">
+        <h3>📢 Обращение к союзникам</h3>
+        <div class="field"><div class="field-input field-textarea">
+          <textarea id="unionNewsInput" placeholder="Напишите обращение или новость для участников союза..."></textarea>
+        </div></div>
+        <button class="btn btn-green" onclick="publishUnionNews('${u.id}')">📤 Опубликовать</button>
+        <div class="union-news-list" id="unionNewsList">
+          ${unionNews.length ? unionNews.map(n => `
+            <div class="union-news-item">
+              <button class="un-del" onclick="deleteUnionNewsItem('${u.id}','${n.id}')">×</button>
+              <div class="un-head">
+                <span class="un-author">${esc(n.author_name || 'Основатель')}</span>
+                <span>${new Date(n.created_at).toLocaleString('ru-RU')}</span>
+              </div>
+              <div class="un-text">${esc(n.content)}</div>
+            </div>
+          `).join('') : '<div style="color:var(--text-mute);font-size:12px">Пока нет обращений</div>'}
+        </div>
+      </div>
+    `;
+  } else if(unionNews.length){
+    unionNewsBlock = `
+      <div class="union-section">
+        <h3>📢 Обращения основателя</h3>
+        <div class="union-news-list">
+          ${unionNews.map(n => `
+            <div class="union-news-item">
+              <div class="un-head">
+                <span class="un-author">${esc(n.author_name || 'Основатель')}</span>
+                <span>${new Date(n.created_at).toLocaleString('ru-RU')}</span>
+              </div>
+              <div class="un-text">${esc(n.content)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  /* === БЛОК ПРИГЛАШЕНИЙ (для владельца) === */
   let invitesBlock = '';
   if(isOwner){
     invitesBlock = `
-      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
-        <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашения в союз</h3>
-        <div class="invite-row">
-          <div class="field"><div class="field-input"><input id="inviteNick" placeholder="Ник игрока"></div></div>
-          <button class="btn btn-green" onclick="sendInvite('${u.id}')">Пригласить</button>
+      <div class="union-section">
+        <h3>✉️ Пригласить игроков</h3>
+        <div class="field"><div class="field-input">
+          <input id="playerSearch" placeholder="Поиск игрока..." oninput="filterPlayers()">
+        </div></div>
+        <div class="player-pick" id="playerPick">
+          ${availablePlayers.length ? availablePlayers.map(p => `
+            <div class="player-pick-item" data-nick="${esc(p.username.toLowerCase())}">
+              <span class="pick-nick">${esc(p.username)}</span>
+              <button onclick="invitePlayer('${u.id}','${esc(p.username)}')">+ Пригласить</button>
+            </div>
+          `).join('') : '<div style="color:var(--text-mute);font-size:12px;grid-column:1/-1">Нет свободных игроков для приглашения</div>'}
         </div>
+
+        <h3 style="margin-top:24px">📋 Приглашённые</h3>
         <div class="invite-list">
           ${invites.length ? invites.map(nick=>`
             <div class="invite-item">
@@ -957,9 +980,11 @@ async function viewUnion(id){
     `;
   } else if(invites.length){
     invitesBlock = `
-      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
-        <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашённые игроки</h3>
-        <div class="invite-list">${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}</div>
+      <div class="union-section">
+        <h3>👥 Участники союза</h3>
+        <div class="invite-list">
+          ${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}
+        </div>
       </div>
     `;
   }
@@ -973,38 +998,51 @@ async function viewUnion(id){
       <span class="news-date">Создан ${new Date(u.created_at).toLocaleDateString('ru-RU')}</span>
     </div>
     <div class="news-body">${esc(u.description||'Описание отсутствует')}</div>
+    ${unionNewsBlock}
     ${invitesBlock}
   `;
   document.getElementById('viewModal').classList.add('active');
 }
 
+/* Поиск игроков */
+function filterPlayers(){
+  const q = (document.getElementById('playerSearch')?.value || '').trim().toLowerCase();
+  document.querySelectorAll('#playerPick .player-pick-item').forEach(el => {
+    el.style.display = el.dataset.nick.includes(q) ? '' : 'none';
+  });
+}
+
+/* Пригласить конкретного игрока */
+function invitePlayer(unionId, nick){
+  if(!demoStore.invites[unionId]) demoStore.invites[unionId] = [];
+  if(demoStore.invites[unionId].map(n=>n.toLowerCase()).includes(nick.toLowerCase())) return toast('Уже приглашён', true);
+  demoStore.invites[unionId].push(nick);
+  demoStore.save();
+  toast('Приглашение для ' + nick);
+  viewUnion(unionId);
+}
+
+/* Опубликовать новость союза */
+async function publishUnionNews(unionId){
+  const inp = document.getElementById('unionNewsInput');
+  const content = inp.value.trim();
+  if(!content) return toast('Напишите текст обращения', true);
+  await saveUnionNewsItem(unionId, content);
+  toast('Обращение опубликовано');
+  viewUnion(unionId);
+}
+
 async function deleteUnion(id){
   if(!confirm('Удалить этот союз? Действие необратимо.')) return;
-  if(sb){
-    try { const {error} = await sb.from('unions').delete().eq('id', id); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
-  } else {
+  if(sb){ try { await sb.from('unions').delete().eq('id', id); await sb.from('union_news').delete().eq('union_id', id); } catch(e){} }
+  else {
     demoStore.unions = demoStore.unions.filter(u=>String(u.id)!==String(id));
-    delete demoStore.invites[id];
+    delete demoStore.invites[id]; delete demoStore.unionNews[id];
     demoStore.save();
   }
   toast('Союз удалён');
   document.getElementById('viewModal').classList.remove('active');
-  loadUnions();
-  loadStats();
-}
-
-function sendInvite(unionId){
-  const inp = document.getElementById('inviteNick');
-  const nick = inp.value.trim();
-  if(!nick) return toast('Введите ник игрока', true);
-  if(!demoStore.invites[unionId]) demoStore.invites[unionId] = [];
-  if(demoStore.invites[unionId].includes(nick)) return toast('Уже приглашён', true);
-  demoStore.invites[unionId].push(nick);
-  demoStore.save();
-  toast('Приглашение для ' + nick);
-  inp.value = '';
-  viewUnion(unionId);
+  loadUnions(); loadStats();
 }
 
 function removeInvite(unionId, nick){
@@ -1014,16 +1052,9 @@ function removeInvite(unionId, nick){
   viewUnion(unionId);
 }
 
-/* Обёртка для input — возвращает HTML обёртки */
 function fieldInput(id, value, type, placeholder){
   type = type || 'text';
-  const attrs = [
-    `id="${id}"`,
-    `type="${type}"`,
-    value !== undefined && value !== null ? `value="${esc(String(value))}"` : '',
-    placeholder ? `placeholder="${placeholder}"` : '',
-    type === 'number' ? 'min="0"' : ''
-  ].filter(Boolean).join(' ');
+  const attrs = [`id="${id}"`, `type="${type}"`, value !== undefined && value !== null ? `value="${esc(String(value))}"` : '', placeholder ? `placeholder="${placeholder}"` : '', type === 'number' ? 'min="0"' : ''].filter(Boolean).join(' ');
   return `<div class="field"><div class="field-input"><input ${attrs}></div></div>`;
 }
 function fieldTextarea(id, content, style){
@@ -1032,7 +1063,7 @@ function fieldTextarea(id, content, style){
 
 async function loadProfile(){
   const c = document.getElementById('profileContent');
-  if(!currentUser){ c.innerHTML = '<div class="empty">Войдите чтобы увидеть свою страну</div>'; return; }
+  if(!currentUser){ c.innerHTML = '<div class="empty">Войдите</div>'; return; }
   const nick = currentNick();
   const uid = currentUser.id;
   let profile = null, country = null, news = [];
@@ -1077,10 +1108,7 @@ async function loadProfile(){
       <label>Количество заводов</label>
       ${fieldInput('pCountryFact', country.factories||0, 'number')}
       <label>Флаг</label>
-      <div class="file-input">
-        <input id="pCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'pCountryFlagPreview')">
-        <label for="pCountryFlag" class="file-label" id="pCountryFlagLabel">Выбрать фото</label>
-      </div>
+      <div class="file-input"><input id="pCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'pCountryFlagPreview')"><label for="pCountryFlag" class="file-label" id="pCountryFlagLabel">Выбрать фото</label></div>
       <img id="pCountryFlagPreview" class="preview">
       <button class="btn btn-green" onclick="saveCountry()">💾 Сохранить страну</button>
     </div>
@@ -1093,10 +1121,7 @@ async function loadProfile(){
       <label>Описание</label>
       ${fieldTextarea('newCountryDesc', '')}
       <label>Флаг (необязательно)</label>
-      <div class="file-input">
-        <input id="newCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'newCountryFlagPreview')">
-        <label for="newCountryFlag" class="file-label" id="newCountryFlagLabel">Выбрать фото</label>
-      </div>
+      <div class="file-input"><input id="newCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'newCountryFlagPreview')"><label for="newCountryFlag" class="file-label" id="newCountryFlagLabel">Выбрать фото</label></div>
       <img id="newCountryFlagPreview" class="preview">
       <button class="btn btn-green" onclick="createMyCountry()">🏛️ Основать страну</button>
     </div>
@@ -1119,10 +1144,7 @@ async function loadProfile(){
       <label>О себе</label>
       ${fieldTextarea('pBio', bio)}
       <label>Аватар</label>
-      <div class="file-input">
-        <input id="pAvatar" type="file" accept="image/*" onchange="previewImage(this,'pAvatarPreview')">
-        <label for="pAvatar" class="file-label" id="pAvatarLabel">Выбрать фото</label>
-      </div>
+      <div class="file-input"><input id="pAvatar" type="file" accept="image/*" onchange="previewImage(this,'pAvatarPreview')"><label for="pAvatar" class="file-label" id="pAvatarLabel">Выбрать фото</label></div>
       <img id="pAvatarPreview" class="preview">
       <button class="btn btn-green" onclick="saveProfile()">💾 Сохранить профиль</button>
     </div>
@@ -1138,11 +1160,11 @@ async function createMyCountry(){
   if(!currentUser) return toast('Войдите', true);
   const name = document.getElementById('newCountryName').value.trim();
   const description = document.getElementById('newCountryDesc').value.trim();
-  if(!name) return toast('Введите название страны', true);
+  if(!name) return toast('Введите название', true);
   const file = document.getElementById('newCountryFlag').files[0];
   let flag_url = null;
   if(file){
-    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ toast('Ошибка загрузки флага', true); } }
+    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ toast('Ошибка', true); } }
     else { flag_url = await fileToDataURL(file); }
   }
   if(sb){
@@ -1152,8 +1174,7 @@ async function createMyCountry(){
     demoStore.countries.push({ id: 'demo_' + Date.now(), name, description, population: 1, factories: 0, flag_url, owner_name: currentNick(), owner_id: currentUser.id, created_at: new Date().toISOString() });
     demoStore.save();
   }
-  toast('Страна основана!');
-  loadProfile();
+  toast('Страна основана!'); loadProfile();
 }
 
 async function saveCountry(){
@@ -1163,23 +1184,22 @@ async function saveCountry(){
   const population = parseInt(document.getElementById('pCountryPop').value)||0;
   const factories = parseInt(document.getElementById('pCountryFact').value)||0;
   const file = document.getElementById('pCountryFlag').files[0];
-  if(!name) return toast('Введите название страны', true);
+  if(!name) return toast('Введите название', true);
   let flag_url;
   if(file){
-    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ return toast('Ошибка загрузки флага', true); } }
+    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ return toast('Ошибка', true); } }
     else { flag_url = await fileToDataURL(file); }
   }
   if(sb){
     const payload = { name, description, population, factories };
     if(flag_url) payload.flag_url = flag_url;
-    try { const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id); if(error) return toast('Ошибка', true); }
+    catch(e){ return toast('Ошибка', true); }
   } else {
     const country = demoStore.countries.find(x=>x.owner_id === currentUser.id);
     if(country){ country.name = name; country.description = description; country.population = population; country.factories = factories; if(flag_url) country.flag_url = flag_url; demoStore.save(); }
   }
-  toast('Страна обновлена');
-  loadProfile();
+  toast('Страна обновлена'); loadProfile();
 }
 
 async function saveProfile(){
@@ -1188,20 +1208,19 @@ async function saveProfile(){
   const file = document.getElementById('pAvatar').files[0];
   let avatar_url;
   if(file){
-    if(sb){ try { avatar_url = await uploadImage('avatars', file); } catch(e){ return toast('Ошибка загрузки аватара', true); } }
+    if(sb){ try { avatar_url = await uploadImage('avatars', file); } catch(e){ return toast('Ошибка', true); } }
     else { avatar_url = await fileToDataURL(file); }
   }
   if(sb){
     const payload = { id: currentUser.id, bio };
     if(avatar_url) payload.avatar_url = avatar_url;
-    try { const {error} = await sb.from('profiles').upsert(payload); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
+    try { const {error} = await sb.from('profiles').upsert(payload); if(error) return toast('Ошибка', true); }
+    catch(e){ return toast('Ошибка', true); }
   } else {
     const nick = currentNick();
     if(demoStore.profiles[nick]){ demoStore.profiles[nick].bio = bio; if(avatar_url) demoStore.profiles[nick].avatar_url = avatar_url; demoStore.save(); }
   }
-  toast('Профиль сохранён');
-  loadProfile();
+  toast('Профиль сохранён'); loadProfile();
 }
 
 function previewImage(input, previewId){
