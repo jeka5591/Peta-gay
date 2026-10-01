@@ -6,6 +6,7 @@
 <title>Peta-Gay | Игровое сообщество</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif}
+html{color-scheme:dark}
 :root{
   --bg:#0a0e0a;--bg-2:#111711;--bg-3:#161d16;
   --green:#00ff88;--green-2:#00c46a;
@@ -31,7 +32,7 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .auth-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .user-email{color:var(--green);font-size:12px;font-family:'Consolas',monospace;padding:6px 12px;border:1px solid rgba(0,255,136,.3);border-radius:var(--r-sm);background:rgba(0,255,136,.05)}
 
-.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r);appearance:none;-webkit-appearance:none}
+.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r)}
 .btn:hover{border-color:var(--green);color:var(--green)}
 .btn-green{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 0 0 1px var(--green), 0 0 18px rgba(0,255,136,.45);font-weight:700;letter-spacing:1px}
 .btn-green:hover{background:var(--green-2);border-color:var(--green-2);box-shadow:0 0 0 1px var(--green-2), 0 0 28px rgba(0,255,136,.7);transform:translateY(-1px)}
@@ -56,40 +57,14 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .online-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);margin-top:4px}
 
 .hero{background:var(--bg-2);border:1px solid var(--border);padding:44px 40px;margin-bottom:24px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
-.hero-grid{
-  position:absolute;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(0,255,136,.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,255,136,.07) 1px, transparent 1px);
-  background-size:40px 40px;
-}
+.hero-grid{position:absolute;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(0,255,136,.07) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.07) 1px, transparent 1px);background-size:40px 40px}
 .hero h1{font-size:32px;color:#fff;margin-bottom:12px;letter-spacing:-.5px;font-weight:700;position:relative;z-index:1}
 .hero h1 .accent{color:var(--green)}
 .hero p{color:var(--text-dim);font-size:15px;margin-bottom:24px;max-width:600px;line-height:1.6;position:relative;z-index:1}
 
-.btn-map{
-  position:relative;z-index:1;
-  background:var(--green);color:#000;
-  padding:14px 32px;
-  font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  border:none;cursor:pointer;
-  display:inline-flex;align-items:center;gap:10px;
-  text-decoration:none;
-  border-radius:var(--r);
-  overflow:hidden;
-  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, background .25s;
-  box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3);
-}
-.btn-map::before{
-  content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
-  transition:left .5s;
-}
-.btn-map:hover{
-  background:var(--green-2);
-  transform:translateX(6px) scale(1.02);
-  box-shadow:0 0 0 1px var(--green-2), 0 0 40px rgba(0,255,136,.6), 0 8px 24px rgba(0,255,136,.3);
-}
+.btn-map{position:relative;z-index:1;background:var(--green);color:#000;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none;border-radius:var(--r);overflow:hidden;transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, background .25s;box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3)}
+.btn-map::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);transition:left .5s}
+.btn-map:hover{background:var(--green-2);transform:translateX(6px) scale(1.02);box-shadow:0 0 0 1px var(--green-2), 0 0 40px rgba(0,255,136,.6), 0 8px 24px rgba(0,255,136,.3)}
 .btn-map:hover::before{left:100%}
 .btn-map:active{transform:translateX(6px) scale(.98)}
 .btn-map .arrow{transition:transform .25s}
@@ -106,32 +81,11 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 
-/* КАРТОЧКИ */
 .card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg);transition:all .2s}
 .card:hover{border-color:var(--green-2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,136,.1)}
-
-/* Фото: cover + центрирование — никаких чёрных полос */
-.card-img-wrap{
-  width:100%;
-  height:190px;
-  background:#1a231a;
-  overflow:hidden;
-  border-bottom:1px solid var(--border);
-  position:relative;
-}
-.card-img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  display:block;
-}
-.card-img-placeholder{
-  width:100%;height:100%;
-  display:flex;align-items:center;justify-content:center;
-  font-size:52px;color:var(--border-2);
-  background:var(--bg-3);
-}
+.card-img-wrap{width:100%;height:190px;background:var(--bg-3);overflow:hidden;border-bottom:1px solid var(--border);position:relative}
+.card-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;color:var(--border-2);background:var(--bg-3)}
 .card-body{padding:20px;flex:1;display:flex;flex-direction:column}
 .card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
 .card-body p{color:var(--text-dim);font-size:13px;line-height:1.6;margin-bottom:14px;flex:1}
@@ -143,7 +97,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .country-stat-value{font-size:20px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:4px}
 .country-stat-label{font-size:10px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px}
 
-/* МОДАЛКИ */
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .modal.active{display:flex;animation:fadeIn .2s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -154,100 +107,84 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-/* ========== ПОЛЯ ВВОДА — ЖЁСТКОЕ ПЕРЕОПРЕДЕЛЕНИЕ ========== */
-/* Убираем ВСЕ браузерные стили разом */
-input, textarea, select, button{
-  appearance:none !important;
-  -webkit-appearance:none !important;
-  -moz-appearance:none !important;
-  outline:none !important;
-  font-family:inherit;
+/* ============================================================
+   ПОЛЕ ВВОДА — обёртка с тёмным фоном, сам input прозрачный
+   Это убивает серый прямоугольник на 100%
+   ============================================================ */
+.field{margin-bottom:14px}
+.field-input{
+  display:flex;
+  align-items:center;
+  background:#0d120d;
+  border:1px solid #2a3a2a;
+  border-radius:var(--r);
+  padding:0 16px;
+  transition:border-color .2s, box-shadow .2s;
+  overflow:hidden;
 }
-input[type="text"],
-input[type="password"],
-input[type="number"],
-input[type="email"],
-input[type="search"],
-textarea,
-select{
-  display:block;
+.field-input:hover{border-color:#00c46a}
+.field-input:focus-within{
+  border-color:#00ff88;
+  box-shadow:0 0 0 4px rgba(0,255,136,.12);
+}
+/* Сам input — прозрачный, без рамок и фона */
+.field-input input,
+.field-input textarea{
+  flex:1;
   width:100%;
-  padding:13px 16px;
-  margin-bottom:14px;
-  font-size:14px;
-  color:#ffffff !important;
-  background-color:#0d120d !important;
+  background:transparent !important;
+  background-color:transparent !important;
   background-image:none !important;
-  border:1px solid #2a3a2a !important;
-  border-radius:var(--r) !important;
-  /* Box-shadow inset перебивает любой системный фон */
-  box-shadow:0 0 0 100px #0d120d inset !important;
-  -webkit-box-shadow:0 0 0 100px #0d120d inset !important;
-  caret-color:var(--green);
-  transition:border-color .2s;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  -webkit-appearance:none !important;
+  appearance:none !important;
+  padding:13px 0 !important;
+  margin:0 !important;
+  color:#ffffff !important;
+  -webkit-text-fill-color:#ffffff !important;
+  caret-color:#00ff88;
+  font-size:14px;
+  font-family:inherit;
+  resize:none;
+  min-height:auto;
 }
-input[type="text"]:hover,
-input[type="password"]:hover,
-input[type="number"]:hover,
-input[type="email"]:hover,
-textarea:hover,
-select:hover{
-  border-color:#00c46a !important;
+.field-input input::placeholder,
+.field-input textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
+
+/* Для textarea — рост вверх */
+.field-textarea{
+  align-items:stretch;
+  padding:12px 16px;
 }
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-textarea:focus,
-select:focus{
-  border-color:#00ff88 !important;
+.field-textarea textarea{
+  min-height:100px;
+  padding:2px 0 !important;
 }
-input::placeholder,textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
 
 /* Убираем стрелочки у number */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
-input[type="number"]{-moz-appearance:textfield !important}
+.field-input input[type="number"]::-webkit-outer-spin-button,
+.field-input input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
+.field-input input[type="number"]{-moz-appearance:textfield !important}
 
-/* Автозаполнение — принудительно тёмный фон */
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-input:-webkit-autofill:active,
-textarea:-webkit-autofill,
-select:-webkit-autofill{
+/* Autofill — принудительно тёмный */
+.field-input input:-webkit-autofill,
+.field-input input:-webkit-autofill:hover,
+.field-input input:-webkit-autofill:focus,
+.field-input textarea:-webkit-autofill{
   -webkit-text-fill-color:#ffffff !important;
-  -webkit-box-shadow:0 0 0 100px #0d120d inset !important;
-  box-shadow:0 0 0 100px #0d120d inset !important;
-  caret-color:var(--green);
+  -webkit-box-shadow:0 0 0 1000px #0d120d inset !important;
+  box-shadow:0 0 0 1000px #0d120d inset !important;
   transition:background-color 9999s ease-in-out 0s !important;
+  caret-color:#00ff88;
 }
 
 label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
-/* ФАЙЛЫ */
 .file-input{position:relative;margin-bottom:14px}
-.file-input input[type="file"]{
-  position:absolute !important;
-  width:0 !important;height:0 !important;
-  padding:0 !important;margin:0 !important;
-  border:0 !important;
-  opacity:0 !important;
-  pointer-events:none;
-}
-.file-label{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:16px 20px;
-  background:#0d120d;
-  border:1px dashed #2a3a2a;
-  border-radius:var(--r);
-  color:#7a8a7a;
-  font-size:13px;font-weight:600;
-  text-transform:uppercase;letter-spacing:1px;
-  cursor:pointer;
-  transition:all .2s;
-  user-select:none;
-}
+.file-input input[type="file"]{position:absolute !important;width:0 !important;height:0 !important;padding:0 !important;margin:0 !important;border:0 !important;opacity:0 !important;pointer-events:none}
+.file-label{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 20px;background:#0d120d;border:1px dashed #2a3a2a;border-radius:var(--r);color:#7a8a7a;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .2s;user-select:none}
 .file-label::before{content:'📷';font-size:18px}
 .file-label:hover{border-color:#00ff88;color:#00ff88;background:#111811}
 .file-label.has-file{border-style:solid;border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,.05)}
@@ -255,16 +192,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 
 .checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);cursor:pointer;transition:all .15s}
 .checkbox-row:hover{border-color:#00ff88}
-.checkbox-row input[type="checkbox"]{
-  appearance:checkbox !important;
-  -webkit-appearance:checkbox !important;
-  width:18px;height:18px;margin:0;cursor:pointer;
-  accent-color:#00ff88;flex-shrink:0;
-  box-shadow:none !important;
-  background:transparent !important;
-  border:1px solid #2a3a2a !important;
-  padding:0 !important;
-}
+.checkbox-row input[type="checkbox"]{width:18px;height:18px;margin:0;cursor:pointer;accent-color:#00ff88;flex-shrink:0}
 .checkbox-row span{font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:500;line-height:1.4}
 
 .form-box{background:#111711;padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
@@ -314,12 +242,12 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .news-view .news-author{color:var(--text-dim);font-size:13px;font-family:'Consolas',monospace}
 .news-view .news-author b{color:var(--green)}
 .news-view .news-date{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace}
-.news-view .news-img{width:100%;max-height:420px;object-fit:cover;object-position:center;background:#1a231a;border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
+.news-view .news-img{width:100%;max-height:420px;object-fit:cover;object-position:center;background:var(--bg-3);border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
 .news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
 .news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-.invite-row{display:flex;gap:8px;margin-bottom:10px}
-.invite-row input{margin:0}
+.invite-row{display:flex;gap:8px;margin-bottom:10px;align-items:flex-start}
+.invite-row .field{flex:1;margin-bottom:0}
 .invite-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
 .invite-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);font-size:13px}
 .invite-item .invite-name{color:var(--green);font-weight:600}
@@ -327,7 +255,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .invite-item .invite-remove:hover{transform:scale(1.2)}
 
 .badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
-.hint{font-size:11px;color:var(--text-mute);margin-top:-8px;margin-bottom:14px}
+.hint{font-size:11px;color:var(--text-mute);margin-top:2px;margin-bottom:14px}
 
 @media(max-width:768px){
   .header{padding:12px 16px;height:auto}
@@ -426,9 +354,9 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     <div class="form-box" id="unionForm" style="display:none">
       <h3>Новый союз</h3>
       <label>Название союза</label>
-      <input id="uName" placeholder="Например: Северный Альянс">
+      <div class="field"><div class="field-input"><input id="uName" placeholder="Например: Северный Альянс"></div></div>
       <label>Описание</label>
-      <textarea id="uDesc" placeholder="Цели, участники, правила..."></textarea>
+      <div class="field"><div class="field-input field-textarea"><textarea id="uDesc" placeholder="Цели, участники, правила..."></textarea></div></div>
       <label>Логотип</label>
       <div class="file-input">
         <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
@@ -449,9 +377,9 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <h3>Новая публикация</h3>
       <div class="hint">Новость хранится 2 дня, потом удаляется автоматически</div>
       <label>Заголовок</label>
-      <input id="nTitle" placeholder="О чём новость?">
+      <div class="field"><div class="field-input"><input id="nTitle" placeholder="О чём новость?"></div></div>
       <label>Текст новости</label>
-      <textarea id="nContent" style="min-height:180px" placeholder="Расскажите подробности..."></textarea>
+      <div class="field"><div class="field-input field-textarea"><textarea id="nContent" style="min-height:180px" placeholder="Расскажите подробности..."></textarea></div></div>
       <label>Картинка (необязательно)</label>
       <div class="file-input">
         <input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')">
@@ -477,20 +405,20 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 
     <div id="loginFields">
       <label>Ник</label>
-      <input type="text" id="loginNick" placeholder="Ваш ник" autocomplete="off" name="peta_login_nick_x">
+      <div class="field"><div class="field-input"><input type="text" id="loginNick" placeholder="Ваш ник"></div></div>
       <label>Пароль</label>
-      <input type="password" id="loginPassword" placeholder="Пароль" autocomplete="new-password" name="peta_login_pass_x">
+      <div class="field"><div class="field-input"><input type="password" id="loginPassword" placeholder="Пароль"></div></div>
       <button type="button" class="btn btn-green" style="width:100%" onclick="doLogin()">Войти</button>
     </div>
 
     <div id="registerFields" style="display:none">
       <label>Ник</label>
-      <input type="text" id="regNick" placeholder="Ваш игровой ник" autocomplete="off" name="peta_reg_nick_x">
-      <div class="hint">Можно писать по-русски, латиницей, цифрами и _</div>
+      <div class="field"><div class="field-input"><input type="text" id="regNick" placeholder="Ваш игровой ник"></div></div>
+      <div class="hint" style="margin-top:-6px;margin-bottom:14px">Можно писать по-русски, латиницей, цифрами и _</div>
       <label>Пароль</label>
-      <input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)" autocomplete="new-password" name="peta_reg_pass_x">
+      <div class="field"><div class="field-input"><input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)"></div></div>
       <label>Название страны</label>
-      <input type="text" id="regCountry" placeholder="Например: Свободная Республика" autocomplete="off" name="peta_reg_country_x">
+      <div class="field"><div class="field-input"><input type="text" id="regCountry" placeholder="Например: Свободная Республика"></div></div>
       <label class="checkbox-row">
         <input type="checkbox" id="regAgree">
         <span>Я согласен что Петя гей</span>
@@ -557,9 +485,8 @@ const demoStore = {
 
 async function cleanupOldNews(){
   const cutoff = new Date(Date.now() - NEWS_LIFETIME_MS).toISOString();
-  if(sb){
-    try { await sb.from('news').delete().lt('created_at', cutoff); } catch(e){}
-  } else {
+  if(sb){ try { await sb.from('news').delete().lt('created_at', cutoff); } catch(e){} }
+  else {
     const before = demoStore.news.length;
     demoStore.news = demoStore.news.filter(n => new Date(n.created_at).getTime() > Date.now() - NEWS_LIFETIME_MS);
     if(demoStore.news.length !== before) demoStore.save();
@@ -610,7 +537,6 @@ async function doLogin(){
     go('profile');
     return;
   }
-
   try {
     const {data: profile} = await sb.from('profiles').select('id').eq('username', nick).maybeSingle();
     if(!profile) return toast('Игрок не найден', true);
@@ -1013,7 +939,7 @@ async function viewUnion(id){
       <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
         <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашения в союз</h3>
         <div class="invite-row">
-          <input id="inviteNick" placeholder="Ник игрока" style="margin:0">
+          <div class="field"><div class="field-input"><input id="inviteNick" placeholder="Ник игрока"></div></div>
           <button class="btn btn-green" onclick="sendInvite('${u.id}')">Пригласить</button>
         </div>
         <div class="invite-list">
@@ -1088,6 +1014,22 @@ function removeInvite(unionId, nick){
   viewUnion(unionId);
 }
 
+/* Обёртка для input — возвращает HTML обёртки */
+function fieldInput(id, value, type, placeholder){
+  type = type || 'text';
+  const attrs = [
+    `id="${id}"`,
+    `type="${type}"`,
+    value !== undefined && value !== null ? `value="${esc(String(value))}"` : '',
+    placeholder ? `placeholder="${placeholder}"` : '',
+    type === 'number' ? 'min="0"' : ''
+  ].filter(Boolean).join(' ');
+  return `<div class="field"><div class="field-input"><input ${attrs}></div></div>`;
+}
+function fieldTextarea(id, content, style){
+  return `<div class="field"><div class="field-input field-textarea"><textarea id="${id}" ${style?`style="${style}"`:''}>${esc(content||'')}</textarea></div></div>`;
+}
+
 async function loadProfile(){
   const c = document.getElementById('profileContent');
   if(!currentUser){ c.innerHTML = '<div class="empty">Войдите чтобы увидеть свою страну</div>'; return; }
@@ -1127,13 +1069,13 @@ async function loadProfile(){
     <div class="form-box">
       <h3>Редактировать страну</h3>
       <label>Название страны</label>
-      <input id="pCountryName" value="${esc(country.name)}">
+      ${fieldInput('pCountryName', country.name, 'text')}
       <label>Описание страны</label>
-      <textarea id="pCountryDesc">${esc(country.description||'')}</textarea>
+      ${fieldTextarea('pCountryDesc', country.description||'')}
       <label>Количество жителей</label>
-      <input id="pCountryPop" type="number" value="${country.population||0}" min="0">
+      ${fieldInput('pCountryPop', country.population||0, 'number')}
       <label>Количество заводов</label>
-      <input id="pCountryFact" type="number" value="${country.factories||0}" min="0">
+      ${fieldInput('pCountryFact', country.factories||0, 'number')}
       <label>Флаг</label>
       <div class="file-input">
         <input id="pCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'pCountryFlagPreview')">
@@ -1147,9 +1089,9 @@ async function loadProfile(){
       <h3>Основать страну</h3>
       <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px">У вас ещё нет страны. Создайте её!</p>
       <label>Название страны</label>
-      <input id="newCountryName" placeholder="Например: Свободная Республика">
+      ${fieldInput('newCountryName', null, 'text', 'Например: Свободная Республика')}
       <label>Описание</label>
-      <textarea id="newCountryDesc"></textarea>
+      ${fieldTextarea('newCountryDesc', '')}
       <label>Флаг (необязательно)</label>
       <div class="file-input">
         <input id="newCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'newCountryFlagPreview')">
@@ -1175,7 +1117,7 @@ async function loadProfile(){
     <div class="form-box">
       <h3>Профиль</h3>
       <label>О себе</label>
-      <textarea id="pBio">${esc(bio)}</textarea>
+      ${fieldTextarea('pBio', bio)}
       <label>Аватар</label>
       <div class="file-input">
         <input id="pAvatar" type="file" accept="image/*" onchange="previewImage(this,'pAvatarPreview')">
