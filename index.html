@@ -40,7 +40,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .btn-outline:hover{background:var(--green);color:#000}
 .btn-danger{background:transparent;color:#ff4444;border-color:#ff4444}
 .btn-danger:hover{background:#ff4444;color:#000}
-.btn-sm{padding:6px 12px;font-size:11px}
 
 .container{max-width:1300px;margin:0 auto;padding:32px 24px}
 
@@ -108,7 +107,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-/* Поля ввода — обёртка с тёмным фоном */
 .field{margin-bottom:14px}
 .field-input{display:flex;align-items:center;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);padding:0 16px;transition:border-color .2s, box-shadow .2s;overflow:hidden}
 .field-input:hover{border-color:#00c46a}
@@ -187,7 +185,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
 .news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-/* Секция союза */
 .union-section{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 .union-section h3{color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
 .invite-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
@@ -202,7 +199,6 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 .player-pick-item .pick-nick{color:#fff;font-weight:600}
 .player-pick-item button{background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:var(--r-sm);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
 .player-pick-item button:hover{background:var(--green-2);transform:translateY(-1px)}
-.player-pick-item button:disabled{background:var(--bg-3);color:var(--text-mute);cursor:not-allowed;transform:none}
 
 .union-news-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
 .union-news-item{background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);padding:14px 16px;position:relative}
@@ -365,16 +361,19 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 <div class="toast" id="toast"></div>
 
 <script>
+/* ============ НАСТРОЙКИ — LEGACY ANON KEY ============ */
 const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dWJ1YWJvb3ltamhmc2twZW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NjQwNjksImV4cCI6MjEwNjQ0MDA2OX0.yznTjgMbtmTl_oUW89Xx37vDDUDN24thzh4Xj5ChR90';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
 const EMAIL_DOMAIN = '@peta-gay.local';
 const NEWS_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000;
 
 let sb = null;
 if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20) {
-  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); console.log('%c✓ Supabase', 'color:#00ff88;font-weight:bold'); }
+  try { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold'); }
   catch(e) { console.error(e); sb = null; }
+} else {
+  console.log('%c⚠ Демо-режим', 'color:#ffaa00;font-weight:bold');
 }
 
 function translit(str){
@@ -387,7 +386,6 @@ let currentUser = null;
 let currentProfile = null;
 let isLoginMode = true;
 
-/* ========== ХРАНИЛИЩА ========== */
 const demoStore = {
   countries: JSON.parse(localStorage.getItem('demo_countries') || '[]'),
   unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
@@ -405,7 +403,6 @@ const demoStore = {
   }
 };
 
-/* ========== СПИСОК ВСЕХ ИГРОКОВ ========== */
 async function loadAllPlayers(){
   if(sb){
     try {
@@ -413,20 +410,14 @@ async function loadAllPlayers(){
       return (data || []).map(p => ({ id: p.id, username: p.username }));
     } catch(e){ return []; }
   } else {
-    return Object.keys(demoStore.profiles).map(nick => ({
-      id: demoStore.profiles[nick].id,
-      username: nick
-    }));
+    return Object.keys(demoStore.profiles).map(nick => ({ id: demoStore.profiles[nick].id, username: nick }));
   }
 }
 
-/* ========== НОВОСТИ СОЮЗА ========== */
 async function loadUnionNews(unionId){
   if(sb){
     try {
-      const {data} = await sb.from('union_news')
-        .select('*').eq('union_id', unionId)
-        .order('created_at', {ascending:false});
+      const {data} = await sb.from('union_news').select('*').eq('union_id', unionId).order('created_at', {ascending:false});
       return data || [];
     } catch(e){ return []; }
   } else {
@@ -437,30 +428,19 @@ async function loadUnionNews(unionId){
 async function saveUnionNewsItem(unionId, content){
   if(sb){
     try {
-      const {error} = await sb.from('union_news').insert({
-        union_id: unionId,
-        author_id: currentUser.id,
-        author_name: currentNick(),
-        content
-      });
+      const {error} = await sb.from('union_news').insert({ union_id: unionId, author_id: currentUser.id, author_name: currentNick(), content });
       if(error) throw error;
     } catch(e){ toast('Ошибка: '+e.message, true); }
   } else {
     if(!demoStore.unionNews[unionId]) demoStore.unionNews[unionId] = [];
-    demoStore.unionNews[unionId].unshift({
-      id: 'un_' + Date.now(),
-      author_name: currentNick(),
-      content,
-      created_at: new Date().toISOString()
-    });
+    demoStore.unionNews[unionId].unshift({ id: 'un_' + Date.now(), author_name: currentNick(), content, created_at: new Date().toISOString() });
     demoStore.save();
   }
 }
 
 async function deleteUnionNewsItem(unionId, newsId){
-  if(sb){
-    try { await sb.from('union_news').delete().eq('id', newsId); } catch(e){}
-  } else {
+  if(sb){ try { await sb.from('union_news').delete().eq('id', newsId); } catch(e){} }
+  else {
     if(demoStore.unionNews[unionId]){
       demoStore.unionNews[unionId] = demoStore.unionNews[unionId].filter(n => String(n.id) !== String(newsId));
       demoStore.save();
@@ -470,7 +450,6 @@ async function deleteUnionNewsItem(unionId, newsId){
   viewUnion(unionId);
 }
 
-/* ========== ОСТАЛЬНЫЕ ФУНКЦИИ ========== */
 async function cleanupOldNews(){
   const cutoff = new Date(Date.now() - NEWS_LIFETIME_MS).toISOString();
   if(sb){ try { await sb.from('news').delete().lt('created_at', cutoff); } catch(e){} }
@@ -557,7 +536,7 @@ async function doRegister(){
   try {
     const res = await sb.auth.signUp({ email: nickToEmail(nick), password });
     if(res.error) return toast('Ошибка: ' + res.error.message, true);
-    if(!res.data.user) return toast('Не удалось создать', true);
+    if(!res.data.user) return toast('Не удалось создать аккаунт', true);
     const userId = res.data.user.id;
     await sb.from('profiles').insert({ id: userId, username: nick, bio: '' });
     await sb.from('countries').insert({ name: countryName, description: 'Молодое государство.', population: 1, factories: 0, owner_id: userId, owner_name: nick });
@@ -611,7 +590,7 @@ async function loadStats(){
         sb.from('news').select('*',{count:'exact',head:true})
       ]);
       c = rc.count||0; u = ru.count||0; n = rn.count||0;
-    } catch(e){}
+    } catch(e){ console.error(e); }
   } else { c = demoStore.countries.length; u = demoStore.unions.length; n = demoStore.news.length; }
   document.getElementById('countriesCount').textContent = c;
   document.getElementById('unionsCount').textContent = u;
@@ -684,7 +663,7 @@ async function loadLatestNews(){
   if(!c) return;
   await cleanupOldNews();
   let data = [];
-  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6); data = res.data || []; } catch(e){} }
+  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6); data = res.data || []; } catch(e){ console.error(e); } }
   else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6); }
   if(!data.length){ c.innerHTML='<div class="empty">Пока нет новостей</div>'; return; }
   c.innerHTML = data.map(newsCard).join('');
@@ -695,7 +674,7 @@ async function loadNews(){
   c.innerHTML = '<div class="loading">Загрузка</div>';
   await cleanupOldNews();
   let data = [];
-  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
   else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
   if(!data.length){ c.innerHTML='<div class="empty">Новостей нет</div>'; return; }
   c.innerHTML = data.map(newsCard).join('');
@@ -793,7 +772,7 @@ async function loadCountries(){
   const badge = document.getElementById('myCountryBadge');
   c.innerHTML = '<div class="loading">Загрузка</div>';
   let data = [];
-  if(sb){ try { const res = await sb.from('countries').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  if(sb){ try { const res = await sb.from('countries').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
   else { data = [...demoStore.countries].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
   if(!data.length){ c.innerHTML='<div class="empty">Стран нет</div>'; if(badge) badge.textContent=''; return; }
   if(badge && currentUser){ const my = data.find(x=>x.owner_id === currentUser.id); badge.textContent = my ? '🏛️ ' + my.name : ''; }
@@ -846,7 +825,7 @@ async function loadUnions(){
   const c = document.getElementById('unionsList');
   c.innerHTML = '<div class="loading">Загрузка</div>';
   let data = [];
-  if(sb){ try { const res = await sb.from('unions').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){} }
+  if(sb){ try { const res = await sb.from('unions').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
   else { data = [...demoStore.unions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
   if(!data.length){ c.innerHTML='<div class="empty">Союзов нет</div>'; return; }
   c.innerHTML = data.map(x=>`
@@ -896,14 +875,12 @@ async function viewUnion(id){
   const allPlayers = await loadAllPlayers();
   const unionNews = await loadUnionNews(u.id);
 
-  // Игроки, которых ещё не пригласили (и это не сам владелец)
   const invitedNicks = invites.map(n => n.toLowerCase());
   const availablePlayers = allPlayers.filter(p =>
     p.username.toLowerCase() !== (u.owner_name || '').toLowerCase() &&
     !invitedNicks.includes(p.username.toLowerCase())
   );
 
-  /* === БЛОК ОБРАЩЕНИЙ ОСНОВАТЕЛЯ === */
   let unionNewsBlock = '';
   if(isOwner){
     unionNewsBlock = `
@@ -913,7 +890,7 @@ async function viewUnion(id){
           <textarea id="unionNewsInput" placeholder="Напишите обращение или новость для участников союза..."></textarea>
         </div></div>
         <button class="btn btn-green" onclick="publishUnionNews('${u.id}')">📤 Опубликовать</button>
-        <div class="union-news-list" id="unionNewsList">
+        <div class="union-news-list">
           ${unionNews.length ? unionNews.map(n => `
             <div class="union-news-item">
               <button class="un-del" onclick="deleteUnionNewsItem('${u.id}','${n.id}')">×</button>
@@ -946,7 +923,6 @@ async function viewUnion(id){
     `;
   }
 
-  /* === БЛОК ПРИГЛАШЕНИЙ (для владельца) === */
   let invitesBlock = '';
   if(isOwner){
     invitesBlock = `
@@ -963,7 +939,6 @@ async function viewUnion(id){
             </div>
           `).join('') : '<div style="color:var(--text-mute);font-size:12px;grid-column:1/-1">Нет свободных игроков для приглашения</div>'}
         </div>
-
         <h3 style="margin-top:24px">📋 Приглашённые</h3>
         <div class="invite-list">
           ${invites.length ? invites.map(nick=>`
@@ -1004,7 +979,6 @@ async function viewUnion(id){
   document.getElementById('viewModal').classList.add('active');
 }
 
-/* Поиск игроков */
 function filterPlayers(){
   const q = (document.getElementById('playerSearch')?.value || '').trim().toLowerCase();
   document.querySelectorAll('#playerPick .player-pick-item').forEach(el => {
@@ -1012,7 +986,6 @@ function filterPlayers(){
   });
 }
 
-/* Пригласить конкретного игрока */
 function invitePlayer(unionId, nick){
   if(!demoStore.invites[unionId]) demoStore.invites[unionId] = [];
   if(demoStore.invites[unionId].map(n=>n.toLowerCase()).includes(nick.toLowerCase())) return toast('Уже приглашён', true);
@@ -1022,7 +995,6 @@ function invitePlayer(unionId, nick){
   viewUnion(unionId);
 }
 
-/* Опубликовать новость союза */
 async function publishUnionNews(unionId){
   const inp = document.getElementById('unionNewsInput');
   const content = inp.value.trim();
@@ -1075,7 +1047,7 @@ async function loadProfile(){
         sb.from('news').select('*').eq('author_id',uid)
       ]);
       profile = p.data; country = cRes.data; news = nRes.data || []; currentProfile = profile;
-    } catch(e){}
+    } catch(e){ console.error(e); }
   } else {
     profile = { id: uid, username: nick, bio: demoStore.profiles[nick]?.bio || '' };
     country = demoStore.countries.find(x=>x.owner_id === uid);
