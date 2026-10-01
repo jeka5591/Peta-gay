@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peta-Gay | Игровое сообщество</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif}
+:root{
+  --bg:#0a0e0a;--bg-2:#111711;--bg-3:#161d16;
+  --green:#00ff88;--green-2:#00c46a;
+  --border:#1f2a1f;--border-2:#2a3a2a;
+  --text:#d8e6d8;--text-dim:#7a8a7a;--text-mute:#4a5a4a;
+  --r:10px;--r-lg:14px;--r-sm:6px;
+}
+html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
+::selection{background:var(--green);color:#000}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg-2)}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:var(--r-sm)}
+::-webkit-scrollbar-thumb:hover{background:var(--green-2)}
+
+.header{background:var(--bg-2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;height:60px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;letter-spacing:.5px;color:#fff}
+.logo-mark{width:26px;height:26px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:14px;border-radius:var(--r-sm)}
+.logo span{color:var(--green)}
+.nav{display:flex;gap:2px;height:60px;flex-wrap:wrap}
+.nav a{color:var(--text-dim);text-decoration:none;font-weight:500;padding:0 18px;height:44px;display:flex;align-items:center;cursor:pointer;font-size:14px;letter-spacing:.3px;transition:all .15s;text-transform:uppercase;border-radius:var(--r-sm);margin:8px 0}
+.nav a:hover{color:var(--text);background:var(--bg-3)}
+.nav a.active{color:var(--green);background:rgba(0,255,136,.08)}
+.auth-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.user-email{color:var(--green);font-size:12px;font-family:'Consolas',monospace;padding:6px 12px;border:1px solid rgba(0,255,136,.3);border-radius:var(--r-sm);background:rgba(0,255,136,.05)}
+
+.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r)}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn-green{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 0 0 1px var(--green), 0 0 18px rgba(0,255,136,.45);font-weight:700;letter-spacing:1px}
+.btn-green:hover{background:var(--green-2);border-color:var(--green-2);box-shadow:0 0 0 1px var(--green-2), 0 0 28px rgba(0,255,136,.7);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--green);border-color:var(--green)}
+.btn-outline:hover{background:var(--green);color:#000}
+.btn-danger{background:transparent;color:#ff4444;border-color:#ff4444}
+.btn-danger:hover{background:#ff4444;color:#000}
+
+.container{max-width:1300px;margin:0 auto;padding:32px 24px}
+
+.server-panel{background:var(--bg-2);border:1px solid var(--border);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.server-panel::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);border-radius:var(--r-lg) 0 0 var(--r-lg)}
+.server-info{display:flex;flex-direction:column;gap:8px;min-width:200px}
+.server-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600}
+.server-ip{font-family:'Consolas','Monaco',monospace;font-size:20px;color:var(--text);font-weight:600;letter-spacing:.5px;cursor:pointer;transition:color .15s;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.server-ip:hover{color:var(--green)}
+.server-ip .copy-hint{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px;border:1px solid var(--border);padding:4px 10px;border-radius:var(--r-sm);transition:all .15s}
+.server-ip:hover .copy-hint{border-color:var(--green);color:var(--green)}
+.server-online{display:flex;align-items:center;gap:14px;margin-left:auto}
+.online-dot{width:12px;height:12px;background:var(--green);border-radius:50%;box-shadow:0 0 14px var(--green);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.online-count{font-size:38px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1}
+.online-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);margin-top:4px}
+.server-playerlist{font-size:12px;color:var(--text-dim);font-family:'Consolas',monospace;margin-top:6px;max-width:340px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.hero{background:var(--bg-2);border:1px solid var(--border);padding:44px 40px;margin-bottom:24px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
+.hero h1{font-size:32px;color:#fff;margin-bottom:12px;letter-spacing:-.5px;font-weight:700}
+.hero h1 .accent{color:var(--green)}
+.hero p{color:var(--text-dim);font-size:15px;margin-bottom:24px;max-width:600px;line-height:1.6}
+
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px}
+.stat-card{background:var(--bg-2);border:1px solid var(--border);padding:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.stat-icon{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600;margin-bottom:12px}
+.stat-value{font-size:34px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:6px}
+.stat-label{font-size:12px;color:var(--text-dim);letter-spacing:.5px}
+
+.section-title{color:#fff;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.section-title::before{content:'';width:3px;height:18px;background:var(--green);border-radius:2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg)}
+.card-img{width:100%;height:170px;object-fit:cover;display:block;background:var(--bg);border-radius:var(--r-lg) var(--r-lg) 0 0}
+.card-img-placeholder{width:100%;height:170px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:52px;color:var(--border-2);border-bottom:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0}
+.card-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
+.card-body p{color:var(--text-dim);font-size:13px;line-height:1.6;margin-bottom:14px;flex:1}
+.card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mute);padding-top:12px;border-top:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;font-family:'Consolas',monospace}
+.card-stats{display:flex;gap:0;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:12px;color:var(--text-dim);flex-wrap:wrap;font-family:'Consolas',monospace}
+.card-stats span{padding-right:14px;margin-right:14px;border-right:1px solid var(--border)}
+.card-stats span:last-child{border-right:none;padding-right:0;margin-right:0}
+.card-stats b{color:var(--green);font-weight:700}
+
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal.active{display:flex}
+.modal-content{background:var(--bg-2);border:1px solid var(--border-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg)}
+.modal-content::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:var(--green);border-radius:0 0 2px 2px}
+.close{position:absolute;top:14px;right:18px;font-size:22px;cursor:pointer;color:var(--text-mute);background:none;border:none;font-family:inherit;border-radius:var(--r-sm);width:30px;height:30px;display:flex;align-items:center;justify-content:center}
+.close:hover{color:var(--green);background:var(--bg-3)}
+.modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
+
+input,textarea,select{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--bg);border:1px solid var(--border-2);color:var(--text);font-size:13px;font-family:inherit;border-radius:var(--r)}
+input:focus,textarea:focus{outline:none;border-color:var(--green);background:var(--bg-3)}
+input::placeholder,textarea::placeholder{color:var(--text-mute)}
+textarea{min-height:110px;resize:vertical;font-family:inherit}
+label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
+.form-box{background:var(--bg-2);padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.form-box::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green)}
+.form-box h3{color:#fff;margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1.5px}
+
+.divider{display:flex;align-items:center;gap:14px;margin:22px 0;color:var(--text-mute);font-size:11px;text-transform:uppercase;letter-spacing:2px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
+.toggle-auth{text-align:center;margin-top:18px;color:var(--text-mute);font-size:12px}
+.toggle-auth a{color:var(--green);font-weight:600;text-decoration:none;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:11px}
+.toggle-auth a:hover{text-decoration:underline}
+
+.profile-header{background:var(--bg-2);border:1px solid var(--border);padding:32px;margin-bottom:24px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.profile-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green)}
+.avatar{width:110px;height:110px;object-fit:cover;border:2px solid var(--green);background:var(--bg);flex-shrink:0;border-radius:var(--r-lg)}
+.avatar-placeholder{width:110px;height:110px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:44px;border:2px solid var(--green);color:var(--green);flex-shrink:0;border-radius:var(--r-lg)}
+.profile-info{flex:1;min-width:200px}
+.profile-info h2{color:#fff;margin-bottom:6px;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.profile-info .email{color:var(--text-dim);font-family:'Consolas',monospace;font-size:12px;margin-bottom:10px}
+.profile-info .bio{color:var(--text-dim);font-size:13px;line-height:1.6;margin-top:8px}
+
+.page{display:none}
+.page.active{display:block}
+
+.empty{text-align:center;padding:60px 20px;color:var(--text-mute);background:var(--bg-2);border:1px dashed var(--border-2);font-size:13px;text-transform:uppercase;letter-spacing:1px;grid-column:1/-1;border-radius:var(--r-lg)}
+.loading{text-align:center;padding:60px 20px;color:var(--green);font-family:'Consolas',monospace;font-size:13px;letter-spacing:2px;background:var(--bg-2);grid-column:1/-1;border-radius:var(--r-lg)}
+
+.flex-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.flex-between .section-title{margin:0;border:none;padding:0}
+.flex-between .section-title::before{height:16px}
+
+.toast{position:fixed;bottom:24px;right:24px;background:var(--bg-2);color:var(--green);padding:14px 22px;border:1px solid var(--green);font-family:'Consolas',monospace;font-size:13px;z-index:2000;display:none;max-width:340px;border-radius:var(--r)}
+.toast.show{display:block;animation:slideIn .2s ease-out}
+@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
+
+.copy-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);background:var(--bg-2);border:1px solid var(--green);padding:28px 40px;border-radius:var(--r-lg);z-index:3000;text-align:center;opacity:0;pointer-events:none;transition:all .25s}
+.copy-popup.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.copy-popup .check{font-size:48px;color:var(--green);margin-bottom:10px;line-height:1}
+.copy-popup .msg{color:#fff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.copy-popup .ip{color:var(--green);font-family:'Consolas',monospace;font-size:13px}
+
+.preview{width:100%;max-height:200px;object-fit:cover;margin-bottom:12px;display:none;border:1px solid var(--border-2);border-radius:var(--r)}
+
+.btn-map{background:var(--green);color:#000;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3);border-radius:var(--r)}
+.btn-map:hover{background:var(--green-2);transform:translateX(4px)}
+
+#viewContent img{width:100%;margin-bottom:18px;border:1px solid var(--border-2);border-radius:var(--r)}
+#viewContent h2{color:#fff;margin-bottom:12px;font-size:20px;font-weight:700;text-transform:none;letter-spacing:0}
+#viewContent .meta{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px}
+#viewContent p{color:var(--text);line-height:1.8;white-space:pre-wrap;font-size:14px}
+
+.badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
+
+@media(max-width:768px){
+  .header{padding:12px 16px;height:auto}
+  .nav{width:100%;order:3;margin:0 -16px;padding:0 16px;border-top:1px solid var(--border);height:auto}
+  .nav a{padding:10px 12px;height:auto;font-size:12px;margin:4px 0}
+  .hero{padding:32px 20px}
+  .hero h1{font-size:22px}
+  .container{padding:20px 16px}
+  .modal-content{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-mark">P</div>
+    <div>PETA<span>-GAY</span></div>
+  </div>
+  <nav class="nav">
+    <a onclick="go('home')" id="nav-home" class="active">Главная</a>
+    <a onclick="go('countries')" id="nav-countries">Страны</a>
+    <a onclick="go('unions')" id="nav-unions">Союзы</a>
+    <a onclick="go('news')" id="nav-news">Новости</a>
+    <a onclick="go('profile')" id="nav-profile">Моя страна</a>
+  </nav>
+  <div class="auth-buttons">
+    <button id="loginBtn" class="btn btn-green" onclick="openAuthModal()">Войти</button>
+    <button id="logoutBtn" class="btn btn-danger" style="display:none" onclick="handleLogout()">Выйти</button>
+    <span id="userEmail" class="user-email" style="display:none"></span>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="page active" id="page-home">
+    <div class="server-panel">
+      <div class="server-info">
+        <div class="server-label">Игровой сервер</div>
+        <div class="server-ip" onclick="copyIP()">
+          peta-gay.minerent.io:31272
+          <span class="copy-hint">Копировать</span>
+        </div>
+        <div class="server-playerlist" id="playerList"></div>
+      </div>
+      <div class="server-online">
+        <div class="online-dot"></div>
+        <div>
+          <div class="online-count" id="onlineCount">—</div>
+          <div class="online-label">Игроков онлайн</div>
+        </div>
+      </div>
+    </div>
+
+    <section class="hero">
+      <h1>Добро пожаловать в <span class="accent">PETA-GAY</span></h1>
+      <p>Создайте свою страну, объединяйтесь в союзы, публикуйте новости и исследуйте карту мира.</p>
+      <a href="http://peta-gay.minerent.io:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">🗺️ Открыть карту →</a>
+    </section>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🏛️ Государства</div>
+        <div class="stat-value" id="countriesCount">0</div>
+        <div class="stat-label">Стран создано</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🤝 Альянсы</div>
+        <div class="stat-value" id="unionsCount">0</div>
+        <div class="stat-label">Союзов</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📰 Публикации</div>
+        <div class="stat-value" id="newsCount">0</div>
+        <div class="stat-label">Новостей</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">Последние новости</h2>
+    <div class="grid" id="latestNews"><div class="loading">Загрузка</div></div>
+  </div>
+
+  <div class="page" id="page-countries">
+    <div class="flex-between">
+      <h2 class="section-title">🏛️ Страны</h2>
+      <span class="badge" id="myCountryBadge"></span>
+    </div>
+    <div class="grid" id="countriesList"><div class="loading">Загрузка</div></div>
+  </div>
+
+  <div class="page" id="page-unions">
+    <div class="flex-between">
+      <h2 class="section-title">🤝 Союзы</h2>
+      <button class="btn btn-green" onclick="toggleUnionForm()">+ Создать союз</button>
+    </div>
+    <div class="form-box" id="unionForm" style="display:none">
+      <h3>Новый союз</h3>
+      <label>Название союза</label>
+      <input id="uName" placeholder="Например: Северный Альянс">
+      <label>Описание</label>
+      <textarea id="uDesc"></textarea>
+      <label>Логотип</label>
+      <input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')">
+      <img id="uLogoPreview" class="preview">
+      <button class="btn btn-green" onclick="saveUnion()">💾 Создать союз</button>
+    </div>
+    <div class="grid" id="unionsList"><div class="loading">Загрузка</div></div>
+  </div>
+
+  <div class="page" id="page-news">
+    <div class="flex-between">
+      <h2 class="section-title">📰 Новости</h2>
+      <button class="btn btn-green" onclick="toggleNewsForm()">+ Написать</button>
+    </div>
+    <div class="form-box" id="newsForm" style="display:none">
+      <h3>Новая публикация</h3>
+      <label>Заголовок</label>
+      <input id="nTitle" placeholder="О чём новость?">
+      <label>Текст новости</label>
+      <textarea id="nContent" style="min-height:180px"></textarea>
+      <label>Картинка (необязательно)</label>
+      <input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')">
+      <img id="nImagePreview" class="preview">
+      <button class="btn btn-green" onclick="saveNews()">📤 Опубликовать</button>
+    </div>
+    <div class="grid" id="newsList"><div class="loading">Загрузка</div></div>
+  </div>
+
+  <div class="page" id="page-profile">
+    <h2 class="section-title">🏛️ Моя страна</h2>
+    <div id="profileContent"><div class="loading">Загрузка</div></div>
+  </div>
+
+</div>
+
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2 id="modalTitle">Вход</h2>
+
+    <div id="loginFields">
+      <label>Ник</label>
+      <input type="text" id="loginNick" placeholder="Ваш ник">
+      <label>Пароль</label>
+      <input type="password" id="loginPassword" placeholder="Пароль">
+      <button type="button" class="btn btn-green" style="width:100%" onclick="doLogin()">Войти</button>
+    </div>
+
+    <div id="registerFields" style="display:none">
+      <label>Ник</label>
+      <input type="text" id="regNick" placeholder="Ваш игровой ник">
+      <label>Пароль</label>
+      <input type="password" id="regPassword" placeholder="Пароль (мин. 6 символов)">
+      <label>Название страны</label>
+      <input type="text" id="regCountry" placeholder="Например: Свободная Республика">
+      <button type="button" class="btn btn-green" style="width:100%" onclick="doRegister()">Основать страну</button>
+    </div>
+
+    <div class="divider">или</div>
+
+    <button type="button" class="btn btn-outline" style="width:100%" onclick="loginAsGuest()">👤 Войти как гость</button>
+    <p class="toggle-auth" id="toggleBlock">Нет страны? <a onclick="toggleAuthMode()" id="toggleAuth">Основать страну</a></p>
+  </div>
+</div>
+
+<div class="modal" id="viewModal">
+  <div class="modal-content">
+    <button class="close" onclick="document.getElementById('viewModal').classList.remove('active')">×</button>
+    <div id="viewContent"></div>
+  </div>
+</div>
+
+<div class="copy-popup" id="copyPopup">
+  <div class="check">✓</div>
+  <div class="msg">IP скопирован</div>
+  <div class="ip">peta-gay.minerent.io:31272</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ НАСТРОЙКИ — ЗАМЕНИ НА СВОИ ============ */
+const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
+const SERVER_IP = 'peta-gay.minerent.io:31272';
+const EMAIL_DOMAIN = '@peta-gay.local';
+
+/* ============ ПОДКЛЮЧЕНИЕ SUPABASE ============ */
+let sb = null;
+const hasSupabase = typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20;
+
+if (hasSupabase) {
+  try {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
+  } catch(e) {
+    console.error('Ошибка Supabase:', e);
+    sb = null;
+  }
+} else {
+  console.log('%c⚠ Демо-режим (Supabase не настроен)', 'color:#ffaa00;font-weight:bold');
+}
+
+/* ============ СОСТОЯНИЕ ============ */
+let currentUser = null;
+let currentProfile = null;
+let isLoginMode = true;
+let isGuest = false;
+
+/* ============ ДЕМО-ХРАНИЛИЩЕ ============ */
+const demoStore = {
+  countries: JSON.parse(localStorage.getItem('demo_countries') || '[]'),
+  unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
+  news: JSON.parse(localStorage.getItem('demo_news') || '[]'),
+  save() {
+    localStorage.setItem('demo_countries', JSON.stringify(this.countries));
+    localStorage.setItem('demo_unions', JSON.stringify(this.unions));
+    localStorage.setItem('demo_news', JSON.stringify(this.news));
+  }
+};
+
+const GUEST_KEY = 'peta_guest_id';
+const GUEST_COUNTRY_KEY = 'peta_guest_country';
+
+function getGuestId(){
+  let id = localStorage.getItem(GUEST_KEY);
+  if(!id){
+    id = 'guest_' + Math.random().toString(36).substring(2,11);
+    localStorage.setItem(GUEST_KEY, id);
+  }
+  return id;
+}
+
+/* ============ ГОСТЕВОЙ ВХОД ============ */
+function loginAsGuest(){
+  console.log('>>> loginAsGuest');
+  isGuest = true;
+  currentUser = { id: getGuestId(), email: 'guest' + EMAIL_DOMAIN, isGuest: true };
+  updateAuthUI(currentUser);
+  closeModal();
+  toast('Вы вошли как гость');
+  go('home');
+}
+
+/* ============ НАВИГАЦИЯ ============ */
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const target = document.getElementById('page-'+page);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active'));
+  const link = document.getElementById('nav-'+page);
+  if(link) link.classList.add('active');
+  window.scrollTo(0,0);
+
+  if(page==='countries') loadCountries();
+  if(page==='unions') loadUnions();
+  if(page==='news') loadNews();
+  if(page==='profile') loadProfile();
+  if(page==='home') loadStats();
+}
+
+/* ============ МОДАЛКА ============ */
+function openAuthModal(){
+  isLoginMode = true;
+  syncAuthModal();
+  document.getElementById('authModal').classList.add('active');
+}
+function closeModal(){
+  document.getElementById('authModal').classList.remove('active');
+}
+function toggleAuthMode(){
+  isLoginMode = !isLoginMode;
+  syncAuthModal();
+}
+function syncAuthModal(){
+  document.getElementById('modalTitle').textContent = isLoginMode?'Вход':'Основать страну';
+  document.getElementById('loginFields').style.display = isLoginMode?'block':'none';
+  document.getElementById('registerFields').style.display = isLoginMode?'none':'block';
+  document.getElementById('toggleAuth').textContent = isLoginMode?'Основать страну':'Войти';
+  document.getElementById('toggleBlock').firstChild.textContent = isLoginMode?'Нет страны? ':'Уже есть страна? ';
+}
+
+/* ============ АВТОРИЗАЦИЯ ============ */
+async function doLogin(){
+  if(!sb) return toast('Supabase не настроен — используйте гостевой вход');
+  const nick = document.getElementById('loginNick').value.trim().toLowerCase();
+  const password = document.getElementById('loginPassword').value;
+  if(!nick || !password) return toast('Заполните ник и пароль');
+  try {
+    const {data: profile} = await sb.from('profiles').select('id').eq('username', nick).maybeSingle();
+    if(!profile) return toast('Игрок с таким ником не найден');
+    const email = nick + EMAIL_DOMAIN;
+    const res = await sb.auth.signInWithPassword({ email, password });
+    if(res.error) return toast('Ошибка: ' + res.error.message);
+    isGuest = false;
+    currentUser = res.data.user;
+    closeModal();
+    toast('Добро пожаловать, ' + nick);
+    go('profile');
+  } catch(e){ toast('Ошибка: ' + e.message); }
+}
+
+async function doRegister(){
+  if(!sb) return toast('Supabase не настроен');
+  const nick = document.getElementById('regNick').value.trim().toLowerCase();
+  const password = document.getElementById('regPassword').value;
+  const countryName = document.getElementById('regCountry').value.trim();
+  if(!nick || !password || !countryName) return toast('Заполните все поля');
+  if(password.length < 6) return toast('Пароль минимум 6 символов');
+  if(!/^[a-z0-9_]{3,20}$/.test(nick)) return toast('Ник: 3-20 символов, a-z, 0-9, _');
+  try {
+    const email = nick + EMAIL_DOMAIN;
+    const res = await sb.auth.signUp({ email, password });
+    if(res.error) return toast('Ошибка: ' + res.error.message);
+    if(!res.data.user) return toast('Не удалось создать аккаунт');
+    const userId = res.data.user.id;
+    await sb.from('profiles').insert({ id: userId, username: nick, bio: '' });
+    await sb.from('countries').insert({
+      name: countryName, description: 'Молодое государство.',
+      population: 1, factories: 0, owner_id: userId, owner_name: nick
+    });
+    isGuest = false;
+    currentUser = res.data.user;
+    closeModal();
+    toast('Страна основана!');
+    go('profile');
+  } catch(e){ toast('Ошибка: ' + e.message); }
+}
+
+function updateAuthUI(user){
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const ue = document.getElementById('userEmail');
+  if(user){
+    loginBtn.style.display = 'none';
+    logoutBtn.style.display = 'inline-block';
+    ue.style.display = 'inline-block';
+    ue.textContent = isGuest ? 'ГОСТЬ' : user.email.replace(EMAIL_DOMAIN,'');
+  } else {
+    loginBtn.style.display = 'inline-block';
+    logoutBtn.style.display = 'none';
+    ue.style.display = 'none';
+  }
+}
+
+async function handleLogout(){
+  if(isGuest){
+    isGuest = false;
+    currentUser = null;
+    updateAuthUI(null);
+    go('home');
+    toast('Гостевой режим завершён');
+  } else {
+    if(sb) await sb.auth.signOut();
+    currentUser = null;
+    currentProfile = null;
+    updateAuthUI(null);
+    go('home');
+    toast('Вы вышли');
+  }
+}
+
+if(sb){
+  sb.auth.getSession().then(({data})=>{
+    if(data.session?.user){
+      isGuest = false;
+      currentUser = data.session.user;
+      updateAuthUI(data.session.user);
+      sb.from('profiles').select('*').eq('id', data.session.user.id).maybeSingle()
+        .then(({data:p})=>{ currentProfile = p; });
+    }
+  });
+}
+
+/* ============ СТАТИСТИКА ============ */
+async function loadStats(){
+  let c=0,u=0,n=0;
+  if(sb){
+    try {
+      const [rc,ru,rn] = await Promise.all([
+        sb.from('countries').select('*',{count:'exact',head:true}),
+        sb.from('unions').select('*',{count:'exact',head:true}),
+        sb.from('news').select('*',{count:'exact',head:true})
+      ]);
+      c = rc.count||0; u = ru.count||0; n = rn.count||0;
+    } catch(e){ console.error(e); }
+  } else {
+    c = demoStore.countries.length; u = demoStore.unions.length; n = demoStore.news.length;
+  }
+  document.getElementById('countriesCount').textContent = c;
+  document.getElementById('unionsCount').textContent = u;
+  document.getElementById('newsCount').textContent = n;
+  fetchOnline();
+  loadLatestNews();
+}
+
+async function fetchOnline(){
+  const el = document.getElementById('onlineCount');
+  const pl = document.getElementById('playerList');
+  if(!el) return;
+  el.textContent = '...';
+  try{
+    const r = await fetch('https://api.mcsrvstat.us/3/' + SERVER_IP);
+    const d = await r.json();
+    el.textContent = d.online ? (d.players?.online ?? 0) : 0;
+    if(pl){
+      const list = d.players?.list || [];
+      pl.textContent = list.length ? 'В игре: ' + list.slice(0,8).join(', ') : '';
+    }
+  }catch(e){ el.textContent = '—'; }
+}
+setInterval(fetchOnline, 60000);
+
+/* ============ КОПИРОВАНИЕ IP ============ */
+function copyIP(){
+  const show = ()=>{
+    const p = document.getElementById('copyPopup');
+    p.classList.add('show');
+    setTimeout(()=>p.classList.remove('show'), 1800);
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(SERVER_IP).then(show).catch(()=>{ fallbackCopy(); show(); });
+  } else { fallbackCopy(); show(); }
+}
+function fallbackCopy(){
+  const ta = document.createElement('textarea');
+  ta.value = SERVER_IP; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+/* ============ НОВОСТИ ============ */
+async function loadLatestNews(){
+  const c = document.getElementById('latestNews');
+  if(!c) return;
+  let data = [];
+  if(sb){
+    try {
+      const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6);
+      data = res.data || [];
+    } catch(e){ console.error(e); }
+  } else {
+    data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6);
+  }
+  if(!data.length){ c.innerHTML='<div class="empty">Пока нет новостей</div>'; return; }
+  c.innerHTML = data.map(newsCard).join('');
+}
+
+async function loadNews(){
+  const c = document.getElementById('newsList');
+  c.innerHTML = '<div class="loading">Загрузка</div>';
+  let data = [];
+  if(sb){
+    try {
+      const res = await sb.from('news').select('*').order('created_at',{ascending:false});
+      data = res.data || [];
+    } catch(e){ console.error(e); }
+  } else {
+    data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  }
+  if(!data.length){ c.innerHTML='<div class="empty">Новостей нет</div>'; return; }
+  c.innerHTML = data.map(newsCard).join('');
+}
+
+function newsCard(n){
+  return `<div class="card" onclick="viewNews('${n.id}')">
+    ${n.image_url?`<img class="card-img" src="${n.image_url}" alt="">`:'<div class="card-img-placeholder">📰</div>'}
+    <div class="card-body">
+      <h3>${esc(n.title)}</h3>
+      <p>${esc((n.content||'').substring(0,120))}...</p>
+      <div class="card-meta">
+        <span>👤 ${esc(n.author_name||'Аноним')}</span>
+        <span>${new Date(n.created_at).toLocaleDateString('ru-RU')}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function viewNews(id){
+  let n = null;
+  if(sb){
+    try {
+      const res = await sb.from('news').select('*').eq('id',id).single();
+      n = res.data;
+    } catch(e){}
+  } else {
+    n = demoStore.news.find(x=>String(x.id)===String(id));
+  }
+  if(!n) return;
+  document.getElementById('viewContent').innerHTML = `
+    ${n.image_url?`<img src="${n.image_url}">`:''}
+    <h2>${esc(n.title)}</h2>
+    <div class="meta">👤 ${esc(n.author_name||'Аноним')} · ${new Date(n.created_at).toLocaleString('ru-RU')}</div>
+    <p>${esc(n.content)}</p>
+  `;
+  document.getElementById('viewModal').classList.add('active');
+}
+
+function toggleNewsForm(){
+  const f = document.getElementById('newsForm');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+function currentNick(){
+  if(isGuest) return 'Гость';
+  return currentProfile?.username || (currentUser?.email||'').replace(EMAIL_DOMAIN,'') || 'Аноним';
+}
+function currentId(){ return currentUser?.id || getGuestId(); }
+
+async function saveNews(){
+  const title = document.getElementById('nTitle').value.trim();
+  const content = document.getElementById('nContent').value.trim();
+  if(!title||!content) return toast('Заполните заголовок и текст');
+
+  const file = document.getElementById('nImage').files[0];
+  let image_url = null;
+  if(file){
+    if(sb){
+      try { image_url = await uploadImage('news', file); }
+      catch(e){ toast('Ошибка загрузки картинки'); }
+    } else {
+      image_url = await fileToDataURL(file);
+    }
+  }
+
+  if(sb){
+    try {
+      const {error} = await sb.from('news').insert({
+        title, content, image_url,
+        author_id: isGuest ? null : currentUser.id,
+        author_name: currentNick()
+      });
+      if(error) return toast('Ошибка: '+error.message);
+    } catch(e){ return toast('Ошибка: '+e.message); }
+  } else {
+    demoStore.news.push({
+      id: 'demo_' + Date.now(),
+      title, content, image_url,
+      author_name: currentNick(),
+      created_at: new Date().toISOString()
+    });
+    demoStore.save();
+  }
+
+  toast('Новость опубликована');
+  document.getElementById('nTitle').value='';
+  document.getElementById('nContent').value='';
+  document.getElementById('nImage').value='';
+  document.getElementById('nImagePreview').style.display='none';
+  document.getElementById('newsForm').style.display='none';
+  loadNews();
+}
+
+function fileToDataURL(file){
+  return new Promise(resolve=>{
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.readAsDataURL(file);
+  });
+}
+
+/* ============ ЗАГРУЗКА КАРТИНОК В SUPABASE ============ */
+async function uploadImage(bucket, file){
+  const ext = file.name.split('.').pop();
+  const path = `${currentId()}-${Date.now()}.${ext}`;
+  const {error} = await sb.storage.from(bucket).upload(path, file);
+  if(error) throw error;
+  const {data} = sb.storage.from(bucket).getPublicUrl(path);
+  return data.publicUrl;
+}
+
+/* ============ СТРАНЫ ============ */
+async function loadCountries(){
+  const c = document.getElementById('countriesList');
+  const badge = document.getElementById('myCountryBadge');
+  c.innerHTML = '<div class="loading">Загрузка</div>';
+  let data = [];
+  if(sb){
+    try {
+      const res = await sb.from('countries').select('*').order('created_at',{ascending:false});
+      data = res.data || [];
+    } catch(e){ console.error(e); }
+  } else {
+    data = [...demoStore.countries].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  }
+  if(!data.length){
+    c.innerHTML='<div class="empty">Стран нет</div>';
+    if(badge) badge.textContent='';
+    return;
+  }
+  if(badge && currentUser){
+    const my = data.find(x=>x.owner_id === currentUser.id || x.owner_name === currentNick());
+    badge.textContent = my ? '🏛️ ' + my.name : '';
+  } else if(badge) badge.textContent = '';
+
+  c.innerHTML = data.map(x=>`
+    <div class="card">
+      ${x.flag_url?`<img class="card-img" src="${x.flag_url}" alt="">`:'<div class="card-img-placeholder">🏛️</div>'}
+      <div class="card-body">
+        <h3>${esc(x.name)}</h3>
+        <p>${esc((x.description||'').substring(0,140))}</p>
+        <div class="card-stats">
+          <span>👥 <b>${x.population||0}</b> жителей</span>
+          <span>🏭 <b>${x.factories||0}</b> заводов</span>
+        </div>
+        <div class="card-meta"><span>Правитель: ${esc(x.owner_name||'—')}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ============ СОЮЗЫ ============ */
+function toggleUnionForm(){
+  const f = document.getElementById('unionForm');
+  f.style.display = f.style.display==='none'?'block':'none';
+}
+
+async function loadUnions(){
+  const c = document.getElementById('unionsList');
+  c.innerHTML = '<div class="loading">Загрузка</div>';
+  let data = [];
+  if(sb){
+    try {
+      const res = await sb.from('unions').select('*').order('created_at',{ascending:false});
+      data = res.data || [];
+    } catch(e){ console.error(e); }
+  } else {
+    data = [...demoStore.unions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
+  }
+  if(!data.length){ c.innerHTML='<div class="empty">Союзов нет</div>'; return; }
+  c.innerHTML = data.map(x=>`
+    <div class="card">
+      ${x.logo_url?`<img class="card-img" src="${x.logo_url}" alt="">`:'<div class="card-img-placeholder">🤝</div>'}
+      <div class="card-body">
+        <h3>${esc(x.name)}</h3>
+        <p>${esc((x.description||'').substring(0,160))}</p>
+        <div class="card-meta"><span>Основатель: ${esc(x.owner_name||'—')}</span></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function saveUnion(){
+  const name = document.getElementById('uName').value.trim();
+  if(!name) return toast('Введите название союза');
+  const file = document.getElementById('uLogo').files[0];
+  let logo_url = null;
+  if(file){
+    if(sb){
+      try { logo_url = await uploadImage('unions', file); }
+      catch(e){ toast('Ошибка загрузки логотипа'); }
+    } else {
+      logo_url = await fileToDataURL(file);
+    }
+  }
+
+  if(sb){
+    try {
+      const {error} = await sb.from('unions').insert({
+        name,
+        description: document.getElementById('uDesc').value.trim(),
+        logo_url,
+        owner_id: isGuest ? null : currentUser.id,
+        owner_name: currentNick()
+      });
+      if(error) return toast('Ошибка: '+error.message);
+    } catch(e){ return toast('Ошибка: '+e.message); }
+  } else {
+    demoStore.unions.push({
+      id: 'demo_' + Date.now(),
+      name,
+      description: document.getElementById('uDesc').value.trim(),
+      logo_url,
+      owner_name: currentNick(),
+      created_at: new Date().toISOString()
+    });
+    demoStore.save();
+  }
+  toast('Союз создан');
+  document.getElementById('uName').value='';
+  document.getElementById('uDesc').value='';
+  document.getElementById('uLogo').value='';
+  document.getElementById('uLogoPreview').style.display='none';
+  document.getElementById('unionForm').style.display='none';
+  loadUnions();
+}
+
+/* ============ ПРОФИЛЬ ============ */
+async function loadProfile(){
+  const c = document.getElementById('profileContent');
+  if(!currentUser){
+    c.innerHTML = '<div class="empty">Войдите чтобы увидеть свою страну</div>';
+    return;
+  }
+  const nick = currentNick();
+  const uid = currentUser.id;
+
+  let profile = null, country = null, news = [];
+
+  if(isGuest){
+    const saved = localStorage.getItem(GUEST_COUNTRY_KEY);
+    country = saved ? JSON.parse(saved) : null;
+  } else if(sb){
+    try {
+      const [p, cRes, nRes] = await Promise.all([
+        sb.from('profiles').select('*').eq('id',uid).maybeSingle(),
+        sb.from('countries').select('*').eq('owner_id',uid).maybeSingle(),
+        sb.from('news').select('*').eq('author_id',uid)
+      ]);
+      profile = p.data;
+      country = cRes.data;
+      news = nRes.data || [];
+      currentProfile = profile;
+    } catch(e){ console.error(e); }
+  }
+
+  const avatar = profile?.avatar_url;
+  const bio = profile?.bio || '';
+
+  const countryBlock = country ? `
+    <div class="profile-header" style="margin-top:0">
+      ${country.flag_url?`<img src="${country.flag_url}" class="avatar">`:'<div class="avatar-placeholder">🏛️</div>'}
+      <div class="profile-info">
+        <h2>${esc(country.name)}</h2>
+        <div class="email">Правитель: ${esc(nick)}</div>
+        <div class="bio">${esc(country.description) || 'Описание не указано'}</div>
+        <div class="card-stats" style="border:none;padding-top:14px">
+          <span>👥 Жителей: <b>${country.population||0}</b></span>
+          <span>🏭 Заводов: <b>${country.factories||0}</b></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-box">
+      <h3>Редактировать страну</h3>
+      <label>Название страны</label>
+      <input id="pCountryName" value="${esc(country.name)}">
+      <label>Описание страны</label>
+      <textarea id="pCountryDesc">${esc(country.description||'')}</textarea>
+      <label>Количество жителей</label>
+      <input id="pCountryPop" type="number" value="${country.population||0}" min="0">
+      <label>Количество заводов</label>
+      <input id="pCountryFact" type="number" value="${country.factories||0}" min="0">
+      <label>Флаг (изображение)</label>
+      <input id="pCountryFlag" type="file" accept="image/*">
+      <button class="btn btn-green" onclick="saveCountry()">💾 Сохранить страну</button>
+    </div>
+  ` : `
+    <div class="form-box">
+      <h3>Основать страну</h3>
+      <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px">У вас ещё нет страны. Создайте её!</p>
+      <label>Название страны</label>
+      <input id="newCountryName" placeholder="Например: Свободная Республика">
+      <label>Описание</label>
+      <textarea id="newCountryDesc"></textarea>
+      <label>Флаг (необязательно)</label>
+      <input id="newCountryFlag" type="file" accept="image/*">
+      <button class="btn btn-green" onclick="createMyCountry()">🏛️ Основать страну</button>
+    </div>
+  `;
+
+  c.innerHTML = `
+    <div class="profile-header">
+      ${avatar?`<img src="${avatar}" class="avatar">`:'<div class="avatar-placeholder">👤</div>'}
+      <div class="profile-info">
+        <h2>${esc(nick)} ${isGuest?'<span class="badge">ГОСТЬ</span>':''}</h2>
+        <div class="email">${isGuest?'Гостевой режим':esc(currentUser.email)}</div>
+        <div class="bio">${esc(bio) || 'Без описания'}</div>
+        <div class="card-stats" style="border:none;padding-top:14px">
+          <span>📰 Новостей: <b>${news.length}</b></span>
+        </div>
+      </div>
+    </div>
+    ${!isGuest ? `
+    <div class="form-box">
+      <h3>Профиль</h3>
+      <label>О себе</label>
+      <textarea id="pBio">${esc(bio)}</textarea>
+      <label>Аватар</label>
+      <input id="pAvatar" type="file" accept="image/*">
+      <button class="btn btn-green" onclick="saveProfile()">💾 Сохранить профиль</button>
+    </div>` : `
+    <div class="form-box">
+      <h3>Гостевой режим</h3>
+      <p style="color:var(--text-dim);font-size:13px;margin-bottom:14px">Вы вошли как гость. Ваша страна хранится только в этом браузере.</p>
+      <button class="btn btn-green" onclick="openAuthModal()">Стать игроком</button>
+    </div>`}
+    ${countryBlock}
+    <h2 class="section-title">📰 Мои публикации</h2>
+    <div class="grid">
+      ${news.length ? news.map(newsCard).join('') : '<div class="empty">Вы ещё не публиковали новости</div>'}
+    </div>
+  `;
+}
+
+async function createMyCountry(){
+  const name = document.getElementById('newCountryName').value.trim();
+  const description = document.getElementById('newCountryDesc').value.trim();
+  if(!name) return toast('Введите название страны');
+
+  const file = document.getElementById('newCountryFlag').files[0];
+  let flag_url = null;
+  if(file){
+    if(sb){
+      try { flag_url = await uploadImage('countries', file); }
+      catch(e){ toast('Ошибка загрузки флага'); }
+    } else {
+      flag_url = await fileToDataURL(file);
+    }
+  }
+
+  if(isGuest){
+    const country = {
+      id: 'local_' + Date.now(),
+      name, description,
+      population: 1, factories: 0,
+      flag_url,
+      owner_name: currentNick(),
+      owner_id: currentUser.id,
+      created_at: new Date().toISOString()
+    };
+    localStorage.setItem(GUEST_COUNTRY_KEY, JSON.stringify(country));
+    toast('Страна основана (гостевой режим)');
+    loadProfile();
+    return;
+  }
+
+  if(sb){
+    try {
+      const {error} = await sb.from('countries').insert({
+        name, description, population: 1, factories: 0, flag_url,
+        owner_id: currentUser.id,
+        owner_name: currentNick()
+      });
+      if(error) return toast('Ошибка: '+error.message);
+    } catch(e){ return toast('Ошибка: '+e.message); }
+  } else {
+    demoStore.countries.push({
+      id: 'demo_' + Date.now(),
+      name, description, population: 1, factories: 0, flag_url,
+      owner_name: currentNick(),
+      owner_id: currentUser.id,
+      created_at: new Date().toISOString()
+    });
+    demoStore.save();
+  }
+  toast('Страна основана!');
+  loadProfile();
+}
+
+async function saveCountry(){
+  if(!currentUser) return;
+  const name = document.getElementById('pCountryName').value.trim();
+  const description = document.getElementById('pCountryDesc').value.trim();
+  const population = parseInt(document.getElementById('pCountryPop').value)||0;
+  const factories = parseInt(document.getElementById('pCountryFact').value)||0;
+  const file = document.getElementById('pCountryFlag').files[0];
+  if(!name) return toast('Введите название страны');
+
+  let flag_url;
+  if(file){
+    if(sb){
+      try { flag_url = await uploadImage('countries', file); }
+      catch(e){ return toast('Ошибка загрузки флага'); }
+    } else {
+      flag_url = await fileToDataURL(file);
+    }
+  }
+
+  if(isGuest){
+    const saved = localStorage.getItem(GUEST_COUNTRY_KEY);
+    const country = saved ? JSON.parse(saved) : {};
+    Object.assign(country, { name, description, population, factories });
+    if(flag_url) country.flag_url = flag_url;
+    localStorage.setItem(GUEST_COUNTRY_KEY, JSON.stringify(country));
+    toast('Страна обновлена');
+    loadProfile();
+    return;
+  }
+
+  if(sb){
+    const payload = { name, description, population, factories };
+    if(flag_url) payload.flag_url = flag_url;
+    try {
+      const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id);
+      if(error) return toast('Ошибка: '+error.message);
+    } catch(e){ return toast('Ошибка: '+e.message); }
+  }
+  toast('Страна обновлена');
+  loadProfile();
+}
+
+async function saveProfile(){
+  if(!currentUser || isGuest || !sb) return;
+  const bio = document.getElementById('pBio').value.trim();
+  const file = document.getElementById('pAvatar').files[0];
+  let avatar_url;
+  if(file){
+    try { avatar_url = await uploadImage('avatars', file); }
+    catch(e){ return toast('Ошибка загрузки аватара'); }
+  }
+  const payload = { id: currentUser.id, bio };
+  if(avatar_url) payload.avatar_url = avatar_url;
+  try {
+    const {error} = await sb.from('profiles').upsert(payload);
+    if(error) return toast('Ошибка: '+error.message);
+  } catch(e){ return toast('Ошибка: '+e.message); }
+  toast('Профиль сохранён');
+  loadProfile();
+}
+
+/* ============ ПРЕВЬЮ КАРТИНОК ============ */
+function previewImage(input, previewId){
+  const prev = document.getElementById(previewId);
+  if(input.files && input.files[0]){
+    const reader = new FileReader();
+    reader.onload = e=>{ prev.src = e.target.result; prev.style.display='block'; };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+/* ============ УТИЛИТЫ ============ */
+function esc(t){
+  if(!t) return '';
+  const d = document.createElement('div');
+  d.textContent = t;
+  return d.innerHTML;
+}
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = '» ' + msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+document.getElementById('authModal').addEventListener('click', e => {
+  if(e.target.id === 'authModal') closeModal();
+});
+
+loadStats();
+console.log('%cСайт Peta-Gay запущен', 'color:#00ff88;font-weight:bold;font-size:14px');
+</script>
+</body>
+</html>
