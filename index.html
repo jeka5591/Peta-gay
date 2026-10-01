@@ -43,7 +43,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .container{max-width:1300px;margin:0 auto;padding:32px 24px}
 
 .server-panel{background:var(--bg-2);border:1px solid var(--border);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;position:relative;border-radius:var(--r-lg);overflow:hidden}
-.server-panel::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--green);border-radius:var(--r-lg) 0 0 var(--r-lg)}
 .server-info{display:flex;flex-direction:column;gap:8px;min-width:200px}
 .server-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600}
 .server-ip{font-family:'Consolas','Monaco',monospace;font-size:20px;color:var(--text);font-weight:600;letter-spacing:.5px;cursor:pointer;transition:color .15s;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -69,6 +68,38 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .hero h1 .accent{color:var(--green)}
 .hero p{color:var(--text-dim);font-size:15px;margin-bottom:24px;max-width:600px;line-height:1.6;position:relative;z-index:1}
 
+/* Кнопка открыть карту — улучшенная анимация */
+.btn-map{
+  position:relative;z-index:1;
+  background:var(--green);color:#000;
+  padding:14px 32px;
+  font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  border:none;cursor:pointer;
+  display:inline-flex;align-items:center;gap:10px;
+  text-decoration:none;
+  border-radius:var(--r);
+  overflow:hidden;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, background .25s;
+  box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3);
+}
+.btn-map::before{
+  content:'';
+  position:absolute;
+  top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);
+  transition:left .5s;
+}
+.btn-map:hover{
+  background:var(--green-2);
+  transform:translateX(6px) scale(1.02);
+  box-shadow:0 0 0 1px var(--green-2), 0 0 40px rgba(0,255,136,.6), 0 8px 24px rgba(0,255,136,.3);
+}
+.btn-map:hover::before{left:100%}
+.btn-map:active{transform:translateX(6px) scale(.98)}
+.btn-map .arrow{transition:transform .25s}
+.btn-map:hover .arrow{transform:translateX(6px)}
+
 .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px}
 .stat-card{background:var(--bg-2);border:1px solid var(--border);padding:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
 .stat-icon{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600;margin-bottom:12px}
@@ -79,96 +110,69 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .section-title::before{content:'';width:3px;height:18px;background:var(--green);border-radius:2px}
 
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg)}
-.card-img{width:100%;height:170px;object-fit:cover;display:block;background:var(--bg);border-radius:var(--r-lg) var(--r-lg) 0 0}
+.card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg);transition:all .2s}
+.card:hover{border-color:var(--green-2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,136,.1)}
+.card-img{width:100%;height:170px;object-fit:cover;object-position:center;display:block;background:var(--bg);border-radius:var(--r-lg) var(--r-lg) 0 0}
 .card-img-placeholder{width:100%;height:170px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:52px;color:var(--border-2);border-bottom:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0}
 .card-body{padding:20px;flex:1;display:flex;flex-direction:column}
 .card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
 .card-body p{color:var(--text-dim);font-size:13px;line-height:1.6;margin-bottom:14px;flex:1}
 .card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mute);padding-top:12px;border-top:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;font-family:'Consolas',monospace}
 
-/* Карточка страны со статистикой */
-.country-stats{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin-top:14px;
-  padding-top:14px;
-  border-top:1px solid var(--border);
-}
-.country-stat{
-  background:var(--bg);
-  border:1px solid var(--border);
-  border-radius:var(--r);
-  padding:10px 12px;
-  text-align:center;
-}
+.country-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+.country-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;text-align:center}
 .country-stat-icon{font-size:16px;line-height:1;margin-bottom:6px;display:block}
 .country-stat-value{font-size:20px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:4px}
 .country-stat-label{font-size:10px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px}
-.modal.active{display:flex}
-.modal-content{background:var(--bg-2);border:1px solid var(--border-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg)}
-.modal-content::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:var(--green);border-radius:0 0 2px 2px}
-.close{position:absolute;top:14px;right:18px;font-size:22px;cursor:pointer;color:var(--text-mute);background:none;border:none;font-family:inherit;border-radius:var(--r-sm);width:30px;height:30px;display:flex;align-items:center;justify-content:center}
-.close:hover{color:var(--green);background:var(--bg-3)}
+/* Модальное окно — не серое, зелёное свечение */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal.active{display:flex;animation:fadeIn .2s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal-content{background:linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);border:1px solid var(--green-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg);box-shadow:0 0 40px rgba(0,255,136,.15), 0 20px 60px rgba(0,0,0,.5);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes slideUp{from{transform:translateY(20px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.modal-content::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:linear-gradient(90deg, transparent, var(--green), transparent);border-radius:0 0 2px 2px}
+.close{position:absolute;top:14px;right:18px;font-size:22px;cursor:pointer;color:var(--text-mute);background:none;border:none;font-family:inherit;border-radius:var(--r-sm);width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
 .modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
 
-input[type="text"],input[type="password"],input[type="number"],textarea,select{width:100%;padding:12px 14px;margin-bottom:14px;background:var(--bg);border:1px solid var(--border-2);color:var(--text);font-size:13px;font-family:inherit;border-radius:var(--r)}
-input:focus,textarea:focus{outline:none;border-color:var(--green);background:var(--bg-3)}
+/* Поля ввода — светлее, не серые */
+input[type="text"],input[type="password"],input[type="number"],textarea,select{
+  width:100%;padding:13px 16px;margin-bottom:14px;
+  background:var(--bg-3);
+  border:1px solid var(--border-2);
+  color:#fff;font-size:14px;font-family:inherit;border-radius:var(--r);
+  transition:all .2s;
+}
+input[type="text"]:hover,input[type="password"]:hover,input[type="number"]:hover,textarea:hover{
+  border-color:var(--green-2);
+  background:#1a231a;
+}
+input:focus,textarea:focus{
+  outline:none;
+  border-color:var(--green);
+  background:#1a231a;
+  box-shadow:0 0 0 4px rgba(0,255,136,.12);
+}
 input::placeholder,textarea::placeholder{color:var(--text-mute)}
 textarea{min-height:110px;resize:vertical;font-family:inherit}
 label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
 
-/* Красивая кнопка выбора файла */
 .file-input{position:relative;margin-bottom:14px}
-.file-input input[type="file"]{
-  position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;
-}
-.file-label{
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  padding:14px 18px;
-  background:var(--bg);
-  border:1px dashed var(--border-2);
-  border-radius:var(--r);
-  color:var(--text-dim);
-  font-size:13px;
-  font-weight:600;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  cursor:pointer;
-  transition:all .2s;
-  user-select:none;
-}
-.file-label:hover{
-  border-color:var(--green);
-  color:var(--green);
-  background:var(--bg-3);
-  box-shadow:0 0 0 3px rgba(0,255,136,.08);
-}
-.file-label::before{
-  content:'📷';
-  font-size:18px;
-}
-.file-label.has-file{
-  border-style:solid;
-  border-color:var(--green);
-  color:var(--green);
-}
-.file-label.has-file::before{
-  content:'✓';
-  color:var(--green);
-  font-weight:700;
-}
+.file-input input[type="file"]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.file-label{display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 18px;background:var(--bg-3);border:1px dashed var(--border-2);border-radius:var(--r);color:var(--text-dim);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .2s;user-select:none}
+.file-label:hover{border-color:var(--green);color:var(--green);background:#1a231a;box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.file-label::before{content:'📷';font-size:18px}
+.file-label.has-file{border-style:solid;border-color:var(--green);color:var(--green);background:rgba(0,255,136,.05)}
+.file-label.has-file::before{content:'✓';color:var(--green);font-weight:700}
 
-.checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:var(--bg);border:1px solid var(--border-2);border-radius:var(--r);cursor:pointer;transition:all .15s}
-.checkbox-row:hover{border-color:var(--green)}
+.checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:var(--bg-3);border:1px solid var(--border-2);border-radius:var(--r);cursor:pointer;transition:all .15s}
+.checkbox-row:hover{border-color:var(--green);background:#1a231a}
 .checkbox-row input[type="checkbox"]{width:18px;height:18px;margin:0;cursor:pointer;accent-color:var(--green);flex-shrink:0}
 .checkbox-row span{font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:500;line-height:1.4}
 
-.form-box{background:var(--bg-2);padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
-.form-box::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--green)}
+.form-box{background:linear-gradient(180deg, var(--bg-2) 0%, var(--bg-3) 100%);padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
+.form-box::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg, var(--green), transparent)}
 .form-box h3{color:#fff;margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1.5px}
 
 .toggle-auth{text-align:center;margin-top:18px;color:var(--text-mute);font-size:12px}
@@ -206,16 +210,29 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 
 .preview{width:100%;max-height:200px;object-fit:cover;margin-bottom:12px;display:none;border:1px solid var(--border-2);border-radius:var(--r)}
 
-.btn-map{background:var(--green);color:#000;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none;box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3);border-radius:var(--r);position:relative;z-index:1}
-.btn-map:hover{background:var(--green-2);transform:translateX(4px)}
+/* Просмотр новости — красиво */
+.news-view{max-width:720px !important}
+.news-view .back-btn{background:none;border:none;color:var(--text-dim);cursor:pointer;font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:0;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
+.news-view .back-btn:hover{color:var(--green)}
+.news-view h1{color:#fff;font-size:26px;line-height:1.3;margin-bottom:16px;font-weight:700;text-transform:none;letter-spacing:0}
+.news-view .news-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:24px}
+.news-view .news-author{color:var(--text-dim);font-size:13px;font-family:'Consolas',monospace}
+.news-view .news-author b{color:var(--green)}
+.news-view .news-date{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace}
+.news-view .news-img{width:100%;max-height:400px;object-fit:cover;border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
+.news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
+.news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-#viewContent img{width:100%;margin-bottom:18px;border:1px solid var(--border-2);border-radius:var(--r)}
-#viewContent h2{color:#fff;margin-bottom:12px;font-size:20px;font-weight:700;text-transform:none;letter-spacing:0}
-#viewContent .meta{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px}
-#viewContent p{color:var(--text);line-height:1.8;white-space:pre-wrap;font-size:14px}
+/* Приглашения в союз */
+.invite-row{display:flex;gap:8px;margin-bottom:10px}
+.invite-row input{margin:0}
+.invite-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.invite-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg);border:1px solid var(--border-2);border-radius:var(--r);font-size:13px}
+.invite-item .invite-name{color:var(--green);font-weight:600}
+.invite-item .invite-remove{background:none;border:none;color:#ff6666;cursor:pointer;font-family:inherit;font-size:16px;padding:4px 8px;transition:all .15s}
+.invite-item .invite-remove:hover{transform:scale(1.2)}
 
 .badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
-
 .hint{font-size:11px;color:var(--text-mute);margin-top:-8px;margin-bottom:14px}
 
 @media(max-width:768px){
@@ -226,6 +243,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
   .hero h1{font-size:22px}
   .container{padding:20px 16px}
   .modal-content{padding:24px}
+  .news-view h1{font-size:20px}
 }
 </style>
 </head>
@@ -273,7 +291,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
       <div class="hero-grid"></div>
       <h1>Добро пожаловать в <span class="accent">PETA-GAY</span></h1>
       <p>Создайте свою страну, объединяйтесь в союзы, публикуйте новости и исследуйте карту мира.</p>
-      <a href="http://peta-gay.minerent.io:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">🗺️ Открыть карту →</a>
+      <a href="http://peta-gay.minerent.io:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">🗺️ Открыть карту <span class="arrow">→</span></a>
     </section>
 
     <div class="stats-grid">
@@ -335,7 +353,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
     </div>
     <div class="form-box" id="newsForm" style="display:none">
       <h3>Новая публикация</h3>
-      <div class="hint" id="newsLimitHint">Лимит: 1 новость раз в 2 дня</div>
+      <div class="hint" id="newsLimitHint">Новость хранится 2 дня, потом удаляется автоматически</div>
       <label>Заголовок</label>
       <input id="nTitle" placeholder="О чём новость?">
       <label>Текст новости</label>
@@ -391,7 +409,7 @@ label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font
 </div>
 
 <div class="modal" id="viewModal">
-  <div class="modal-content">
+  <div class="modal-content news-view" id="viewContentWrap">
     <button class="close" onclick="document.getElementById('viewModal').classList.remove('active')">×</button>
     <div id="viewContent"></div>
   </div>
@@ -411,7 +429,7 @@ const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_ZehLh9Cu3n2AcrHQjS91vg_E-MGl6jC';
 const SERVER_IP = 'peta-gay.minerent.io:31272';
 const EMAIL_DOMAIN = '@peta-gay.local';
-const NEWS_COOLDOWN_MS = 2 * 24 * 60 * 60 * 1000; // 2 дня
+const NEWS_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000; // 2 дня
 
 let sb = null;
 if (typeof supabase !== 'undefined' && SUPABASE_URL.startsWith('http') && SUPABASE_ANON_KEY.length > 20) {
@@ -434,6 +452,7 @@ function nickToEmail(nick){ return translit(nick) + EMAIL_DOMAIN; }
 let currentUser = null;
 let currentProfile = null;
 let isLoginMode = true;
+let currentViewCountry = null;
 
 /* ============ ДЕМО-ХРАНИЛИЩЕ ============ */
 const demoStore = {
@@ -441,13 +460,29 @@ const demoStore = {
   unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
   news: JSON.parse(localStorage.getItem('demo_news') || '[]'),
   profiles: JSON.parse(localStorage.getItem('demo_profiles') || '{}'),
+  invites: JSON.parse(localStorage.getItem('demo_invites') || '{}'),
   save() {
     localStorage.setItem('demo_countries', JSON.stringify(this.countries));
     localStorage.setItem('demo_unions', JSON.stringify(this.unions));
     localStorage.setItem('demo_news', JSON.stringify(this.news));
     localStorage.setItem('demo_profiles', JSON.stringify(this.profiles));
+    localStorage.setItem('demo_invites', JSON.stringify(this.invites));
   }
 };
+
+/* ============ ОЧИСТКА СТАРЫХ НОВОСТЕЙ ============ */
+async function cleanupOldNews(){
+  const cutoff = new Date(Date.now() - NEWS_LIFETIME_MS).toISOString();
+  if(sb){
+    try {
+      await sb.from('news').delete().lt('created_at', cutoff);
+    } catch(e){}
+  } else {
+    const before = demoStore.news.length;
+    demoStore.news = demoStore.news.filter(n => new Date(n.created_at).getTime() > Date.now() - NEWS_LIFETIME_MS);
+    if(demoStore.news.length !== before) demoStore.save();
+  }
+}
 
 /* ============ НАВИГАЦИЯ ============ */
 function go(page){
@@ -466,7 +501,7 @@ function go(page){
   if(page==='home') loadStats();
 }
 
-/* ============ МОДАЛКА ============ */
+/* ============ МОДАЛКА АВТОРИЗАЦИИ ============ */
 function openAuthModal(){ isLoginMode = true; syncAuthModal(); document.getElementById('authModal').classList.add('active'); }
 function closeModal(){ document.getElementById('authModal').classList.remove('active'); }
 function toggleAuthMode(){ isLoginMode = !isLoginMode; syncAuthModal(); }
@@ -589,7 +624,7 @@ async function handleLogout(){
   toast('Вы вышли');
 }
 
-/* ============ ВОССТАНОВЛЕНИЕ СЕССИИ ============ */
+/* ============ ВОССТАНОВЛЕНИЕ ============ */
 async function restoreSession(){
   if(sb){
     const {data} = await sb.auth.getSession();
@@ -612,6 +647,7 @@ async function restoreSession(){
 
 /* ============ СТАТИСТИКА ============ */
 async function loadStats(){
+  await cleanupOldNews();
   let c=0,u=0,n=0;
   if(sb){
     try {
@@ -663,42 +699,31 @@ function fallbackCopy(){
   document.body.removeChild(ta);
 }
 
-/* ============ СЕТОЧКА — ПОДСВЕТКА ============ */
+/* ============ СЕТОЧКА ПОД МЫШКОЙ ============ */
 function initHeroGlow(){
   const hero = document.getElementById('heroBlock');
   if(!hero) return;
-  const gridLayer = hero.querySelector('.hero-grid');
-  if(!gridLayer) return;
 
-  // Маска на существующем слое сетки - она же и будет "яркой" зоной
-  const maskBase = 'radial-gradient(circle 170px at X Y, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 75%)';
-
-  // Яркая сетка поверх тусклой — с той же геометрией
   const bright = document.createElement('div');
   bright.style.cssText = [
     'position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .15s',
     'background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)',
-    'background-size:40px 40px',
-    'background-position:0 0, 0 0'
+    'background-size:40px 40px'
   ].join(';');
   hero.appendChild(bright);
 
-  // Мягкое свечение
   const glow = document.createElement('div');
   glow.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .2s';
   hero.appendChild(glow);
 
   let raf = null, mx = 0, my = 0;
-
   function apply(){
     raf = null;
     const mask = `radial-gradient(circle 170px at ${mx}px ${my}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
     bright.style.webkitMaskImage = mask;
     bright.style.maskImage = mask;
-    // НЕ двигаем background-position: линии остаются на своём месте
     glow.style.background = `radial-gradient(circle 200px at ${mx}px ${my}px, rgba(0,255,136,.16) 0%, rgba(0,255,136,.05) 35%, transparent 70%)`;
   }
-
   hero.addEventListener('mousemove', (e)=>{
     const r = hero.getBoundingClientRect();
     mx = e.clientX - r.left;
@@ -707,7 +732,6 @@ function initHeroGlow(){
     glow.style.opacity = '1';
     if(!raf) raf = requestAnimationFrame(apply);
   });
-
   hero.addEventListener('mouseleave', ()=>{
     bright.style.opacity = '0';
     glow.style.opacity = '0';
@@ -718,6 +742,7 @@ function initHeroGlow(){
 async function loadLatestNews(){
   const c = document.getElementById('latestNews');
   if(!c) return;
+  await cleanupOldNews();
   let data = [];
   if(sb){
     try {
@@ -734,6 +759,7 @@ async function loadLatestNews(){
 async function loadNews(){
   const c = document.getElementById('newsList');
   c.innerHTML = '<div class="loading">Загрузка</div>';
+  await cleanupOldNews();
   let data = [];
   if(sb){
     try {
@@ -767,52 +793,48 @@ async function viewNews(id){
     try { const res = await sb.from('news').select('*').eq('id',id).single(); n = res.data; } catch(e){}
   } else { n = demoStore.news.find(x=>String(x.id)===String(id)); }
   if(!n) return;
+
+  const canDelete = currentUser && (n.author_id === currentUser.id || n.author_name === currentNick());
+
   document.getElementById('viewContent').innerHTML = `
-    ${n.image_url?`<img src="${n.image_url}">`:''}
-    <h2>${esc(n.title)}</h2>
-    <div class="meta">👤 ${esc(n.author_name||'Аноним')} · ${new Date(n.created_at).toLocaleString('ru-RU')}</div>
-    <p>${esc(n.content)}</p>
+    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
+    <h1>${esc(n.title)}</h1>
+    <div class="news-meta">
+      <span class="news-author">Автор: <b>${esc(n.author_name||'Аноним')}</b></span>
+      <span class="news-date">${new Date(n.created_at).toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'})}</span>
+    </div>
+    ${n.image_url?`<img class="news-img" src="${n.image_url}">`:''}
+    <div class="news-body">${esc(n.content)}</div>
+    ${canDelete?`
+      <div class="news-actions">
+        <button class="btn btn-danger" onclick="deleteNews('${n.id}')">🗑 Удалить новость</button>
+      </div>
+    `:''}
   `;
   document.getElementById('viewModal').classList.add('active');
 }
 
-async function checkNewsCooldown(){
-  // Возвращает {can: true} или {can: false, nextDate: Date}
-  if(!currentUser) return {can:true};
-  const uid = currentUser.id;
-  let lastDate = null;
-
+async function deleteNews(id){
+  if(!confirm('Удалить эту новость?')) return;
   if(sb){
     try {
-      const {data} = await sb.from('news').select('created_at').eq('author_id', uid).order('created_at',{ascending:false}).limit(1);
-      if(data && data.length) lastDate = new Date(data[0].created_at);
-    } catch(e){}
+      const {error} = await sb.from('news').delete().eq('id', id);
+      if(error) return toast('Ошибка: '+error.message, true);
+    } catch(e){ return toast('Ошибка: '+e.message, true); }
   } else {
-    const mine = demoStore.news.filter(x=>x.author_name === currentNick())
-      .sort((a,b)=>new Date(b.created_at)-new Date(a.created_at));
-    if(mine.length) lastDate = new Date(mine[0].created_at);
+    demoStore.news = demoStore.news.filter(n=>String(n.id)!==String(id));
+    demoStore.save();
   }
-
-  if(!lastDate) return {can:true};
-  const diff = Date.now() - lastDate.getTime();
-  if(diff >= NEWS_COOLDOWN_MS) return {can:true};
-  const nextDate = new Date(lastDate.getTime() + NEWS_COOLDOWN_MS);
-  return {can:false, nextDate};
+  toast('Новость удалена');
+  document.getElementById('viewModal').classList.remove('active');
+  loadNews();
+  loadStats();
 }
 
 async function toggleNewsForm(){
   if(!currentUser) return toast('Войдите чтобы публиковать', true);
   const f = document.getElementById('newsForm');
-  if(f.style.display === 'none'){
-    const check = await checkNewsCooldown();
-    if(!check.can){
-      const dateStr = check.nextDate.toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
-      return toast('Лимит: 1 новость раз в 2 дня. Следующая — ' + dateStr, true);
-    }
-    f.style.display = 'block';
-  } else {
-    f.style.display = 'none';
-  }
+  f.style.display = f.style.display==='none'?'block':'none';
 }
 
 function currentNick(){ return currentProfile?.username || ''; }
@@ -820,12 +842,6 @@ function currentId(){ return currentUser?.id || ''; }
 
 async function saveNews(){
   if(!currentUser) return toast('Войдите чтобы публиковать', true);
-  const check = await checkNewsCooldown();
-  if(!check.can){
-    const dateStr = check.nextDate.toLocaleString('ru-RU', {day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit'});
-    return toast('Лимит: 1 новость раз в 2 дня. Следующая — ' + dateStr, true);
-  }
-
   const title = document.getElementById('nTitle').value.trim();
   const content = document.getElementById('nContent').value.trim();
   if(!title||!content) return toast('Заполните заголовок и текст', true);
@@ -852,18 +868,20 @@ async function saveNews(){
     demoStore.news.push({
       id: 'demo_' + Date.now(),
       title, content, image_url,
+      author_id: currentUser.id,
       author_name: currentNick(),
       created_at: new Date().toISOString()
     });
     demoStore.save();
   }
 
-  toast('Новость опубликована');
+  toast('Новость опубликована (удалится через 2 дня)');
   resetFileInput('nImage','nImageLabel','nImagePreview');
   document.getElementById('nTitle').value='';
   document.getElementById('nContent').value='';
   document.getElementById('newsForm').style.display='none';
   loadNews();
+  loadStats();
 }
 
 function fileToDataURL(file){
@@ -908,7 +926,7 @@ async function loadCountries(){
   } else if(badge) badge.textContent = '';
 
   c.innerHTML = data.map(x=>`
-    <div class="card">
+    <div class="card" onclick="viewCountry('${x.id}')">
       ${x.flag_url?`<img class="card-img" src="${x.flag_url}" alt="">`:'<div class="card-img-placeholder">🏛️</div>'}
       <div class="card-body">
         <h3>${esc(x.name)}</h3>
@@ -929,6 +947,41 @@ async function loadCountries(){
       </div>
     </div>
   `).join('');
+}
+
+async function viewCountry(id){
+  let x = null;
+  if(sb){
+    try { const res = await sb.from('countries').select('*').eq('id',id).single(); x = res.data; } catch(e){}
+  } else {
+    x = demoStore.countries.find(c=>String(c.id)===String(id));
+  }
+  if(!x) return;
+  currentViewCountry = x;
+
+  document.getElementById('viewContent').innerHTML = `
+    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
+    ${x.flag_url?`<img class="news-img" src="${x.flag_url}" style="max-height:320px">`:''}
+    <h1>${esc(x.name)}</h1>
+    <div class="news-meta">
+      <span class="news-author">Правитель: <b>${esc(x.owner_name||'—')}</b></span>
+      <span class="news-date">Основано ${new Date(x.created_at).toLocaleDateString('ru-RU')}</span>
+    </div>
+    <div class="country-stats" style="margin-bottom:24px;border:none;padding:0">
+      <div class="country-stat">
+        <span class="country-stat-icon">👥</span>
+        <div class="country-stat-value">${x.population||0}</div>
+        <div class="country-stat-label">Жителей</div>
+      </div>
+      <div class="country-stat">
+        <span class="country-stat-icon">🏭</span>
+        <div class="country-stat-value">${x.factories||0}</div>
+        <div class="country-stat-label">Заводов</div>
+      </div>
+    </div>
+    <div class="news-body">${esc(x.description||'Описание отсутствует')}</div>
+  `;
+  document.getElementById('viewModal').classList.add('active');
 }
 
 /* ============ СОЮЗЫ ============ */
@@ -952,7 +1005,7 @@ async function loadUnions(){
   }
   if(!data.length){ c.innerHTML='<div class="empty">Союзов нет</div>'; return; }
   c.innerHTML = data.map(x=>`
-    <div class="card">
+    <div class="card" onclick="viewUnion('${x.id}')">
       ${x.logo_url?`<img class="card-img" src="${x.logo_url}" alt="">`:'<div class="card-img-placeholder">🤝</div>'}
       <div class="card-body">
         <h3>${esc(x.name)}</h3>
@@ -992,6 +1045,7 @@ async function saveUnion(){
       id: 'demo_' + Date.now(), name,
       description: document.getElementById('uDesc').value.trim(),
       logo_url, owner_name: currentNick(),
+      owner_id: currentUser.id,
       created_at: new Date().toISOString()
     });
     demoStore.save();
@@ -1002,6 +1056,82 @@ async function saveUnion(){
   resetFileInput('uLogo','uLogoLabel','uLogoPreview');
   document.getElementById('unionForm').style.display='none';
   loadUnions();
+}
+
+async function viewUnion(id){
+  let u = null;
+  if(sb){
+    try { const res = await sb.from('unions').select('*').eq('id',id).single(); u = res.data; } catch(e){}
+  } else {
+    u = demoStore.unions.find(x=>String(x.id)===String(id));
+  }
+  if(!u) return;
+
+  const isOwner = currentUser && (u.owner_id === currentUser.id || u.owner_name === currentNick());
+  const invites = demoStore.invites[u.id] || [];
+
+  let invitesBlock = '';
+  if(isOwner){
+    invitesBlock = `
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+        <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашения в союз</h3>
+        <div class="invite-row">
+          <input id="inviteNick" placeholder="Ник игрока" style="margin:0">
+          <button class="btn btn-green" onclick="sendInvite('${u.id}')">Пригласить</button>
+        </div>
+        <div class="invite-list" id="inviteList">
+          ${invites.length ? invites.map(nick=>`
+            <div class="invite-item">
+              <span class="invite-name">${esc(nick)}</span>
+              <button class="invite-remove" onclick="removeInvite('${u.id}','${esc(nick)}')">×</button>
+            </div>
+          `).join('') : '<div style="color:var(--text-mute);font-size:12px">Пока никого не пригласили</div>'}
+        </div>
+      </div>
+    `;
+  } else if(invites.length){
+    invitesBlock = `
+      <div style="margin-top:24px;padding-top:20px;border-top:1px solid var(--border)">
+        <h3 style="color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px">Приглашённые игроки</h3>
+        <div class="invite-list">
+          ${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById('viewContent').innerHTML = `
+    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
+    ${u.logo_url?`<img class="news-img" src="${u.logo_url}" style="max-height:320px">`:''}
+    <h1>${esc(u.name)}</h1>
+    <div class="news-meta">
+      <span class="news-author">Основатель: <b>${esc(u.owner_name||'—')}</b></span>
+      <span class="news-date">Создан ${new Date(u.created_at).toLocaleDateString('ru-RU')}</span>
+    </div>
+    <div class="news-body">${esc(u.description||'Описание отсутствует')}</div>
+    ${invitesBlock}
+  `;
+  document.getElementById('viewModal').classList.add('active');
+}
+
+function sendInvite(unionId){
+  const inp = document.getElementById('inviteNick');
+  const nick = inp.value.trim();
+  if(!nick) return toast('Введите ник игрока', true);
+  if(!demoStore.invites[unionId]) demoStore.invites[unionId] = [];
+  if(demoStore.invites[unionId].includes(nick)) return toast('Уже приглашён', true);
+  demoStore.invites[unionId].push(nick);
+  demoStore.save();
+  toast('Приглашение отправлено для ' + nick);
+  inp.value = '';
+  viewUnion(unionId);
+}
+
+function removeInvite(unionId, nick){
+  if(!demoStore.invites[unionId]) return;
+  demoStore.invites[unionId] = demoStore.invites[unionId].filter(n=>n!==nick);
+  demoStore.save();
+  viewUnion(unionId);
 }
 
 /* ============ ПРОФИЛЬ ============ */
@@ -1031,7 +1161,7 @@ async function loadProfile(){
   } else {
     profile = { id: uid, username: nick, bio: demoStore.profiles[nick]?.bio || '' };
     country = demoStore.countries.find(x=>x.owner_id === uid);
-    news = demoStore.news.filter(x=>x.author_name === nick);
+    news = demoStore.news.filter(x=>x.author_id === uid || x.author_name === nick);
   }
 
   const avatar = profile?.avatar_url;
@@ -1276,12 +1406,15 @@ function toast(msg, isErr){
 document.getElementById('authModal').addEventListener('click', e => {
   if(e.target.id === 'authModal') closeModal();
 });
+document.getElementById('viewModal').addEventListener('click', e => {
+  if(e.target.id === 'viewModal') e.target.classList.remove('active');
+});
 
 /* ============ СТАРТ ============ */
 (async () => {
   await restoreSession();
   initHeroGlow();
-  loadStats();
+  await loadStats();
   console.log('%cСайт Peta-Gay запущен', 'color:#00ff88;font-weight:bold;font-size:14px');
 })();
 </script>
