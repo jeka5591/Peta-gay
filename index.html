@@ -324,16 +324,19 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
   background:var(--bg-3);
   overflow:hidden;
   position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .card-img{
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center;
   display:block;
   transition:transform .5s ease;
 }
-.card:hover .card-img{transform:scale(1.06)}
+.card:hover .card-img{transform:scale(1.03)}
 .card-img-placeholder{
   width:100%;
   height:100%;
@@ -395,9 +398,10 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 }
 .country-details .president-card .president-img{
   width:100%;
-  height:220px;
-  object-fit:cover;
+  height:260px;
+  object-fit:contain;
   display:block;
+  background:var(--bg);
 }
 .country-details .president-card .president-body{padding:20px}
 .country-details .president-card h4{
@@ -651,7 +655,7 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
       <div class="map-info">
         <h2>Онлайн карта мира</h2>
         <p>Исследуйте наш огромный мир в реальном времени. Наблюдайте за постройками, странами и городами прямо в браузере.</p>
-        <a href="http://x1.qwertyx.host:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">
+        <a href="http://x1.qwertyx.host:28768/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">
           🗺️ Перейти на карту →
         </a>
       </div>
@@ -698,6 +702,7 @@ const COUNTRIES = [
     description: 'Китай — это независимая страна, которую любят люди! Великая держава с богатой историей и культурой. Здесь каждый найдёт своё место под солнцем.',
     flag: 'OIP.jpg',
     president: 'photo_2026-10-04_19-35-59.jpg',
+    presidentName: 'Хуй Сунь Тунь',
     owner: 'Председатель'
   }
 ];
@@ -901,7 +906,7 @@ function renderCountries(){
             <div class="president-card">
               <img class="president-img" src="${x.president}" alt="Президент ${x.name}" onclick="openLightbox('${x.president}', event)">
               <div class="president-body">
-                <h4>Президент ${x.name}</h4>
+                <h4>Президент ${x.name} — ${x.presidentName}</h4>
                 <p>Лидер страны ${x.name}. Ведёт свой народ к процветанию и развитию.</p>
               </div>
             </div>
