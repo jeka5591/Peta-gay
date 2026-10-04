@@ -3,473 +3,714 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Peta-Gay | Игровое сообщество</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>Peta-Gay | Minecraft Сервер</title>
+<link rel="icon" type="image/jpeg" href="photo_2026-10-04_19-54-43.jpg">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI','Inter',Tahoma,sans-serif}
-html{color-scheme:dark}
 :root{
-  --bg:#0a0e0a;--bg-2:#111711;--bg-3:#161d16;
-  --green:#00ff88;--green-2:#00c46a;
-  --border:#1f2a1f;--border-2:#2a3a2a;
-  --text:#d8e6d8;--text-dim:#7a8a7a;--text-mute:#4a5a4a;
-  --r:10px;--r-lg:14px;--r-sm:6px;
+  --bg:#0a0a0a;
+  --bg-2:#111111;
+  --bg-3:#1a1a1a;
+  --green:#3ddc84;
+  --green-2:#2bb76a;
+  --green-3:#1e8c4e;
+  --border:#1e2a1e;
+  --border-2:#2a3d2a;
+  --text:#e0f0e5;
+  --text-dim:#8fa898;
+  --text-mute:#5a7564;
+  --r:12px;
+  --r-lg:16px;
+  --r-sm:8px;
 }
 html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px}
 ::selection{background:var(--green);color:#000}
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:var(--bg-2)}
-::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:var(--r-sm)}
-::-webkit-scrollbar-thumb:hover{background:var(--green-2)}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:5px}
+::-webkit-scrollbar-thumb:hover{background:var(--green-3)}
 
-.header{background:var(--bg-2);border-bottom:1px solid var(--border);padding:0 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;height:60px;flex-wrap:wrap}
-.logo{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;letter-spacing:.5px;color:#fff}
-.logo-mark{width:26px;height:26px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#000;font-weight:900;font-size:14px;border-radius:var(--r-sm)}
+.header{
+  background:var(--bg-2);
+  border-bottom:1px solid var(--border);
+  padding:0 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:70px;
+  flex-wrap:wrap;
+  box-shadow:0 4px 20px rgba(0,0,0,.3);
+}
+.logo{display:flex;align-items:center;gap:12px;font-size:20px;font-weight:800;letter-spacing:.5px;color:#fff}
+.logo-mark{
+  width:36px;height:36px;
+  background:linear-gradient(135deg,var(--green),var(--green-3));
+  display:flex;align-items:center;justify-content:center;
+  color:#0a0a0a;font-weight:900;font-size:20px;
+  border-radius:var(--r-sm);
+  box-shadow:0 0 20px rgba(61,220,132,.5);
+  overflow:hidden;
+  flex-shrink:0;
+}
+.logo-mark img{width:100%;height:100%;object-fit:cover;display:block}
 .logo span{color:var(--green)}
-.nav{display:flex;gap:2px;height:60px;flex-wrap:wrap}
-.nav a{color:var(--text-dim);text-decoration:none;font-weight:500;padding:0 18px;height:44px;display:flex;align-items:center;cursor:pointer;font-size:14px;letter-spacing:.3px;transition:all .15s;text-transform:uppercase;border-radius:var(--r-sm);margin:8px 0}
-.nav a:hover{color:var(--text);background:var(--bg-3)}
-.nav a.active{color:var(--green);background:rgba(0,255,136,.08)}
-.auth-buttons{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.user-email{color:var(--green);font-size:12px;font-family:'Consolas',monospace;padding:6px 12px;border:1px solid rgba(0,255,136,.3);border-radius:var(--r-sm);background:rgba(0,255,136,.05)}
+.nav{display:flex;gap:4px;flex-wrap:wrap}
+.nav a{
+  color:var(--text-dim);
+  text-decoration:none;
+  font-weight:600;
+  padding:10px 20px;
+  cursor:pointer;
+  font-size:14px;
+  letter-spacing:.3px;
+  transition:all .2s;
+  text-transform:uppercase;
+  border-radius:var(--r-sm);
+  border:1px solid transparent;
+}
+.nav a:hover{color:var(--text);background:var(--bg-3);border-color:var(--border)}
+.nav a.active{
+  color:var(--green);
+  background:rgba(61,220,132,.1);
+  border-color:rgba(61,220,132,.3);
+}
 
-.btn{padding:10px 20px;border:1px solid var(--border-2);background:transparent;color:var(--text);cursor:pointer;font-weight:600;font-size:13px;letter-spacing:.5px;text-transform:uppercase;transition:all .15s;text-decoration:none;display:inline-block;text-align:center;font-family:inherit;border-radius:var(--r)}
-.btn:hover{border-color:var(--green);color:var(--green)}
-.btn-green{background:var(--green);color:#000;border-color:var(--green);box-shadow:0 0 0 1px var(--green), 0 0 18px rgba(0,255,136,.45);font-weight:700;letter-spacing:1px}
-.btn-green:hover{background:var(--green-2);border-color:var(--green-2);box-shadow:0 0 0 1px var(--green-2), 0 0 28px rgba(0,255,136,.7);transform:translateY(-1px)}
-.btn-outline{background:transparent;color:var(--green);border-color:var(--green)}
-.btn-outline:hover{background:var(--green);color:#000}
-.btn-danger{background:transparent;color:#ff4444;border-color:#ff4444}
-.btn-danger:hover{background:#ff4444;color:#000}
+.container{max-width:1200px;margin:0 auto;padding:40px 24px}
 
-.container{max-width:1300px;margin:0 auto;padding:32px 24px}
-
-.server-panel{background:var(--bg-2);border:1px solid var(--border);padding:26px 30px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;border-radius:var(--r-lg)}
-.server-info{display:flex;flex-direction:column;gap:8px;min-width:200px}
-.server-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600}
-.server-ip{font-family:'Consolas','Monaco',monospace;font-size:20px;color:var(--text);font-weight:600;letter-spacing:.5px;cursor:pointer;transition:color .15s;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.server-panel{
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  padding:40px 44px;
+  margin-bottom:24px;
+  position:relative;
+  overflow:hidden;
+  min-height:220px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:32px;
+  flex-wrap:wrap;
+}
+.server-grid{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  background-image:
+    linear-gradient(rgba(61,220,132,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(61,220,132,.08) 1px, transparent 1px);
+  background-size:30px 30px;
+}
+.server-info{position:relative;z-index:1;flex:1;min-width:280px}
+.server-label{
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:3px;
+  color:var(--text-mute);
+  font-weight:700;
+  margin-bottom:12px;
+}
+.server-ip{
+  font-family:'Consolas','Monaco',monospace;
+  font-size:28px;
+  color:#fff;
+  font-weight:700;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:color .2s;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
 .server-ip:hover{color:var(--green)}
-.server-ip .copy-hint{font-size:11px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px;border:1px solid var(--border);padding:4px 10px;border-radius:var(--r-sm);transition:all .15s}
-.server-ip:hover .copy-hint{border-color:var(--green);color:var(--green)}
-.server-online{display:flex;align-items:center;gap:14px;margin-left:auto}
-.online-dot{width:12px;height:12px;background:var(--green);border-radius:50%;box-shadow:0 0 14px var(--green);animation:pulse 2s infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.online-count{font-size:38px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1}
-.online-label{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);margin-top:4px}
+.copy-btn{
+  font-family:'Segoe UI',sans-serif;
+  font-size:11px;
+  color:var(--green);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  border:1px solid var(--green);
+  padding:6px 14px;
+  border-radius:var(--r-sm);
+  background:rgba(61,220,132,.08);
+  transition:all .2s;
+  font-weight:700;
+  cursor:pointer;
+}
+.copy-btn:hover{
+  background:var(--green);
+  color:#0a0a0a;
+  box-shadow:0 0 20px rgba(61,220,132,.6);
+}
+.server-desc{color:var(--text-dim);font-size:14px;line-height:1.6;max-width:480px}
 
-.hero{background:var(--bg-2);border:1px solid var(--border);padding:44px 40px;margin-bottom:24px;position:relative;overflow:hidden;border-radius:var(--r-lg)}
-.hero-grid{position:absolute;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(0,255,136,.07) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.07) 1px, transparent 1px);background-size:40px 40px}
-.hero h1{font-size:32px;color:#fff;margin-bottom:12px;letter-spacing:-.5px;font-weight:700;position:relative;z-index:1}
-.hero h1 .accent{color:var(--green)}
-.hero p{color:var(--text-dim);font-size:15px;margin-bottom:24px;max-width:600px;line-height:1.6;position:relative;z-index:1}
+.server-online{
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:var(--bg-3);
+  padding:20px 28px;
+  border-radius:var(--r);
+  border:1px solid var(--border-2);
+}
+.online-dot{
+  width:14px;height:14px;
+  background:var(--green);
+  border-radius:50%;
+  box-shadow:0 0 16px var(--green);
+  animation:pulse 2s infinite;
+  flex-shrink:0;
+}
+.online-dot.offline{background:#e74c3c;box-shadow:0 0 16px #e74c3c;animation:none}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.9)}}
+.online-count{
+  font-size:44px;
+  font-weight:800;
+  color:var(--green);
+  font-family:'Consolas',monospace;
+  line-height:1;
+  text-shadow:0 0 20px rgba(61,220,132,.4);
+}
+.online-count.offline{color:#e74c3c;text-shadow:0 0 20px rgba(231,76,60,.4)}
+.online-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  color:var(--text-mute);
+  margin-top:6px;
+  font-weight:700;
+}
 
-.btn-map{position:relative;z-index:1;background:var(--green);color:#000;padding:14px 32px;font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;text-decoration:none;border-radius:var(--r);overflow:hidden;transition:transform .25s cubic-bezier(.34,1.56,.64,1), box-shadow .25s, background .25s;box-shadow:0 0 0 1px var(--green), 0 0 24px rgba(0,255,136,.3)}
-.btn-map::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent);transition:left .5s}
-.btn-map:hover{background:var(--green-2);transform:translateX(6px) scale(1.02);box-shadow:0 0 0 1px var(--green-2), 0 0 40px rgba(0,255,136,.6), 0 8px 24px rgba(0,255,136,.3)}
+.map-panel{
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  margin-bottom:32px;
+  overflow:hidden;
+  position:relative;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:340px;
+}
+.map-image{
+  background:var(--bg-3);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.map-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .6s ease;
+}
+.map-panel:hover .map-image img{transform:scale(1.05)}
+.map-info{
+  padding:44px 40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
+  z-index:1;
+}
+.map-info::before{
+  content:'';
+  position:absolute;
+  left:0;top:20%;bottom:20%;
+  width:3px;
+  background:linear-gradient(180deg, transparent, var(--green), transparent);
+  border-radius:3px;
+}
+.map-info h2{
+  color:#fff;
+  font-size:28px;
+  font-weight:800;
+  margin-bottom:14px;
+  letter-spacing:-.3px;
+}
+.map-info p{
+  color:var(--text-dim);
+  font-size:15px;
+  line-height:1.7;
+  margin-bottom:28px;
+}
+.btn-map{
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  background:linear-gradient(135deg, var(--green), var(--green-2));
+  color:#0a0a0a;
+  padding:16px 32px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-radius:var(--r);
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 8px 24px rgba(61,220,132,.3);
+  width:fit-content;
+  position:relative;
+  overflow:hidden;
+}
+.btn-map::before{
+  content:'';
+  position:absolute;
+  top:0;left:-100%;
+  width:100%;height:100%;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+  transition:left .6s;
+}
+.btn-map:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(61,220,132,.5);
+}
 .btn-map:hover::before{left:100%}
-.btn-map:active{transform:translateX(6px) scale(.98)}
-.btn-map .arrow{transition:transform .25s}
-.btn-map:hover .arrow{transform:translateX(6px)}
 
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px}
-.stat-card{background:var(--bg-2);border:1px solid var(--border);padding:24px;border-radius:var(--r-lg)}
-.stat-icon{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:var(--text-mute);font-weight:600;margin-bottom:12px}
-.stat-value{font-size:34px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:6px}
-.stat-label{font-size:12px;color:var(--text-dim);letter-spacing:.5px}
+.section-title{
+  color:#fff;
+  font-size:24px;
+  font-weight:800;
+  letter-spacing:.3px;
+  margin-bottom:24px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.section-title::before{
+  content:'';
+  width:4px;
+  height:24px;
+  background:var(--green);
+  border-radius:2px;
+  box-shadow:0 0 12px var(--green);
+}
 
-.section-title{color:#fff;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.section-title::before{content:'';width:3px;height:18px;background:var(--green);border-radius:2px}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+  gap:20px;
+}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{
+  background:var(--bg-2);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  overflow:hidden;
+  transition:all .3s;
+  display:flex;
+  flex-direction:column;
+  cursor:pointer;
+}
+.card:hover{
+  border-color:var(--green-3);
+  transform:translateY(-4px);
+  box-shadow:0 16px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(61,220,132,.2);
+}
+.card-img-wrap{
+  width:100%;
+  height:220px;
+  background:var(--bg-3);
+  overflow:hidden;
+  position:relative;
+}
+.card-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+  transition:transform .5s ease;
+}
+.card:hover .card-img{transform:scale(1.06)}
+.card-img-placeholder{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:64px;
+  color:var(--border-2);
+  background:var(--bg-3);
+}
+.card-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.card-body h3{
+  color:#fff;
+  margin-bottom:12px;
+  font-size:19px;
+  font-weight:800;
+  letter-spacing:.2px;
+}
+.card-body p{
+  color:var(--text-dim);
+  font-size:14px;
+  line-height:1.7;
+  flex:1;
+}
+.card-meta{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  color:var(--text-mute);
+  padding-top:16px;
+  margin-top:16px;
+  border-top:1px solid var(--border);
+  text-transform:uppercase;
+  letter-spacing:1px;
+  font-weight:600;
+}
+.card-meta b{color:var(--green)}
 
-.card{background:var(--bg-2);border:1px solid var(--border);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;border-radius:var(--r-lg);transition:all .2s}
-.card:hover{border-color:var(--green-2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,136,.1)}
-.card-img-wrap{width:100%;height:190px;background:var(--bg-3);overflow:hidden;border-bottom:1px solid var(--border);position:relative}
-.card-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
-.card-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:52px;color:var(--border-2);background:var(--bg-3)}
-.card-body{padding:20px;flex:1;display:flex;flex-direction:column}
-.card-body h3{color:#fff;margin-bottom:10px;font-size:16px;font-weight:700}
-.card-body p{color:var(--text-dim);font-size:13px;line-height:1.6;margin-bottom:14px;flex:1}
-.card-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mute);padding-top:12px;border-top:1px solid var(--border);text-transform:uppercase;letter-spacing:.5px;font-family:'Consolas',monospace}
+/* Раскрывающаяся карточка страны */
+.country-card{grid-column:1/-1}
+.country-card .card-body{display:flex;flex-direction:column}
+.country-details{
+  display:none;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+}
+.country-card.open .country-details{display:block;animation:fadeIn .3s}
+.country-details-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
+.country-details .president-card{
+  background:var(--bg-3);
+  border:1px solid var(--border-2);
+  border-radius:var(--r);
+  overflow:hidden;
+}
+.country-details .president-card .president-img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  display:block;
+}
+.country-details .president-card .president-body{padding:20px}
+.country-details .president-card h4{
+  color:#fff;
+  font-size:17px;
+  font-weight:800;
+  margin-bottom:8px;
+}
+.country-details .president-card p{
+  color:var(--text-dim);
+  font-size:13px;
+  line-height:1.6;
+}
+.country-details .description-block{
+  background:var(--bg-3);
+  border:1px solid var(--border-2);
+  border-radius:var(--r);
+  padding:24px;
+}
+.country-details .description-block h4{
+  color:var(--green);
+  font-size:14px;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  font-weight:800;
+  margin-bottom:14px;
+}
+.country-details .description-block p{
+  color:var(--text-dim);
+  font-size:14px;
+  line-height:1.8;
+}
+.expand-hint{
+  font-size:11px;
+  color:var(--text-mute);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  font-weight:700;
+  margin-top:14px;
+  text-align:center;
+}
+.country-card.open .expand-hint{color:var(--green)}
 
-.country-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
-.country-stat{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;text-align:center}
-.country-stat-icon{font-size:16px;line-height:1;margin-bottom:6px;display:block}
-.country-stat-value{font-size:20px;font-weight:700;color:var(--green);font-family:'Consolas',monospace;line-height:1;margin-bottom:4px}
-.country-stat-label{font-size:10px;color:var(--text-mute);text-transform:uppercase;letter-spacing:1px}
+/* Раскрывающаяся новость */
+.news-card{grid-column:1/-1}
+.news-details{
+  display:none;
+  margin-top:20px;
+  padding-top:20px;
+  border-top:1px solid var(--border);
+}
+.news-card.open .news-details{display:block;animation:fadeIn .3s}
+.news-details p{
+  color:var(--text-dim);
+  font-size:14px;
+  line-height:1.8;
+  margin-bottom:14px;
+}
+.news-details p:last-child{margin-bottom:0}
+.news-card.open .expand-hint{color:var(--green)}
 
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:1000;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
-.modal.active{display:flex;animation:fadeIn .2s}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.modal-content{background:#0f150f;border:1px solid var(--green-2);padding:32px;width:100%;max-width:440px;position:relative;max-height:90vh;overflow-y:auto;border-radius:var(--r-lg);box-shadow:0 0 40px rgba(0,255,136,.15), 0 20px 60px rgba(0,0,0,.5);animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)}
-@keyframes slideUp{from{transform:translateY(20px) scale(.96);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
-.modal-content::before{content:'';position:absolute;top:0;left:20px;right:20px;height:2px;background:linear-gradient(90deg, transparent, var(--green), transparent);border-radius:0 0 2px 2px}
-.close{position:absolute;top:14px;right:18px;font-size:22px;cursor:pointer;color:var(--text-mute);background:none;border:none;font-family:inherit;border-radius:var(--r-sm);width:30px;height:30px;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.close:hover{color:var(--green);background:var(--bg-3);transform:rotate(90deg)}
-.modal-content h2{color:#fff;margin-bottom:22px;font-size:16px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;text-align:center}
+/* Полноэкранное изображение */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:5000;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:40px;
+  cursor:zoom-out;
+  animation:fadeIn .3s;
+}
+.lightbox.show{display:flex}
+.lightbox img{
+  max-width:100%;
+  max-height:100%;
+  object-fit:contain;
+  border-radius:var(--r);
+  box-shadow:0 0 80px rgba(61,220,132,.4);
+  animation:zoomIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes zoomIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.lightbox-close{
+  position:absolute;
+  top:24px;right:32px;
+  font-size:36px;
+  color:#fff;
+  background:none;
+  border:none;
+  cursor:pointer;
+  line-height:1;
+  transition:color .2s;
+  font-weight:300;
+}
+.lightbox-close:hover{color:var(--green)}
 
-.field{margin-bottom:14px}
-.field-input{display:flex;align-items:center;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);padding:0 16px;transition:border-color .2s, box-shadow .2s;overflow:hidden}
-.field-input:hover{border-color:#00c46a}
-.field-input:focus-within{border-color:#00ff88;box-shadow:0 0 0 4px rgba(0,255,136,.12)}
-.field-input input,.field-input textarea{flex:1;width:100%;background:transparent !important;background-color:transparent !important;background-image:none !important;border:0 !important;outline:0 !important;box-shadow:none !important;-webkit-appearance:none !important;appearance:none !important;padding:13px 0 !important;margin:0 !important;color:#ffffff !important;-webkit-text-fill-color:#ffffff !important;caret-color:#00ff88;font-size:14px;font-family:inherit;resize:none;min-height:auto}
-.field-input input::placeholder,.field-input textarea::placeholder{color:#4a5a4a !important;opacity:1 !important}
-.field-textarea{align-items:stretch;padding:12px 16px}
-.field-textarea textarea{min-height:100px;padding:2px 0 !important}
-.field-input input[type="number"]::-webkit-outer-spin-button,.field-input input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none !important;margin:0 !important}
-.field-input input[type="number"]{-moz-appearance:textfield !important}
-.field-input input:-webkit-autofill,.field-input input:-webkit-autofill:hover,.field-input input:-webkit-autofill:focus,.field-input textarea:-webkit-autofill{-webkit-text-fill-color:#ffffff !important;-webkit-box-shadow:0 0 0 1000px #0d120d inset !important;box-shadow:0 0 0 1000px #0d120d inset !important;transition:background-color 9999s ease-in-out 0s !important;caret-color:#00ff88}
-
-label{display:block;margin-bottom:6px;color:var(--text-dim);font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:1px}
-
-.file-input{position:relative;margin-bottom:14px}
-.file-input input[type="file"]{position:absolute !important;width:0 !important;height:0 !important;padding:0 !important;margin:0 !important;border:0 !important;opacity:0 !important;pointer-events:none}
-.file-label{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 20px;background:#0d120d;border:1px dashed #2a3a2a;border-radius:var(--r);color:#7a8a7a;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all .2s;user-select:none}
-.file-label::before{content:'📷';font-size:18px}
-.file-label:hover{border-color:#00ff88;color:#00ff88;background:#111811}
-.file-label.has-file{border-style:solid;border-color:#00ff88;color:#00ff88;background:rgba(0,255,136,.05)}
-.file-label.has-file::before{content:'✓';font-weight:700}
-
-.checkbox-row{display:flex;align-items:center;gap:10px;margin-bottom:18px;padding:12px 14px;background:#0d120d;border:1px solid #2a3a2a;border-radius:var(--r);cursor:pointer;transition:all .15s}
-.checkbox-row:hover{border-color:#00ff88}
-.checkbox-row input[type="checkbox"]{width:18px;height:18px;margin:0;cursor:pointer;accent-color:#00ff88;flex-shrink:0}
-.checkbox-row span{font-size:13px;color:var(--text);text-transform:none;letter-spacing:0;font-weight:500;line-height:1.4}
-
-.form-box{background:#111711;padding:28px;border:1px solid var(--border);margin-bottom:24px;position:relative;border-radius:var(--r-lg);overflow:hidden}
-.form-box::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg, var(--green), transparent)}
-.form-box h3{color:#fff;margin-bottom:20px;font-size:14px;text-transform:uppercase;letter-spacing:1.5px}
-
-.toggle-auth{text-align:center;margin-top:18px;color:var(--text-mute);font-size:12px}
-.toggle-auth a{color:var(--green);font-weight:600;text-decoration:none;cursor:pointer;text-transform:uppercase;letter-spacing:1px;font-size:11px}
-.toggle-auth a:hover{text-decoration:underline}
-
-.profile-header{background:var(--bg-2);border:1px solid var(--border);padding:32px;margin-bottom:24px;display:flex;gap:28px;align-items:center;flex-wrap:wrap;position:relative;border-radius:var(--r-lg)}
-.profile-header::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green)}
-.avatar{width:110px;height:110px;object-fit:cover;border:2px solid var(--green);background:var(--bg);flex-shrink:0;border-radius:var(--r-lg)}
-.avatar-placeholder{width:110px;height:110px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:44px;border:2px solid var(--green);color:var(--green);flex-shrink:0;border-radius:var(--r-lg)}
-.profile-info{flex:1;min-width:200px}
-.profile-info h2{color:#fff;margin-bottom:8px;font-size:22px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.profile-info .bio{color:var(--text-dim);font-size:13px;line-height:1.6;margin-top:8px}
+.stats-row{
+  display:flex;
+  gap:16px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.stat-pill{
+  background:var(--bg-3);
+  border:1px solid var(--border-2);
+  border-radius:var(--r);
+  padding:12px 20px;
+  text-align:center;
+}
+.stat-pill-value{
+  font-size:22px;
+  font-weight:800;
+  color:var(--green);
+  font-family:'Consolas',monospace;
+  line-height:1;
+}
+.stat-pill-label{
+  font-size:10px;
+  color:var(--text-mute);
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  margin-top:6px;
+  font-weight:700;
+}
 
 .page{display:none}
-.page.active{display:block}
+.page.active{display:block;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.empty{text-align:center;padding:60px 20px;color:var(--text-mute);background:var(--bg-2);border:1px dashed var(--border-2);font-size:13px;text-transform:uppercase;letter-spacing:1px;grid-column:1/-1;border-radius:var(--r-lg)}
-.loading{text-align:center;padding:60px 20px;color:var(--green);font-family:'Consolas',monospace;font-size:13px;letter-spacing:2px;background:var(--bg-2);grid-column:1/-1;border-radius:var(--r-lg)}
+.toast{
+  position:fixed;
+  bottom:32px;
+  right:32px;
+  background:var(--bg-2);
+  color:var(--green);
+  padding:16px 26px;
+  border:1px solid var(--green);
+  font-family:'Consolas',monospace;
+  font-size:14px;
+  z-index:2000;
+  display:none;
+  max-width:360px;
+  border-radius:var(--r);
+  box-shadow:0 12px 40px rgba(0,0,0,.5), 0 0 30px rgba(61,220,132,.3);
+  font-weight:600;
+}
+.toast.show{display:block;animation:slideIn .3s ease-out}
+@keyframes slideIn{from{transform:translateX(30px);opacity:0}to{transform:translateX(0);opacity:1}}
 
-.flex-between{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
-.flex-between .section-title{margin:0;border:none;padding:0}
-.flex-between .section-title::before{height:16px}
-
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg-2);color:var(--green);padding:14px 22px;border:1px solid var(--green);font-family:'Consolas',monospace;font-size:13px;z-index:2000;display:none;max-width:340px;border-radius:var(--r)}
-.toast.show{display:block;animation:slideIn .2s ease-out}
-.toast.err{color:#ff6666;border-color:#ff6666}
-@keyframes slideIn{from{transform:translateX(20px);opacity:0}to{transform:translateX(0);opacity:1}}
-
-.copy-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);background:var(--bg-2);border:1px solid var(--green);padding:28px 40px;border-radius:var(--r-lg);z-index:3000;text-align:center;opacity:0;pointer-events:none;transition:all .25s}
+.copy-popup{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%) scale(.9);
+  background:var(--bg-2);
+  border:1px solid var(--green);
+  padding:36px 56px;
+  border-radius:var(--r-lg);
+  z-index:3000;
+  text-align:center;
+  box-shadow:0 0 80px rgba(61,220,132,.5);
+  opacity:0;
+  pointer-events:none;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+}
 .copy-popup.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.copy-popup .check{font-size:48px;color:var(--green);margin-bottom:10px;line-height:1}
-.copy-popup .msg{color:#fff;font-size:15px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
-.copy-popup .ip{color:var(--green);font-family:'Consolas',monospace;font-size:13px}
-
-.preview{width:100%;max-height:200px;object-fit:cover;margin-bottom:12px;display:none;border:1px solid var(--border-2);border-radius:var(--r)}
-
-.news-view{max-width:720px !important}
-.news-view .back-btn{background:none;border:none;color:var(--text-dim);cursor:pointer;font-family:inherit;font-size:12px;letter-spacing:1px;text-transform:uppercase;padding:0;margin-bottom:18px;display:inline-flex;align-items:center;gap:6px;transition:color .15s}
-.news-view .back-btn:hover{color:var(--green)}
-.news-view h1{color:#fff;font-size:26px;line-height:1.3;margin-bottom:16px;font-weight:700;text-transform:none;letter-spacing:0}
-.news-view .news-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding-bottom:16px;border-bottom:1px solid var(--border);margin-bottom:24px}
-.news-view .news-author{color:var(--text-dim);font-size:13px;font-family:'Consolas',monospace}
-.news-view .news-author b{color:var(--green)}
-.news-view .news-date{color:var(--text-mute);font-size:12px;font-family:'Consolas',monospace}
-.news-view .news-img{width:100%;max-height:420px;object-fit:cover;object-position:center;background:var(--bg-3);border-radius:var(--r);margin-bottom:24px;border:1px solid var(--border)}
-.news-view .news-body{color:var(--text);font-size:15px;line-height:1.8;white-space:pre-wrap}
-.news-view .news-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
-
-.union-section{margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
-.union-section h3{color:#fff;font-size:14px;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:14px}
-.invite-list{margin-top:16px;display:flex;flex-direction:column;gap:8px}
-.invite-item{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);font-size:13px}
-.invite-item .invite-name{color:var(--green);font-weight:600}
-.invite-item .invite-remove{background:none;border:none;color:#ff6666;cursor:pointer;font-family:inherit;font-size:16px;padding:4px 8px;transition:all .15s}
-.invite-item .invite-remove:hover{transform:scale(1.2)}
-
-.player-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:10px;max-height:240px;overflow-y:auto;padding:4px}
-.player-pick-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);font-size:12px;transition:all .15s}
-.player-pick-item:hover{border-color:var(--green-2)}
-.player-pick-item .pick-nick{color:#fff;font-weight:600}
-.player-pick-item button{background:var(--green);color:#000;border:none;padding:4px 10px;border-radius:var(--r-sm);font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
-.player-pick-item button:hover{background:var(--green-2);transform:translateY(-1px)}
-
-.union-news-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.union-news-item{background:#0d120d;border:1px solid var(--border-2);border-radius:var(--r);padding:14px 16px;position:relative}
-.union-news-item .un-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text-mute);font-family:'Consolas',monospace}
-.union-news-item .un-author{color:var(--green);font-weight:700}
-.union-news-item .un-text{color:var(--text);font-size:14px;line-height:1.6;white-space:pre-wrap}
-.union-news-item .un-del{position:absolute;top:8px;right:8px;background:none;border:none;color:#ff6666;cursor:pointer;font-size:16px;font-family:inherit;opacity:.6;transition:opacity .15s;padding:4px 8px}
-.union-news-item .un-del:hover{opacity:1}
-
-.badge{display:inline-block;background:rgba(0,255,136,.1);color:var(--green);padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid rgba(0,255,136,.3);text-transform:uppercase}
-.hint{font-size:11px;color:var(--text-mute);margin-top:2px;margin-bottom:14px}
+.copy-popup .check{
+  font-size:56px;
+  color:var(--green);
+  margin-bottom:14px;
+  line-height:1;
+}
+.copy-popup .msg{
+  color:#fff;
+  font-size:17px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-bottom:10px;
+}
+.copy-popup .ip{
+  color:var(--green);
+  font-family:'Consolas',monospace;
+  font-size:15px;
+  letter-spacing:.5px;
+}
 
 @media(max-width:768px){
-  .header{padding:12px 16px;height:auto}
-  .nav{width:100%;order:3;margin:0 -16px;padding:0 16px;border-top:1px solid var(--border);height:auto}
-  .nav a{padding:10px 12px;height:auto;font-size:12px;margin:4px 0}
-  .hero{padding:32px 20px}
-  .hero h1{font-size:22px}
-  .container{padding:20px 16px}
-  .modal-content{padding:24px}
-  .news-view h1{font-size:20px}
+  .header{padding:16px;height:auto;gap:16px}
+  .nav{width:100%;justify-content:center}
+  .container{padding:24px 16px}
+  .server-panel{padding:28px 24px}
+  .server-ip{font-size:20px}
+  .online-count{font-size:34px}
+  .map-panel{grid-template-columns:1fr}
+  .map-image{min-height:240px}
+  .map-info{padding:32px 24px}
+  .map-info h2{font-size:22px}
+  .section-title{font-size:20px}
+  .country-details-grid{grid-template-columns:1fr}
+  .lightbox{padding:16px}
+  .lightbox-close{top:12px;right:16px;font-size:30px}
 }
 </style>
 </head>
 <body>
 
 <header class="header">
-  <div class="logo"><div class="logo-mark">P</div><div>PETA<span>-GAY</span></div></div>
+  <div class="logo">
+    <div class="logo-mark"><img src="photo_2026-10-04_19-54-43.jpg" alt="Peta-Gay"></div>
+    <div>PETA-<span>GAY</span></div>
+  </div>
   <nav class="nav">
     <a onclick="go('home')" id="nav-home" class="active">Главная</a>
     <a onclick="go('countries')" id="nav-countries">Страны</a>
     <a onclick="go('unions')" id="nav-unions">Союзы</a>
     <a onclick="go('news')" id="nav-news">Новости</a>
-    <a onclick="go('profile')" id="nav-profile">Моя страна</a>
   </nav>
-  <div class="auth-buttons">
-    <button id="loginBtn" class="btn btn-green" onclick="openAuthModal()">Войти</button>
-    <span id="userEmail" class="user-email" style="display:none"></span>
-  </div>
 </header>
 
 <div class="container">
 
   <div class="page active" id="page-home">
-    <div class="server-panel">
+
+    <div class="server-panel" id="serverPanel">
+      <div class="server-grid"></div>
       <div class="server-info">
-        <div class="server-label">Игровой сервер</div>
-        <div class="server-ip" onclick="copyIP()">peta-gay.minerent.io:31272<span class="copy-hint">Копировать</span></div>
+        <div class="server-label">IP сервера</div>
+        <div class="server-ip" onclick="copyIP()">
+          x1.qwertyx.host:25965
+          <span class="copy-btn">📋 Скопировать</span>
+        </div>
+        <div class="server-desc">
+          Добро пожаловать на наш Minecraft сервер! Играй с друзьями, стройте страны, создавайте союзы.
+        </div>
       </div>
       <div class="server-online">
-        <div class="online-dot"></div>
+        <div class="online-dot" id="onlineDot"></div>
         <div>
           <div class="online-count" id="onlineCount">—</div>
-          <div class="online-label">Игроков онлайн</div>
+          <div class="online-label" id="onlineLabel">Игроков онлайн</div>
         </div>
       </div>
     </div>
 
-    <section class="hero" id="heroBlock">
-      <div class="hero-grid"></div>
-      <h1>Добро пожаловать в <span class="accent">PETA-GAY</span></h1>
-      <p>Создайте свою страну, объединяйтесь в союзы, публикуйте новости и исследуйте карту мира.</p>
-      <a href="http://peta-gay.minerent.io:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">🗺️ Открыть карту <span class="arrow">→</span></a>
-    </section>
-
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon">🏛️ Государства</div><div class="stat-value" id="countriesCount">0</div><div class="stat-label">Стран создано</div></div>
-      <div class="stat-card"><div class="stat-icon">🤝 Альянсы</div><div class="stat-value" id="unionsCount">0</div><div class="stat-label">Союзов</div></div>
-      <div class="stat-card"><div class="stat-icon">📰 Публикации</div><div class="stat-value" id="newsCount">0</div><div class="stat-label">Новостей</div></div>
+    <div class="map-panel">
+      <div class="map-image">
+        <img src="94_20260901170943.png" alt="Карта мира">
+      </div>
+      <div class="map-info">
+        <h2>Онлайн карта мира</h2>
+        <p>Исследуйте наш огромный мир в реальном времени. Наблюдайте за постройками, странами и городами прямо в браузере.</p>
+        <a href="http://x1.qwertyx.host:31436/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">
+          🗺️ Перейти на карту →
+        </a>
+      </div>
     </div>
 
-    <h2 class="section-title">Последние новости</h2>
-    <div class="grid" id="latestNews"><div class="loading">Загрузка</div></div>
   </div>
 
   <div class="page" id="page-countries">
-    <div class="flex-between"><h2 class="section-title">🏛️ Страны</h2><span class="badge" id="myCountryBadge"></span></div>
-    <div class="grid" id="countriesList"><div class="loading">Загрузка</div></div>
+    <h2 class="section-title">🏛️ Страны</h2>
+    <div class="grid" id="countriesList"></div>
   </div>
 
   <div class="page" id="page-unions">
-    <div class="flex-between"><h2 class="section-title">🤝 Союзы</h2><button class="btn btn-green" onclick="toggleUnionForm()">+ Создать союз</button></div>
-    <div class="form-box" id="unionForm" style="display:none">
-      <h3>Новый союз</h3>
-      <label>Название союза</label>
-      <div class="field"><div class="field-input"><input id="uName" placeholder="Например: Северный Альянс"></div></div>
-      <label>Описание</label>
-      <div class="field"><div class="field-input field-textarea"><textarea id="uDesc" placeholder="Цели, участники, правила..."></textarea></div></div>
-      <label>Логотип</label>
-      <div class="file-input"><input id="uLogo" type="file" accept="image/*" onchange="previewImage(this,'uLogoPreview')"><label for="uLogo" class="file-label" id="uLogoLabel">Выбрать фото</label></div>
-      <img id="uLogoPreview" class="preview">
-      <button class="btn btn-green" onclick="saveUnion()">💾 Создать союз</button>
-    </div>
-    <div class="grid" id="unionsList"><div class="loading">Загрузка</div></div>
+    <h2 class="section-title">🤝 Союзы</h2>
+    <div class="grid" id="unionsList"></div>
   </div>
 
   <div class="page" id="page-news">
-    <div class="flex-between"><h2 class="section-title">📰 Новости</h2><button class="btn btn-green" onclick="toggleNewsForm()">+ Написать</button></div>
-    <div class="form-box" id="newsForm" style="display:none">
-      <h3>Новая публикация</h3>
-      <div class="hint">Новость хранится 2 дня, потом удаляется автоматически</div>
-      <label>Заголовок</label>
-      <div class="field"><div class="field-input"><input id="nTitle" placeholder="О чём новость?"></div></div>
-      <label>Текст новости</label>
-      <div class="field"><div class="field-input field-textarea"><textarea id="nContent" style="min-height:180px" placeholder="Расскажите подробности..."></textarea></div></div>
-      <label>Картинка (необязательно)</label>
-      <div class="file-input"><input id="nImage" type="file" accept="image/*" onchange="previewImage(this,'nImagePreview')"><label for="nImage" class="file-label" id="nImageLabel">Выбрать фото</label></div>
-      <img id="nImagePreview" class="preview">
-      <button class="btn btn-green" onclick="saveNews()">📤 Опубликовать</button>
-    </div>
-    <div class="grid" id="newsList"><div class="loading">Загрузка</div></div>
-  </div>
-
-  <div class="page" id="page-profile">
-    <h2 class="section-title">🏛️ Моя страна</h2>
-    <div id="profileContent"><div class="loading">Загрузка</div></div>
+    <h2 class="section-title">📰 Новости</h2>
+    <div class="grid" id="newsList"></div>
   </div>
 
 </div>
 
-<div class="modal" id="authModal">
-  <div class="modal-content">
-    <button class="close" onclick="closeModal()">×</button>
-    <h2 id="modalTitle">Вход</h2>
-    <div id="loginFields">
-      <label>Ник</label>
-      <div class="field"><div class="field-input"><input type="text" id="loginNick" placeholder="Ваш ник"></div></div>
-      <label>Пароль</label>
-      <div class="field"><div class="field-input"><input type="password" id="loginPassword" placeholder="Пароль"></div></div>
-      <button type="button" class="btn btn-green" style="width:100%" onclick="doLogin()">Войти</button>
-    </div>
-    <div id="registerFields" style="display:none">
-      <label>Ник</label>
-      <div class="field"><div class="field-input"><input type="text" id="regNick" placeholder="Ваш игровой ник"></div></div>
-      <div class="hint" style="margin-top:-6px;margin-bottom:14px">Можно писать по-русски, латиницей, цифрами и _</div>
-      <label>Пароль</label>
-      <div class="field"><div class="field-input"><input type="password" id="regPassword" placeholder="Пароль (мин. 4 символа)"></div></div>
-      <label>Название страны</label>
-      <div class="field"><div class="field-input"><input type="text" id="regCountry" placeholder="Например: Свободная Республика"></div></div>
-      <label class="checkbox-row"><input type="checkbox" id="regAgree"><span>Я согласен что Петя гей</span></label>
-      <button type="button" class="btn btn-green" style="width:100%" onclick="doRegister()">Основать страну</button>
-    </div>
-    <p class="toggle-auth" id="toggleBlock">Нет страны? <a onclick="toggleAuthMode()" id="toggleAuth">Основать страну</a></p>
-  </div>
-</div>
-
-<div class="modal" id="viewModal">
-  <div class="modal-content news-view" id="viewContentWrap">
-    <button class="close" onclick="document.getElementById('viewModal').classList.remove('active')">×</button>
-    <div id="viewContent"></div>
-  </div>
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox(event)">×</button>
+  <img id="lightboxImg" src="" alt="Просмотр">
 </div>
 
 <div class="copy-popup" id="copyPopup">
   <div class="check">✓</div>
   <div class="msg">IP скопирован</div>
-  <div class="ip">peta-gay.minerent.io:31272</div>
+  <div class="ip">x1.qwertyx.host:25965</div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-/* ============ НАСТРОЙКИ SUPABASE ============ */
-const SUPABASE_URL = 'https://rzubuabooymjhfskpeoq.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ6dWJ1YWJvb3ltamhmc2twZW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTA4NjQwNjksImV4cCI6MjEwNjQ0MDA2OX0.yznTjgMbtmTl_oUW89Xx37vDDUDN24thzh4Xj5ChR90';
-const SERVER_IP = 'peta-gay.minerent.io:31272';
-const EMAIL_DOMAIN = '@peta-gay.local';
-const NEWS_LIFETIME_MS = 2 * 24 * 60 * 60 * 1000;
+const SERVER_IP = 'x1.qwertyx.host:25965';
 
-/* ============ ПОДКЛЮЧЕНИЕ SUPABASE ============ */
-let sb = null;
-try {
-  if (typeof supabase === 'undefined') {
-    console.error('%c✗ Библиотека Supabase не загружена', 'color:#ff4444;font-weight:bold');
-  } else if (!SUPABASE_URL.startsWith('http') || SUPABASE_ANON_KEY.length < 20) {
-    console.error('%c✗ Неверный URL или ключ', 'color:#ff4444;font-weight:bold');
-  } else {
-    sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    console.log('%c✓ Supabase подключён', 'color:#00ff88;font-weight:bold');
+const COUNTRIES = [
+  {
+    name: 'Китай',
+    description: 'Китай — это независимая страна, которую любят люди! Великая держава с богатой историей и культурой. Здесь каждый найдёт своё место под солнцем.',
+    flag: 'OIP.jpg',
+    president: 'photo_2026-10-04_19-35-59.jpg',
+    owner: 'Председатель'
   }
-} catch(e) {
-  console.error('Ошибка подключения Supabase:', e);
-  sb = null;
-}
+];
 
-/* ============ ТРАНСЛИТЕРАЦИЯ ============ */
-function translit(str){
-  const map = {'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y','к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f','х':'h','ц':'c','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',' ':'_'};
-  return str.toLowerCase().split('').map(c => map[c] !== undefined ? map[c] : c).join('').replace(/[^a-z0-9_]/g,'');
-}
-function nickToEmail(nick){ return translit(nick) + EMAIL_DOMAIN; }
-
-let currentUser = null;
-let currentProfile = null;
-let isLoginMode = true;
-
-/* ============ ДЕМО-ХРАНИЛИЩЕ ============ */
-const demoStore = {
-  countries: JSON.parse(localStorage.getItem('demo_countries') || '[]'),
-  unions: JSON.parse(localStorage.getItem('demo_unions') || '[]'),
-  news: JSON.parse(localStorage.getItem('demo_news') || '[]'),
-  profiles: JSON.parse(localStorage.getItem('demo_profiles') || '{}'),
-  invites: JSON.parse(localStorage.getItem('demo_invites') || '{}'),
-  unionNews: JSON.parse(localStorage.getItem('demo_union_news') || '{}'),
-  save() {
-    localStorage.setItem('demo_countries', JSON.stringify(this.countries));
-    localStorage.setItem('demo_unions', JSON.stringify(this.unions));
-    localStorage.setItem('demo_news', JSON.stringify(this.news));
-    localStorage.setItem('demo_profiles', JSON.stringify(this.profiles));
-    localStorage.setItem('demo_invites', JSON.stringify(this.invites));
-    localStorage.setItem('demo_union_news', JSON.stringify(this.unionNews));
+const NEWS = [
+  {
+    title: 'Опубликован тир-лист по самым большим странам',
+    image: 'Untitled.png',
+    date: 'Сегодня',
+    short: 'Мы подготовили тир-лист самых больших стран на сервере. Узнайте, кто занимает топовые позиции и кто ещё только набирает обороты!',
+    full: 'Мы подготовили тир-лист самых больших стран на сервере. Узнайте, кто занимает топовые позиции и кто ещё только набирает обороты!'
   }
-};
-
-async function loadAllPlayers(){
-  if(sb){
-    try {
-      const {data} = await sb.from('profiles').select('id, username');
-      return (data || []).map(p => ({ id: p.id, username: p.username }));
-    } catch(e){ return []; }
-  } else {
-    return Object.keys(demoStore.profiles).map(nick => ({ id: demoStore.profiles[nick].id, username: nick }));
-  }
-}
-
-async function loadUnionNews(unionId){
-  if(sb){
-    try {
-      const {data} = await sb.from('union_news').select('*').eq('union_id', unionId).order('created_at', {ascending:false});
-      return data || [];
-    } catch(e){ return []; }
-  } else {
-    return demoStore.unionNews[unionId] || [];
-  }
-}
-
-async function saveUnionNewsItem(unionId, content){
-  if(sb){
-    try {
-      const {error} = await sb.from('union_news').insert({ union_id: unionId, author_id: currentUser.id, author_name: currentNick(), content });
-      if(error) throw error;
-    } catch(e){ toast('Ошибка: '+e.message, true); }
-  } else {
-    if(!demoStore.unionNews[unionId]) demoStore.unionNews[unionId] = [];
-    demoStore.unionNews[unionId].unshift({ id: 'un_' + Date.now(), author_name: currentNick(), content, created_at: new Date().toISOString() });
-    demoStore.save();
-  }
-}
-
-async function deleteUnionNewsItem(unionId, newsId){
-  if(sb){ try { await sb.from('union_news').delete().eq('id', newsId); } catch(e){} }
-  else {
-    if(demoStore.unionNews[unionId]){
-      demoStore.unionNews[unionId] = demoStore.unionNews[unionId].filter(n => String(n.id) !== String(newsId));
-      demoStore.save();
-    }
-  }
-  toast('Обращение удалено');
-  viewUnion(unionId);
-}
-
-async function cleanupOldNews(){
-  const cutoff = new Date(Date.now() - NEWS_LIFETIME_MS).toISOString();
-  if(sb){ try { await sb.from('news').delete().lt('created_at', cutoff); } catch(e){} }
-  else {
-    const before = demoStore.news.length;
-    demoStore.news = demoStore.news.filter(n => new Date(n.created_at).getTime() > Date.now() - NEWS_LIFETIME_MS);
-    if(demoStore.news.length !== before) demoStore.save();
-  }
-}
+];
 
 function go(page){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
@@ -479,771 +720,241 @@ function go(page){
   const link = document.getElementById('nav-'+page);
   if(link) link.classList.add('active');
   window.scrollTo(0,0);
-  if(page==='countries') loadCountries();
-  if(page==='unions') loadUnions();
-  if(page==='news') loadNews();
-  if(page==='profile') loadProfile();
-  if(page==='home') loadStats();
 }
 
-function openAuthModal(){ isLoginMode = true; syncAuthModal(); document.getElementById('authModal').classList.add('active'); }
-function closeModal(){ document.getElementById('authModal').classList.remove('active'); }
-function toggleAuthMode(){ isLoginMode = !isLoginMode; syncAuthModal(); }
-function syncAuthModal(){
-  document.getElementById('modalTitle').textContent = isLoginMode?'Вход':'Основать страну';
-  document.getElementById('loginFields').style.display = isLoginMode?'block':'none';
-  document.getElementById('registerFields').style.display = isLoginMode?'none':'block';
-  document.getElementById('toggleAuth').textContent = isLoginMode?'Основать страну':'Войти';
-  document.getElementById('toggleBlock').firstChild.textContent = isLoginMode?'Нет страны? ':'Уже есть страна? ';
-}
+(function initGridGlow(){
+  const panel = document.getElementById('serverPanel');
+  if(!panel) return;
 
-async function doLogin(){
-  const nick = document.getElementById('loginNick').value.trim();
-  const password = document.getElementById('loginPassword').value;
-  if(!nick || !password) return toast('Заполните ник и пароль', true);
-  if(!sb){
-    const prof = demoStore.profiles[nick];
-    if(!prof) return toast('Игрок не найден', true);
-    if(prof.password !== password) return toast('Неверный пароль', true);
-    currentUser = { id: prof.id, email: nickToEmail(nick) };
-    currentProfile = { id: prof.id, username: nick, bio: prof.bio || '' };
-    localStorage.setItem('peta_session', nick);
-    updateAuthUI(currentUser); closeModal(); toast('Добро пожаловать, ' + nick); go('profile');
-    return;
+  const bright = document.createElement('div');
+  bright.style.cssText = [
+    'position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .2s',
+    'background-image:linear-gradient(rgba(61,220,132,.9) 1px, transparent 1px),linear-gradient(90deg, rgba(61,220,132,.9) 1px, transparent 1px)',
+    'background-size:30px 30px',
+    'background-position:0 0, 0 0',
+    '-webkit-mask-image:radial-gradient(circle 130px at -999px -999px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)',
+    'mask-image:radial-gradient(circle 130px at -999px -999px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)'
+  ].join(';');
+  panel.appendChild(bright);
+
+  const glow = document.createElement('div');
+  glow.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .25s';
+  panel.appendChild(glow);
+
+  let raf = null, mx = 0, my = 0;
+  function apply(){
+    raf = null;
+    const mask = `radial-gradient(circle 130px at ${mx}px ${my}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
+    bright.style.webkitMaskImage = mask;
+    bright.style.maskImage = mask;
+    glow.style.background = `radial-gradient(circle 150px at ${mx}px ${my}px, rgba(61,220,132,.18) 0%, rgba(61,220,132,.06) 35%, transparent 70%)`;
   }
-  try {
-    const {data: profile} = await sb.from('profiles').select('id').eq('username', nick).maybeSingle();
-    if(!profile) return toast('Игрок не найден', true);
-    const res = await sb.auth.signInWithPassword({ email: nickToEmail(nick), password });
-    if(res.error) return toast('Ошибка: ' + res.error.message, true);
-    currentUser = res.data.user;
-    localStorage.setItem('peta_session', nick);
-    closeModal(); toast('Добро пожаловать, ' + nick); go('profile');
-  } catch(e){ toast('Ошибка: ' + e.message, true); }
-}
-
-async function doRegister(){
-  const nick = document.getElementById('regNick').value.trim();
-  const password = document.getElementById('regPassword').value;
-  const countryName = document.getElementById('regCountry').value.trim();
-  const agreed = document.getElementById('regAgree').checked;
-  if(!nick || !password || !countryName) return toast('Заполните все поля', true);
-  if(nick.length < 2) return toast('Ник минимум 2 символа', true);
-  if(nick.length > 20) return toast('Ник максимум 20 символов', true);
-  if(password.length < 4) return toast('Пароль минимум 4 символа', true);
-  if(!agreed) return toast('Подтвердите согласие', true);
-  if(!sb){
-    if(demoStore.profiles[nick]) return toast('Ник занят', true);
-    const userId = 'demo_' + Date.now();
-    demoStore.profiles[nick] = { id: userId, password, bio: '' };
-    demoStore.countries.push({ id: 'demo_c_' + Date.now(), name: countryName, description: 'Молодое государство.', population: 1, factories: 0, owner_id: userId, owner_name: nick, created_at: new Date().toISOString() });
-    demoStore.save();
-    currentUser = { id: userId, email: nickToEmail(nick) };
-    currentProfile = { id: userId, username: nick, bio: '' };
-    localStorage.setItem('peta_session', nick);
-    updateAuthUI(currentUser); closeModal(); toast('Страна основана!'); go('profile');
-    return;
-  }
-  try {
-    const res = await sb.auth.signUp({ email: nickToEmail(nick), password });
-    if(res.error) return toast('Ошибка: ' + res.error.message, true);
-    if(!res.data.user) return toast('Не удалось создать аккаунт', true);
-    const userId = res.data.user.id;
-    await sb.from('profiles').insert({ id: userId, username: nick, bio: '' });
-    await sb.from('countries').insert({ name: countryName, description: 'Молодое государство.', population: 1, factories: 0, owner_id: userId, owner_name: nick });
-    currentUser = res.data.user;
-    localStorage.setItem('peta_session', nick);
-    closeModal(); toast('Страна основана!'); go('profile');
-  } catch(e){ toast('Ошибка: ' + e.message, true); }
-}
-
-function updateAuthUI(user){
-  const loginBtn = document.getElementById('loginBtn');
-  const ue = document.getElementById('userEmail');
-  if(user){ loginBtn.style.display = 'none'; ue.style.display = 'inline-block'; ue.textContent = (currentProfile?.username || 'Игрок'); }
-  else { loginBtn.style.display = 'inline-block'; ue.style.display = 'none'; }
-}
-
-async function handleLogout(){
-  if(sb) await sb.auth.signOut();
-  localStorage.removeItem('peta_session');
-  currentUser = null; currentProfile = null;
-  updateAuthUI(null); go('home'); toast('Вы вышли');
-}
-
-async function restoreSession(){
-  if(sb){
-    const {data} = await sb.auth.getSession();
-    if(data.session?.user){
-      currentUser = data.session.user;
-      const {data: p} = await sb.from('profiles').select('*').eq('id', data.session.user.id).maybeSingle();
-      currentProfile = p; updateAuthUI(currentUser);
-      return;
-    }
-  }
-  const savedNick = localStorage.getItem('peta_session');
-  if(savedNick && !sb && demoStore.profiles[savedNick]){
-    const prof = demoStore.profiles[savedNick];
-    currentUser = { id: prof.id, email: nickToEmail(savedNick) };
-    currentProfile = { id: prof.id, username: savedNick, bio: prof.bio || '' };
-    updateAuthUI(currentUser);
-  }
-}
-
-async function loadStats(){
-  await cleanupOldNews();
-  let c=0,u=0,n=0;
-  if(sb){
-    try {
-      const [rc,ru,rn] = await Promise.all([
-        sb.from('countries').select('*',{count:'exact',head:true}),
-        sb.from('unions').select('*',{count:'exact',head:true}),
-        sb.from('news').select('*',{count:'exact',head:true})
-      ]);
-      c = rc.count||0; u = ru.count||0; n = rn.count||0;
-    } catch(e){ console.error(e); }
-  } else { c = demoStore.countries.length; u = demoStore.unions.length; n = demoStore.news.length; }
-  document.getElementById('countriesCount').textContent = c;
-  document.getElementById('unionsCount').textContent = u;
-  document.getElementById('newsCount').textContent = n;
-  fetchOnline(); loadLatestNews();
-}
+  panel.addEventListener('mousemove', (e)=>{
+    const r = panel.getBoundingClientRect();
+    mx = e.clientX - r.left;
+    my = e.clientY - r.top;
+    bright.style.opacity = '1';
+    glow.style.opacity = '1';
+    if(!raf) raf = requestAnimationFrame(apply);
+  });
+  panel.addEventListener('mouseleave', ()=>{
+    bright.style.opacity = '0';
+    glow.style.opacity = '0';
+  });
+})();
 
 async function fetchOnline(){
-  const el = document.getElementById('onlineCount');
-  if(!el) return;
-  el.textContent = '...';
+  const countEl = document.getElementById('onlineCount');
+  const dotEl = document.getElementById('onlineDot');
+  const labelEl = document.getElementById('onlineLabel');
+  if(!countEl) return;
+
+  countEl.textContent = '...';
+  countEl.classList.remove('offline');
+  dotEl.classList.remove('offline');
+  labelEl.textContent = 'Игроков онлайн';
+
   const host = SERVER_IP.split(':')[0];
   const port = SERVER_IP.split(':')[1] || '25565';
-  const cacheBust = '?t=' + Date.now();
+  const cb = '?t=' + Date.now();
+
+  let online = null;
+  let max = null;
+
   try {
-    const r = await fetch(`https://api.mcstatus.io/v2/status/java/${host}:${port}${cacheBust}`);
+    const r = await fetch(`https://api.mcstatus.io/v2/status/java/${host}:${port}${cb}`);
     const d = await r.json();
-    if(d && d.online && typeof d.players?.online === 'number'){ el.textContent = d.players.online; return; }
+    if(d && d.online && typeof d.players?.online === 'number'){
+      online = d.players.online;
+      max = d.players.max;
+    }
   } catch(e){}
-  try {
-    const r = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}${cacheBust}`);
-    const d = await r.json();
-    if(d && d.online){ el.textContent = d.players?.online ?? 0; return; }
-  } catch(e){}
-  el.textContent = '—';
+
+  if(online === null){
+    try {
+      const r = await fetch(`https://api.mcsrvstat.us/3/${SERVER_IP}${cb}`);
+      const d = await r.json();
+      if(d && d.online){
+        online = d.players?.online ?? 0;
+        max = d.players?.max ?? null;
+      }
+    } catch(e){}
+  }
+
+  if(online === null){
+    try {
+      const r = await fetch(`https://mcapi.us/server/status?ip=${host}&port=${port}`);
+      const d = await r.json();
+      if(d && d.online){
+        online = d.players?.now ?? 0;
+        max = d.players?.max ?? null;
+      }
+    } catch(e){}
+  }
+
+  if(online !== null){
+    countEl.textContent = online;
+    if(max){
+      labelEl.textContent = `Игроков онлайн (макс. ${max})`;
+    }
+  } else {
+    countEl.textContent = '—';
+    countEl.classList.add('offline');
+    dotEl.classList.add('offline');
+    labelEl.textContent = 'Сервер офлайн';
+  }
 }
+fetchOnline();
 setInterval(fetchOnline, 20000);
 
 function copyIP(){
-  const show = ()=>{ const p = document.getElementById('copyPopup'); p.classList.add('show'); setTimeout(()=>p.classList.remove('show'), 1800); };
+  const show = ()=>{
+    const p = document.getElementById('copyPopup');
+    p.classList.add('show');
+    setTimeout(()=>p.classList.remove('show'), 1800);
+  };
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(SERVER_IP).then(show).catch(()=>{ fallbackCopy(); show(); });
-  } else { fallbackCopy(); show(); }
+  } else {
+    fallbackCopy(); show();
+  }
 }
 function fallbackCopy(){
   const ta = document.createElement('textarea');
-  ta.value = SERVER_IP; ta.style.position = 'fixed'; ta.style.opacity = '0';
-  document.body.appendChild(ta); ta.select();
+  ta.value = SERVER_IP;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
   try{ document.execCommand('copy'); }catch(e){}
   document.body.removeChild(ta);
 }
 
-function initHeroGlow(){
-  const hero = document.getElementById('heroBlock');
-  if(!hero) return;
-  const bright = document.createElement('div');
-  bright.style.cssText = ['position:absolute','inset:0','pointer-events:none','z-index:0','opacity:0','transition:opacity .15s','background-image:linear-gradient(rgba(0,255,136,.95) 1px, transparent 1px),linear-gradient(90deg, rgba(0,255,136,.95) 1px, transparent 1px)','background-size:40px 40px'].join(';');
-  hero.appendChild(bright);
-  const glow = document.createElement('div');
-  glow.style.cssText = 'position:absolute;inset:0;pointer-events:none;z-index:0;opacity:0;transition:opacity .2s';
-  hero.appendChild(glow);
-  let raf = null, mx = 0, my = 0;
-  function apply(){
-    raf = null;
-    const mask = `radial-gradient(circle 170px at ${mx}px ${my}px, #000 0%, rgba(0,0,0,.5) 45%, transparent 80%)`;
-    bright.style.webkitMaskImage = mask; bright.style.maskImage = mask;
-    glow.style.background = `radial-gradient(circle 200px at ${mx}px ${my}px, rgba(0,255,136,.16) 0%, rgba(0,255,136,.05) 35%, transparent 70%)`;
-  }
-  hero.addEventListener('mousemove', (e)=>{
-    const r = hero.getBoundingClientRect();
-    mx = e.clientX - r.left; my = e.clientY - r.top;
-    bright.style.opacity = '1'; glow.style.opacity = '1';
-    if(!raf) raf = requestAnimationFrame(apply);
-  });
-  hero.addEventListener('mouseleave', ()=>{ bright.style.opacity = '0'; glow.style.opacity = '0'; });
+function toggleCountry(el){
+  el.classList.toggle('open');
 }
 
-async function loadLatestNews(){
-  const c = document.getElementById('latestNews');
-  if(!c) return;
-  await cleanupOldNews();
-  let data = [];
-  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}).limit(6); data = res.data || []; } catch(e){ console.error(e); } }
-  else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)).slice(0,6); }
-  if(!data.length){ c.innerHTML='<div class="empty">Пока нет новостей</div>'; return; }
-  c.innerHTML = data.map(newsCard).join('');
+function toggleNews(el){
+  el.classList.toggle('open');
 }
 
-async function loadNews(){
-  const c = document.getElementById('newsList');
-  c.innerHTML = '<div class="loading">Загрузка</div>';
-  await cleanupOldNews();
-  let data = [];
-  if(sb){ try { const res = await sb.from('news').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
-  else { data = [...demoStore.news].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
-  if(!data.length){ c.innerHTML='<div class="empty">Новостей нет</div>'; return; }
-  c.innerHTML = data.map(newsCard).join('');
+function openLightbox(src, e){
+  if(e) e.stopPropagation();
+  const lb = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  img.src = src;
+  lb.classList.add('show');
+  document.body.style.overflow = 'hidden';
 }
 
-function newsCard(n){
-  return `<div class="card" onclick="viewNews('${n.id}')">
-    <div class="card-img-wrap">${n.image_url?`<img class="card-img" src="${n.image_url}" alt="">`:'<div class="card-img-placeholder">📰</div>'}</div>
-    <div class="card-body">
-      <h3>${esc(n.title)}</h3>
-      <p>${esc((n.content||'').substring(0,120))}...</p>
-      <div class="card-meta"><span>👤 ${esc(n.author_name||'Аноним')}</span><span>${new Date(n.created_at).toLocaleDateString('ru-RU')}</span></div>
-    </div>
-  </div>`;
+function closeLightbox(e){
+  if(e) e.stopPropagation();
+  const lb = document.getElementById('lightbox');
+  lb.classList.remove('show');
+  document.body.style.overflow = '';
 }
 
-async function viewNews(id){
-  let n = null;
-  if(sb){ try { const res = await sb.from('news').select('*').eq('id',id).single(); n = res.data; } catch(e){} }
-  else { n = demoStore.news.find(x=>String(x.id)===String(id)); }
-  if(!n) return;
-  const canDelete = currentUser && (n.author_id === currentUser.id || n.author_name === currentNick());
-  document.getElementById('viewContent').innerHTML = `
-    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
-    <h1>${esc(n.title)}</h1>
-    <div class="news-meta">
-      <span class="news-author">Автор: <b>${esc(n.author_name||'Аноним')}</b></span>
-      <span class="news-date">${new Date(n.created_at).toLocaleString('ru-RU')}</span>
-    </div>
-    ${n.image_url?`<img class="news-img" src="${n.image_url}">`:''}
-    <div class="news-body">${esc(n.content)}</div>
-    ${canDelete?`<div class="news-actions"><button class="btn btn-danger" onclick="deleteNews('${n.id}')">🗑 Удалить новость</button></div>`:''}
-  `;
-  document.getElementById('viewModal').classList.add('active');
-}
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape') closeLightbox();
+});
 
-async function deleteNews(id){
-  if(!confirm('Удалить эту новость?')) return;
-  if(sb){ try { await sb.from('news').delete().eq('id', id); } catch(e){} }
-  else { demoStore.news = demoStore.news.filter(n=>String(n.id)!==String(id)); demoStore.save(); }
-  toast('Новость удалена');
-  document.getElementById('viewModal').classList.remove('active');
-  loadNews(); loadStats();
-}
-
-async function toggleNewsForm(){
-  if(!currentUser) return toast('Войдите чтобы публиковать', true);
-  const f = document.getElementById('newsForm');
-  f.style.display = f.style.display==='none'?'block':'none';
-}
-
-function currentNick(){ return currentProfile?.username || ''; }
-function currentId(){ return currentUser?.id || ''; }
-
-async function saveNews(){
-  if(!currentUser) return toast('Войдите чтобы публиковать', true);
-  const title = document.getElementById('nTitle').value.trim();
-  const content = document.getElementById('nContent').value.trim();
-  if(!title||!content) return toast('Заполните заголовок и текст', true);
-  const file = document.getElementById('nImage').files[0];
-  let image_url = null;
-  if(file){
-    if(sb){ try { image_url = await uploadImage('news', file); } catch(e){ toast('Ошибка загрузки', true); } }
-    else { image_url = await fileToDataURL(file); }
-  }
-  if(sb){
-    try { const {error} = await sb.from('news').insert({ title, content, image_url, author_id: currentUser.id, author_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
-  } else {
-    demoStore.news.push({ id: 'demo_' + Date.now(), title, content, image_url, author_id: currentUser.id, author_name: currentNick(), created_at: new Date().toISOString() });
-    demoStore.save();
-  }
-  toast('Новость опубликована');
-  resetFileInput('nImage','nImageLabel','nImagePreview');
-  document.getElementById('nTitle').value=''; document.getElementById('nContent').value='';
-  document.getElementById('newsForm').style.display='none';
-  loadNews(); loadStats();
-}
-
-function fileToDataURL(file){
-  return new Promise(resolve=>{ const r = new FileReader(); r.onload = e => resolve(e.target.result); r.readAsDataURL(file); });
-}
-
-async function uploadImage(bucket, file){
-  const ext = file.name.split('.').pop();
-  const path = `${currentId()}-${Date.now()}.${ext}`;
-  const {error} = await sb.storage.from(bucket).upload(path, file);
-  if(error) throw error;
-  const {data} = sb.storage.from(bucket).getPublicUrl(path);
-  return data.publicUrl;
-}
-
-async function loadCountries(){
+function renderCountries(){
   const c = document.getElementById('countriesList');
-  const badge = document.getElementById('myCountryBadge');
-  c.innerHTML = '<div class="loading">Загрузка</div>';
-  let data = [];
-  if(sb){ try { const res = await sb.from('countries').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
-  else { data = [...demoStore.countries].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
-  if(!data.length){ c.innerHTML='<div class="empty">Стран нет</div>'; if(badge) badge.textContent=''; return; }
-  if(badge && currentUser){ const my = data.find(x=>x.owner_id === currentUser.id); badge.textContent = my ? '🏛️ ' + my.name : ''; }
-  else if(badge) badge.textContent = '';
-  c.innerHTML = data.map(x=>`
-    <div class="card" onclick="viewCountry('${x.id}')">
-      <div class="card-img-wrap">${x.flag_url?`<img class="card-img" src="${x.flag_url}" alt="">`:'<div class="card-img-placeholder">🏛️</div>'}</div>
+  c.innerHTML = COUNTRIES.map(x => `
+    <div class="card country-card" onclick="toggleCountry(this)">
+      <div class="card-img-wrap">
+        ${x.flag ? `<img class="card-img" src="${x.flag}" alt="${x.name}" onclick="openLightbox('${x.flag}', event)">` : '<div class="card-img-placeholder">🏛️</div>'}
+      </div>
       <div class="card-body">
-        <h3>${esc(x.name)}</h3>
-        <p>${esc((x.description||'').substring(0,140))}</p>
-        <div class="country-stats">
-          <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${x.population||0}</div><div class="country-stat-label">Жителей</div></div>
-          <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${x.factories||0}</div><div class="country-stat-label">Заводов</div></div>
+        <h3>${x.name}</h3>
+        <p>${x.description}</p>
+        <div class="card-meta">
+          <span>👤 ${x.owner}</span>
         </div>
-        <div class="card-meta" style="margin-top:14px"><span>Правитель: ${esc(x.owner_name||'—')}</span></div>
+        <div class="country-details">
+          <div class="country-details-grid">
+            <div class="description-block">
+              <h4>Описание страны</h4>
+              <p>${x.description}</p>
+              <p style="margin-top:12px">Столица: Пекин. Форма правления: народная республика. Китай является одной из самых влиятельных стран на сервере.</p>
+            </div>
+            <div class="president-card">
+              <img class="president-img" src="${x.president}" alt="Президент ${x.name}" onclick="openLightbox('${x.president}', event)">
+              <div class="president-body">
+                <h4>Президент ${x.name}</h4>
+                <p>Лидер страны ${x.name}. Ведёт свой народ к процветанию и развитию.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="expand-hint">▼ Нажмите, чтобы открыть описание ▼</div>
       </div>
     </div>
   `).join('');
 }
 
-async function viewCountry(id){
-  let x = null;
-  if(sb){ try { const res = await sb.from('countries').select('*').eq('id',id).single(); x = res.data; } catch(e){} }
-  else { x = demoStore.countries.find(c=>String(c.id)===String(id)); }
-  if(!x) return;
-  document.getElementById('viewContent').innerHTML = `
-    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
-    ${x.flag_url?`<img class="news-img" src="${x.flag_url}">`:''}
-    <h1>${esc(x.name)}</h1>
-    <div class="news-meta">
-      <span class="news-author">Правитель: <b>${esc(x.owner_name||'—')}</b></span>
-      <span class="news-date">Основано ${new Date(x.created_at).toLocaleDateString('ru-RU')}</span>
-    </div>
-    <div class="country-stats" style="margin-bottom:24px;border:none;padding:0">
-      <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${x.population||0}</div><div class="country-stat-label">Жителей</div></div>
-      <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${x.factories||0}</div><div class="country-stat-label">Заводов</div></div>
-    </div>
-    <div class="news-body">${esc(x.description||'Описание отсутствует')}</div>
-  `;
-  document.getElementById('viewModal').classList.add('active');
-}
-
-function toggleUnionForm(){
-  if(!currentUser) return toast('Войдите', true);
-  const f = document.getElementById('unionForm');
-  f.style.display = f.style.display==='none'?'block':'none';
-}
-
-async function loadUnions(){
+function renderUnions(){
   const c = document.getElementById('unionsList');
-  c.innerHTML = '<div class="loading">Загрузка</div>';
-  let data = [];
-  if(sb){ try { const res = await sb.from('unions').select('*').order('created_at',{ascending:false}); data = res.data || []; } catch(e){ console.error(e); } }
-  else { data = [...demoStore.unions].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at)); }
-  if(!data.length){ c.innerHTML='<div class="empty">Союзов нет</div>'; return; }
-  c.innerHTML = data.map(x=>`
-    <div class="card" onclick="viewUnion('${x.id}')">
-      <div class="card-img-wrap">${x.logo_url?`<img class="card-img" src="${x.logo_url}" alt="">`:'<div class="card-img-placeholder">🤝</div>'}</div>
+  c.innerHTML = `
+    <div class="card" style="grid-column:1/-1;cursor:default">
+      <div class="card-img-wrap">
+        <div class="card-img-placeholder">🤝</div>
+      </div>
       <div class="card-body">
-        <h3>${esc(x.name)}</h3>
-        <p>${esc((x.description||'').substring(0,160))}</p>
-        <div class="card-meta"><span>Основатель: ${esc(x.owner_name||'—')}</span></div>
+        <h3>Пока союзов нет</h3>
+        <p>Союзы появятся здесь, когда игроки начнут объединяться. Создайте первый союз на сервере!</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderNews(){
+  const c = document.getElementById('newsList');
+  c.innerHTML = NEWS.map(n => `
+    <div class="card news-card" onclick="toggleNews(this)">
+      <div class="card-img-wrap">
+        ${n.image ? `<img class="card-img" src="${n.image}" alt="${n.title}" onclick="openLightbox('${n.image}', event)">` : '<div class="card-img-placeholder">📰</div>'}
+      </div>
+      <div class="card-body">
+        <h3>${n.title}</h3>
+        <p>${n.short}</p>
+        <div class="card-meta">
+          <span>📅 ${n.date}</span>
+        </div>
+        <div class="news-details">
+          <p>${n.full}</p>
+        </div>
+        <div class="expand-hint">▼ Нажмите, чтобы прочитать полностью ▼</div>
       </div>
     </div>
   `).join('');
 }
 
-async function saveUnion(){
-  if(!currentUser) return toast('Войдите', true);
-  const name = document.getElementById('uName').value.trim();
-  if(!name) return toast('Введите название', true);
-  const file = document.getElementById('uLogo').files[0];
-  let logo_url = null;
-  if(file){
-    if(sb){ try { logo_url = await uploadImage('unions', file); } catch(e){ toast('Ошибка загрузки', true); } }
-    else { logo_url = await fileToDataURL(file); }
-  }
-  if(sb){
-    try { const {error} = await sb.from('unions').insert({ name, description: document.getElementById('uDesc').value.trim(), logo_url, owner_id: currentUser.id, owner_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
-  } else {
-    demoStore.unions.push({ id: 'demo_' + Date.now(), name, description: document.getElementById('uDesc').value.trim(), logo_url, owner_name: currentNick(), owner_id: currentUser.id, created_at: new Date().toISOString() });
-    demoStore.save();
-  }
-  toast('Союз создан');
-  document.getElementById('uName').value=''; document.getElementById('uDesc').value='';
-  resetFileInput('uLogo','uLogoLabel','uLogoPreview');
-  document.getElementById('unionForm').style.display='none';
-  loadUnions();
-}
+renderCountries();
+renderUnions();
+renderNews();
 
-async function viewUnion(id){
-  let u = null;
-  if(sb){ try { const res = await sb.from('unions').select('*').eq('id',id).single(); u = res.data; } catch(e){} }
-  else { u = demoStore.unions.find(x=>String(x.id)===String(id)); }
-  if(!u) return;
-
-  const isOwner = currentUser && (u.owner_id === currentUser.id || u.owner_name === currentNick());
-  const invites = demoStore.invites[u.id] || [];
-  const allPlayers = await loadAllPlayers();
-  const unionNews = await loadUnionNews(u.id);
-
-  const invitedNicks = invites.map(n => n.toLowerCase());
-  const availablePlayers = allPlayers.filter(p =>
-    p.username.toLowerCase() !== (u.owner_name || '').toLowerCase() &&
-    !invitedNicks.includes(p.username.toLowerCase())
-  );
-
-  let unionNewsBlock = '';
-  if(isOwner){
-    unionNewsBlock = `
-      <div class="union-section">
-        <h3>📢 Обращение к союзникам</h3>
-        <div class="field"><div class="field-input field-textarea">
-          <textarea id="unionNewsInput" placeholder="Напишите обращение или новость для участников союза..."></textarea>
-        </div></div>
-        <button class="btn btn-green" onclick="publishUnionNews('${u.id}')">📤 Опубликовать</button>
-        <div class="union-news-list">
-          ${unionNews.length ? unionNews.map(n => `
-            <div class="union-news-item">
-              <button class="un-del" onclick="deleteUnionNewsItem('${u.id}','${n.id}')">×</button>
-              <div class="un-head">
-                <span class="un-author">${esc(n.author_name || 'Основатель')}</span>
-                <span>${new Date(n.created_at).toLocaleString('ru-RU')}</span>
-              </div>
-              <div class="un-text">${esc(n.content)}</div>
-            </div>
-          `).join('') : '<div style="color:var(--text-mute);font-size:12px">Пока нет обращений</div>'}
-        </div>
-      </div>
-    `;
-  } else if(unionNews.length){
-    unionNewsBlock = `
-      <div class="union-section">
-        <h3>📢 Обращения основателя</h3>
-        <div class="union-news-list">
-          ${unionNews.map(n => `
-            <div class="union-news-item">
-              <div class="un-head">
-                <span class="un-author">${esc(n.author_name || 'Основатель')}</span>
-                <span>${new Date(n.created_at).toLocaleString('ru-RU')}</span>
-              </div>
-              <div class="un-text">${esc(n.content)}</div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  let invitesBlock = '';
-  if(isOwner){
-    invitesBlock = `
-      <div class="union-section">
-        <h3>✉️ Пригласить игроков</h3>
-        <div class="field"><div class="field-input">
-          <input id="playerSearch" placeholder="Поиск игрока..." oninput="filterPlayers()">
-        </div></div>
-        <div class="player-pick" id="playerPick">
-          ${availablePlayers.length ? availablePlayers.map(p => `
-            <div class="player-pick-item" data-nick="${esc(p.username.toLowerCase())}">
-              <span class="pick-nick">${esc(p.username)}</span>
-              <button onclick="invitePlayer('${u.id}','${esc(p.username)}')">+ Пригласить</button>
-            </div>
-          `).join('') : '<div style="color:var(--text-mute);font-size:12px;grid-column:1/-1">Нет свободных игроков для приглашения</div>'}
-        </div>
-        <h3 style="margin-top:24px">📋 Приглашённые</h3>
-        <div class="invite-list">
-          ${invites.length ? invites.map(nick=>`
-            <div class="invite-item">
-              <span class="invite-name">${esc(nick)}</span>
-              <button class="invite-remove" onclick="removeInvite('${u.id}','${esc(nick)}')">×</button>
-            </div>
-          `).join('') : '<div style="color:var(--text-mute);font-size:12px">Пока никого не пригласили</div>'}
-        </div>
-      </div>
-      <div class="news-actions" style="margin-top:20px">
-        <button class="btn btn-danger" onclick="deleteUnion('${u.id}')">🗑 Удалить союз</button>
-      </div>
-    `;
-  } else if(invites.length){
-    invitesBlock = `
-      <div class="union-section">
-        <h3>👥 Участники союза</h3>
-        <div class="invite-list">
-          ${invites.map(nick=>`<div class="invite-item"><span class="invite-name">${esc(nick)}</span></div>`).join('')}
-        </div>
-      </div>
-    `;
-  }
-
-  document.getElementById('viewContent').innerHTML = `
-    <button class="back-btn" onclick="document.getElementById('viewModal').classList.remove('active')">← Назад</button>
-    ${u.logo_url?`<img class="news-img" src="${u.logo_url}">`:''}
-    <h1>${esc(u.name)}</h1>
-    <div class="news-meta">
-      <span class="news-author">Основатель: <b>${esc(u.owner_name||'—')}</b></span>
-      <span class="news-date">Создан ${new Date(u.created_at).toLocaleDateString('ru-RU')}</span>
-    </div>
-    <div class="news-body">${esc(u.description||'Описание отсутствует')}</div>
-    ${unionNewsBlock}
-    ${invitesBlock}
-  `;
-  document.getElementById('viewModal').classList.add('active');
-}
-
-function filterPlayers(){
-  const q = (document.getElementById('playerSearch')?.value || '').trim().toLowerCase();
-  document.querySelectorAll('#playerPick .player-pick-item').forEach(el => {
-    el.style.display = el.dataset.nick.includes(q) ? '' : 'none';
-  });
-}
-
-function invitePlayer(unionId, nick){
-  if(!demoStore.invites[unionId]) demoStore.invites[unionId] = [];
-  if(demoStore.invites[unionId].map(n=>n.toLowerCase()).includes(nick.toLowerCase())) return toast('Уже приглашён', true);
-  demoStore.invites[unionId].push(nick);
-  demoStore.save();
-  toast('Приглашение для ' + nick);
-  viewUnion(unionId);
-}
-
-async function publishUnionNews(unionId){
-  const inp = document.getElementById('unionNewsInput');
-  const content = inp.value.trim();
-  if(!content) return toast('Напишите текст обращения', true);
-  await saveUnionNewsItem(unionId, content);
-  toast('Обращение опубликовано');
-  viewUnion(unionId);
-}
-
-async function deleteUnion(id){
-  if(!confirm('Удалить этот союз? Действие необратимо.')) return;
-  if(sb){ try { await sb.from('unions').delete().eq('id', id); await sb.from('union_news').delete().eq('union_id', id); } catch(e){} }
-  else {
-    demoStore.unions = demoStore.unions.filter(u=>String(u.id)!==String(id));
-    delete demoStore.invites[id]; delete demoStore.unionNews[id];
-    demoStore.save();
-  }
-  toast('Союз удалён');
-  document.getElementById('viewModal').classList.remove('active');
-  loadUnions(); loadStats();
-}
-
-function removeInvite(unionId, nick){
-  if(!demoStore.invites[unionId]) return;
-  demoStore.invites[unionId] = demoStore.invites[unionId].filter(n=>n!==nick);
-  demoStore.save();
-  viewUnion(unionId);
-}
-
-function fieldInput(id, value, type, placeholder){
-  type = type || 'text';
-  const attrs = [`id="${id}"`, `type="${type}"`, value !== undefined && value !== null ? `value="${esc(String(value))}"` : '', placeholder ? `placeholder="${placeholder}"` : '', type === 'number' ? 'min="0"' : ''].filter(Boolean).join(' ');
-  return `<div class="field"><div class="field-input"><input ${attrs}></div></div>`;
-}
-function fieldTextarea(id, content, style){
-  return `<div class="field"><div class="field-input field-textarea"><textarea id="${id}" ${style?`style="${style}"`:''}>${esc(content||'')}</textarea></div></div>`;
-}
-
-async function loadProfile(){
-  const c = document.getElementById('profileContent');
-  if(!currentUser){ c.innerHTML = '<div class="empty">Войдите</div>'; return; }
-  const nick = currentNick();
-  const uid = currentUser.id;
-  let profile = null, country = null, news = [];
-  if(sb){
-    try {
-      const [p, cRes, nRes] = await Promise.all([
-        sb.from('profiles').select('*').eq('id',uid).maybeSingle(),
-        sb.from('countries').select('*').eq('owner_id',uid).maybeSingle(),
-        sb.from('news').select('*').eq('author_id',uid)
-      ]);
-      profile = p.data; country = cRes.data; news = nRes.data || []; currentProfile = profile;
-    } catch(e){ console.error(e); }
-  } else {
-    profile = { id: uid, username: nick, bio: demoStore.profiles[nick]?.bio || '' };
-    country = demoStore.countries.find(x=>x.owner_id === uid);
-    news = demoStore.news.filter(x=>x.author_id === uid || x.author_name === nick);
-  }
-  const avatar = profile?.avatar_url;
-  const bio = profile?.bio || '';
-
-  const countryBlock = country ? `
-    <div class="profile-header" style="margin-top:0">
-      ${country.flag_url?`<img src="${country.flag_url}" class="avatar">`:'<div class="avatar-placeholder">🏛️</div>'}
-      <div class="profile-info">
-        <h2>${esc(country.name)}</h2>
-        <div class="bio">Правитель: ${esc(nick)}</div>
-        <div class="bio">${esc(country.description) || 'Описание не указано'}</div>
-        <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
-          <div class="country-stat"><span class="country-stat-icon">👥</span><div class="country-stat-value">${country.population||0}</div><div class="country-stat-label">Жителей</div></div>
-          <div class="country-stat"><span class="country-stat-icon">🏭</span><div class="country-stat-value">${country.factories||0}</div><div class="country-stat-label">Заводов</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="form-box">
-      <h3>Редактировать страну</h3>
-      <label>Название страны</label>
-      ${fieldInput('pCountryName', country.name, 'text')}
-      <label>Описание страны</label>
-      ${fieldTextarea('pCountryDesc', country.description||'')}
-      <label>Количество жителей</label>
-      ${fieldInput('pCountryPop', country.population||0, 'number')}
-      <label>Количество заводов</label>
-      ${fieldInput('pCountryFact', country.factories||0, 'number')}
-      <label>Флаг</label>
-      <div class="file-input"><input id="pCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'pCountryFlagPreview')"><label for="pCountryFlag" class="file-label" id="pCountryFlagLabel">Выбрать фото</label></div>
-      <img id="pCountryFlagPreview" class="preview">
-      <button class="btn btn-green" onclick="saveCountry()">💾 Сохранить страну</button>
-    </div>
-  ` : `
-    <div class="form-box">
-      <h3>Основать страну</h3>
-      <p style="color:var(--text-dim);font-size:13px;margin-bottom:16px">У вас ещё нет страны. Создайте её!</p>
-      <label>Название страны</label>
-      ${fieldInput('newCountryName', null, 'text', 'Например: Свободная Республика')}
-      <label>Описание</label>
-      ${fieldTextarea('newCountryDesc', '')}
-      <label>Флаг (необязательно)</label>
-      <div class="file-input"><input id="newCountryFlag" type="file" accept="image/*" onchange="previewImage(this,'newCountryFlagPreview')"><label for="newCountryFlag" class="file-label" id="newCountryFlagLabel">Выбрать фото</label></div>
-      <img id="newCountryFlagPreview" class="preview">
-      <button class="btn btn-green" onclick="createMyCountry()">🏛️ Основать страну</button>
-    </div>
-  `;
-
-  c.innerHTML = `
-    <div class="profile-header">
-      ${avatar?`<img src="${avatar}" class="avatar">`:'<div class="avatar-placeholder">👤</div>'}
-      <div class="profile-info">
-        <h2>${esc(nick)}</h2>
-        <div class="bio">${esc(bio) || 'Без описания'}</div>
-        <div class="country-stats" style="border:none;padding-top:14px;margin-top:0">
-          <div class="country-stat"><span class="country-stat-icon">📰</span><div class="country-stat-value">${news.length}</div><div class="country-stat-label">Новостей</div></div>
-        </div>
-      </div>
-      <button class="btn btn-danger" onclick="handleLogout()">Выйти</button>
-    </div>
-    <div class="form-box">
-      <h3>Профиль</h3>
-      <label>О себе</label>
-      ${fieldTextarea('pBio', bio)}
-      <label>Аватар</label>
-      <div class="file-input"><input id="pAvatar" type="file" accept="image/*" onchange="previewImage(this,'pAvatarPreview')"><label for="pAvatar" class="file-label" id="pAvatarLabel">Выбрать фото</label></div>
-      <img id="pAvatarPreview" class="preview">
-      <button class="btn btn-green" onclick="saveProfile()">💾 Сохранить профиль</button>
-    </div>
-    ${countryBlock}
-    <h2 class="section-title">📰 Мои публикации</h2>
-    <div class="grid">
-      ${news.length ? news.map(newsCard).join('') : '<div class="empty">Вы ещё не публиковали новости</div>'}
-    </div>
-  `;
-}
-
-async function createMyCountry(){
-  if(!currentUser) return toast('Войдите', true);
-  const name = document.getElementById('newCountryName').value.trim();
-  const description = document.getElementById('newCountryDesc').value.trim();
-  if(!name) return toast('Введите название', true);
-  const file = document.getElementById('newCountryFlag').files[0];
-  let flag_url = null;
-  if(file){
-    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ toast('Ошибка', true); } }
-    else { flag_url = await fileToDataURL(file); }
-  }
-  if(sb){
-    try { const {error} = await sb.from('countries').insert({ name, description, population: 1, factories: 0, flag_url, owner_id: currentUser.id, owner_name: currentNick() }); if(error) return toast('Ошибка: '+error.message, true); }
-    catch(e){ return toast('Ошибка: '+e.message, true); }
-  } else {
-    demoStore.countries.push({ id: 'demo_' + Date.now(), name, description, population: 1, factories: 0, flag_url, owner_name: currentNick(), owner_id: currentUser.id, created_at: new Date().toISOString() });
-    demoStore.save();
-  }
-  toast('Страна основана!'); loadProfile();
-}
-
-async function saveCountry(){
-  if(!currentUser) return;
-  const name = document.getElementById('pCountryName').value.trim();
-  const description = document.getElementById('pCountryDesc').value.trim();
-  const population = parseInt(document.getElementById('pCountryPop').value)||0;
-  const factories = parseInt(document.getElementById('pCountryFact').value)||0;
-  const file = document.getElementById('pCountryFlag').files[0];
-  if(!name) return toast('Введите название', true);
-  let flag_url;
-  if(file){
-    if(sb){ try { flag_url = await uploadImage('countries', file); } catch(e){ return toast('Ошибка', true); } }
-    else { flag_url = await fileToDataURL(file); }
-  }
-  if(sb){
-    const payload = { name, description, population, factories };
-    if(flag_url) payload.flag_url = flag_url;
-    try { const {error} = await sb.from('countries').update(payload).eq('owner_id', currentUser.id); if(error) return toast('Ошибка', true); }
-    catch(e){ return toast('Ошибка', true); }
-  } else {
-    const country = demoStore.countries.find(x=>x.owner_id === currentUser.id);
-    if(country){ country.name = name; country.description = description; country.population = population; country.factories = factories; if(flag_url) country.flag_url = flag_url; demoStore.save(); }
-  }
-  toast('Страна обновлена'); loadProfile();
-}
-
-async function saveProfile(){
-  if(!currentUser) return;
-  const bio = document.getElementById('pBio').value.trim();
-  const file = document.getElementById('pAvatar').files[0];
-  let avatar_url;
-  if(file){
-    if(sb){ try { avatar_url = await uploadImage('avatars', file); } catch(e){ return toast('Ошибка', true); } }
-    else { avatar_url = await fileToDataURL(file); }
-  }
-  if(sb){
-    const payload = { id: currentUser.id, bio };
-    if(avatar_url) payload.avatar_url = avatar_url;
-    try { const {error} = await sb.from('profiles').upsert(payload); if(error) return toast('Ошибка', true); }
-    catch(e){ return toast('Ошибка', true); }
-  } else {
-    const nick = currentNick();
-    if(demoStore.profiles[nick]){ demoStore.profiles[nick].bio = bio; if(avatar_url) demoStore.profiles[nick].avatar_url = avatar_url; demoStore.save(); }
-  }
-  toast('Профиль сохранён'); loadProfile();
-}
-
-function previewImage(input, previewId){
-  const prev = document.getElementById(previewId);
-  const label = document.querySelector(`label[for="${input.id}"]`);
-  if(input.files && input.files[0]){
-    const reader = new FileReader();
-    reader.onload = e=>{ prev.src = e.target.result; prev.style.display='block'; };
-    reader.readAsDataURL(input.files[0]);
-    if(label){ label.classList.add('has-file'); label.textContent = 'Фото выбрано'; }
-  }
-}
-
-function resetFileInput(inputId, labelId, previewId){
-  const inp = document.getElementById(inputId);
-  const lbl = document.getElementById(labelId);
-  const prv = document.getElementById(previewId);
-  if(inp) inp.value = '';
-  if(lbl){ lbl.classList.remove('has-file'); lbl.textContent = 'Выбрать фото'; }
-  if(prv){ prv.style.display='none'; prv.src=''; }
-}
-
-function esc(t){ if(!t) return ''; const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
-function toast(msg, isErr){
-  const t = document.getElementById('toast');
-  t.textContent = '» ' + msg;
-  t.classList.toggle('err', !!isErr);
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2800);
-}
-
-document.getElementById('authModal').addEventListener('click', e => { if(e.target.id === 'authModal') closeModal(); });
-document.getElementById('viewModal').addEventListener('click', e => { if(e.target.id === 'viewModal') e.target.classList.remove('active'); });
-
-(async () => {
-  await restoreSession();
-  initHeroGlow();
-  await loadStats();
-  console.log('%cСайт Peta-Gay запущен', 'color:#00ff88;font-weight:bold;font-size:14px');
-})();
+console.log('%c✓ Сайт Peta-Gay запущен', 'color:#3ddc84;font-weight:bold;font-size:14px');
 </script>
 </body>
 </html>
