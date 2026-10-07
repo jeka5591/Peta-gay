@@ -189,7 +189,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
   font-weight:700;
 }
 
-/* Таймер */
 .timer-panel{
   background:var(--bg-2);
   border:1px solid var(--border);
@@ -394,7 +393,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
   box-shadow:0 0 12px var(--green);
 }
 
-/* Сетка: 2 колонки на десктопе, 1 на мобильном */
 .grid{
   display:grid;
   grid-template-columns:repeat(2, 1fr);
@@ -476,7 +474,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 }
 .card-meta b{color:var(--green)}
 
-/* Раскрывающаяся карточка страны */
 .country-card .card-body{display:flex;flex-direction:column}
 .country-details{
   display:none;
@@ -547,7 +544,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 }
 .country-card.open .expand-hint{color:var(--green)}
 
-/* Раскрывающаяся новость */
 .news-details{
   display:none;
   margin-top:20px;
@@ -564,7 +560,6 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
 .news-details p:last-child{margin-bottom:0}
 .news-card.open .expand-hint{color:var(--green)}
 
-/* Полноэкранное изображение */
 .lightbox{
   position:fixed;
   inset:0;
@@ -725,10 +720,20 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
       </div>
     </div>
 
-    <h2 class="section-title">📰 Последние новости</h2>
-    <div class="grid" id="homeNews"></div>
+    <div class="map-panel">
+      <div class="map-image">
+        <img src="94_20260901170943.png" alt="Карта мира">
+      </div>
+      <div class="map-info">
+        <h2>Онлайн карта мира</h2>
+        <p>Исследуйте наш огромный мир в реальном времени. Наблюдайте за постройками, странами и городами прямо в браузере.</p>
+        <a href="http://x1.qwertyx.host:28768/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">
+          🗺️ Перейти на карту →
+        </a>
+      </div>
+    </div>
 
-    <h2 class="section-title" style="margin-top:32px">🕰️ Игровое время</h2>
+    <h2 class="section-title">🕰️ Игровое время</h2>
 
     <div class="timer-panel">
       <div class="timer-left">
@@ -749,18 +754,8 @@ html,body{background:var(--bg);color:var(--text);min-height:100vh;font-size:15px
       </div>
     </div>
 
-    <div class="map-panel">
-      <div class="map-image">
-        <img src="94_20260901170943.png" alt="Карта мира">
-      </div>
-      <div class="map-info">
-        <h2>Онлайн карта мира</h2>
-        <p>Исследуйте наш огромный мир в реальном времени. Наблюдайте за постройками, странами и городами прямо в браузере.</p>
-        <a href="http://x1.qwertyx.host:28768/#world:0:0:0:1500:0:0:0:0:perspective" target="_blank" class="btn-map">
-          🗺️ Перейти на карту →
-        </a>
-      </div>
-    </div>
+    <h2 class="section-title">📰 Последние новости</h2>
+    <div class="grid" id="homeNews"></div>
 
   </div>
 
@@ -819,11 +814,19 @@ const NEWS = [
 ];
 
 /* ==== ИГРОВОЙ КАЛЕНДАРЬ ====
-   Старт: 1 декабря 1075 года, 00:00 по локальному времени.
-   1 реальный день = 3 игровых месяца (1 сезон за реальный день).
-   Время (часы:минуты:секунды) совпадает с реальным.
+
+   Правила:
+   - Старт симуляции: 1 декабря 1075 года, 00:00
+   - 1 реальный день = 3 игровых месяца (1 месяц = 8 реальных часов)
+   - Внутри игрового месяца 30 игровых дней
+     (1 игровой день = 8ч / 30 ≈ 16 реальных минут)
+   - 4 реальных дня = 12 игровых месяцев = 1 игровой год
+   - Сейчас по сюжету идёт 1079 год, зима (декабрь).
+     Значит с момента старта прошло ровно 16 реальных дней (4 года).
 */
-const GAME_START = new Date(1075, 11, 1, 0, 0, 0);
+
+const START_YEAR = 1075;
+const START_MONTH_INDEX = 11; // декабрь (0=янв, 11=дек)
 const MONTHS = ['Января','Февраля','Марта','Апреля','Мая','Июня','Июля','Августа','Сентября','Октября','Ноября','Декабря'];
 const WEEKDAYS = ['Воскресенье','Понедельник','Вторник','Среда','Четверг','Пятница','Суббота'];
 
@@ -835,22 +838,36 @@ const HOLIDAYS = {
   }
 };
 
+// Сколько реальных дней назад "стартовал" мир,
+// чтобы сейчас был нужный год.
+// 1075 -> 1079 = 4 года = 4 * 4 = 16 реальных дней.
+const SIM_START = new Date();
+SIM_START.setHours(0,0,0,0);
+SIM_START.setDate(SIM_START.getDate() - 16);
+
 function getGameDate(now){
-  const msPerDay = 86400000;
-  const daysPassed = Math.floor((now.getTime() - GAME_START.getTime()) / msPerDay);
+  const msPerDay   = 86400000;
+  const msPerMonth = msPerDay / 3;   // 8 часов = 1 игровой месяц
+  const msPerGameDay = msPerMonth / 30; // ≈16 минут = 1 игровой день
 
-  const totalGameMonths = daysPassed * 3;
-  const startMonthIndex = 11;
-  const startYear = 1075;
+  const diff = now.getTime() - SIM_START.getTime();
 
-  const absoluteMonth = startMonthIndex + totalGameMonths;
-  const year = startYear + Math.floor(absoluteMonth / 12);
+  // Сколько полных игровых месяцев прошло с момента старта
+  const totalMonths = Math.floor(diff / msPerMonth);
+
+  const absoluteMonth = START_MONTH_INDEX + totalMonths;
+  const year = START_YEAR + Math.floor(absoluteMonth / 12);
   const monthIndex = ((absoluteMonth % 12) + 12) % 12;
 
-  const day = 1;
+  // Сколько миллисекунд прошло внутри текущего игрового месяца
+  const msIntoMonth = diff - totalMonths * msPerMonth;
+
+  // Игровой день (1..30)
+  const day = Math.min(30, Math.floor(msIntoMonth / msPerGameDay) + 1);
+
   const weekday = now.getDay();
 
-  return { year, monthIndex, day, weekday, daysPassed };
+  return { year, monthIndex, day, weekday };
 }
 
 function updateClock(){
@@ -871,7 +888,7 @@ function updateClock(){
 
   const dayEl = document.getElementById('gameDay');
   if(dayEl){
-    dayEl.textContent = `${WEEKDAYS[g.weekday]} · игровой день №${g.daysPassed + 1}`;
+    dayEl.textContent = `${WEEKDAYS[g.weekday]}`;
   }
 
   const hol = HOLIDAYS[g.weekday];
